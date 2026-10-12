@@ -205,23 +205,21 @@ function paw(x,y,size,color,alpha){
   ctx.ellipse(x,y+size*.09,size*.27,size*.20,0,0,Math.PI*2); ctx.fill();
   ctx.restore();
 }
+function tint(hex,amount){
+  const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;
+  const f=v=>Math.max(0,Math.min(255,Math.round(amount>=0?v+(255-v)*amount:v*(1+amount))));
+  return '#'+[f(r),f(g),f(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
 function block(x,y,s,col,alpha){
-  ctx.globalAlpha = alpha == null ? 1 : alpha;
-  const color = COLORS[col-1];
-  ctx.save();
-  ctx.shadowColor = color;
-  ctx.shadowBlur = alpha == null ? Math.min(9,s*.22) : 0;
-  ctx.fillStyle = color; rr(x+1,y+1,s-2,s-2,s*0.23); ctx.fill();
-  ctx.shadowBlur = 0;
-  const gloss = ctx.createLinearGradient(x,y,x,y+s);
-  gloss.addColorStop(0,'rgba(255,255,255,.35)');
-  gloss.addColorStop(.42,'rgba(255,255,255,.04)');
-  gloss.addColorStop(1,'rgba(25,15,45,.16)');
-  ctx.fillStyle = gloss; rr(x+1,y+1,s-2,s-2,s*0.23); ctx.fill();
-  // Soft embossed paw mark replaces the generic highlight-only tile.
-  paw(x+s*.52,y+s*.56,s*.72,'#fff',alpha==null?.30:.2);
-  ctx.fillStyle = 'rgba(255,255,255,.48)'; rr(x+s*.17,y+s*.13,s*.48,Math.max(2,s*.12),s*.06); ctx.fill();
-  ctx.restore(); ctx.globalAlpha = 1;
+  const a=alpha==null?1:alpha,color=COLORS[col-1];
+  ctx.save();ctx.globalAlpha=a;ctx.shadowColor=color;ctx.shadowBlur=alpha==null?Math.min(12,s*.24):0;
+  const g=ctx.createLinearGradient(x,y,x,y+s);
+  g.addColorStop(0,tint(color,.22));g.addColorStop(.48,color);g.addColorStop(1,tint(color,-.08));
+  ctx.fillStyle=g;rr(x+1,y+1,s-2,s-2,s*.25);ctx.fill();ctx.shadowBlur=0;
+  ctx.strokeStyle='rgba(255,255,255,.65)';ctx.lineWidth=Math.max(1,s*.025);rr(x+1.5,y+1.5,s-3,s-3,s*.23);ctx.stroke();
+  paw(x+s*.52,y+s*.57,s*.72,'#fff',alpha==null?.48:.24);
+  ctx.fillStyle='rgba(255,255,255,.62)';rr(x+s*.17,y+s*.13,s*.47,Math.max(2,s*.12),s*.06);ctx.fill();
+  ctx.restore();ctx.globalAlpha=1;
 }
 function text(t,x,y,size,color,align,weight){
   ctx.fillStyle = color; ctx.textAlign = align || 'left'; ctx.textBaseline = 'middle';
@@ -254,15 +252,14 @@ function draw(){
   const bg = ctx.createLinearGradient(0,0,W*.35,H);
   bg.addColorStop(0,'#fff0df');bg.addColorStop(.48,'#ffe7e3');bg.addColorStop(1,'#f0e7ff');
   ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
-  // Rich midnight-teal backdrop with restrained mint and violet light.
-  const glow = ctx.createRadialGradient(W*.5,H*.34,2,W*.5,H*.34,W*.72);
-  glow.addColorStop(0,'rgba(37,121,133,.24)'); glow.addColorStop(.55,'rgba(35,70,99,.12)'); glow.addColorStop(1,'rgba(10,17,31,0)');
-  ctx.fillStyle = glow; ctx.fillRect(0,0,W,H);
-  const glow2 = ctx.createRadialGradient(W*.88,H*.72,1,W*.88,H*.72,W*.42);
-  glow2.addColorStop(0,'rgba(136,91,196,.12)'); glow2.addColorStop(1,'rgba(136,91,196,0)');
-  ctx.fillStyle = glow2; ctx.fillRect(0,0,W,H);
-  // Sparse, low-contrast paw marks only in the background.
-  for(let py=118;py<H;py+=148) for(let px=42+(Math.floor(py/148)%2)*53;px<W;px+=142) paw(px,py,22,'#90d5d4',.035);
+  // Warm storybook lighting: cream base, peach sunlight and lilac shadows.
+  const glow=ctx.createRadialGradient(W*.18,H*.18,1,W*.18,H*.18,W*.72);
+  glow.addColorStop(0,'rgba(255,190,130,.28)');glow.addColorStop(1,'rgba(255,190,130,0)');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+  const glow2=ctx.createRadialGradient(W*.88,H*.76,1,W*.88,H*.76,W*.55);
+  glow2.addColorStop(0,'rgba(190,155,245,.22)');glow2.addColorStop(1,'rgba(190,155,245,0)');
+  ctx.fillStyle=glow2;ctx.fillRect(0,0,W,H);
+  for(let py=118;py<H;py+=148) for(let px=42+(Math.floor(py/148)%2)*53;px<W;px+=142) paw(px,py,22,'#c18da9',.075);
 
   // Premium header with separate score and status lanes.
   ctx.fillStyle='rgba(255,255,255,.76)'; rr(14,12,Math.min(176,W*.48),56,18); ctx.fill();
@@ -280,17 +277,18 @@ function draw(){
   ctx.fillStyle='rgba(255,255,255,.045)'; rr(W-102,105,78,42,13); ctx.fill();
   text('RECORD',W-63,117,8,'#ad7c95','center','800');
   text(String(best),W-63,135,17,'#65455f','center','900');
+  // Separate fixed lanes keep combo and last-move feedback from colliding.
   if(combo>1){
-    ctx.fillStyle='rgba(255,190,99,.75)'; rr(24,145,Math.min(136,W*.44),25,12); ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,.7)'; rr(24.5,145.5,Math.min(135,W*.44),24,11.5); ctx.stroke();
-    text('🔥  STREAK x'+Math.min(combo,4),36,157.5,10,'#694553','left','900');
+    ctx.fillStyle='rgba(255,190,99,.92)';rr(24,151,Math.min(128,W*.40),27,13);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.85)';rr(24.5,151.5,Math.min(127,W*.40),26,12.5);ctx.stroke();
+    text('🔥  COMBO x'+Math.min(combo,4),36,164.5,10,'#694553','left','900');
   }
   if(msgT>0){
-    const alpha=Math.min(1,msgT/24); ctx.globalAlpha=alpha;
-    const badgeW=Math.min(174,W*.48);
-    ctx.fillStyle='rgba(120,202,173,.88)'; rr(W-badgeW-18,145,badgeW,25,12); ctx.fill();
-    text(msg,W-badgeW/2-18,157.5,Math.min(12,W*.035),'#315b51','center','900');
-    ctx.globalAlpha=1; msgT--;
+    const alpha=Math.min(1,msgT/24);ctx.globalAlpha=alpha;
+    const badgeX=Math.max(W*.52,156),badgeW=Math.max(84,W-badgeX-18);
+    ctx.fillStyle='rgba(120,202,173,.95)';rr(badgeX,151,badgeW,27,13);ctx.fill();
+    text(msg,badgeX+badgeW/2,164.5,Math.min(11,W*.032),'#315b51','center','900');
+    ctx.globalAlpha=1;msgT--;
   }
 
   // Unified board frame: the outer frame and every cell use the same measured grid.
@@ -344,8 +342,9 @@ function draw(){
     text('MATCH A FULL ROW OR COLUMN',W/2,H-18,9,'#ad7e98','center','800');
   }
 
+  drawFx();
   if(over){
-    ctx.fillStyle='rgba(10,8,23,.78)'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(80,48,67,.42)'; ctx.fillRect(0,0,W,H);
     const cardW=Math.min(W-36,350),cardH=usedContinue?280:344;
     const cardX=(W-cardW)/2,cardY=Math.max(24,(H-cardH)/2);
     ctx.save(); ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=28;
