@@ -6,9 +6,9 @@
 <title>Cat Block Puzzle</title>
 <style>
   :root{color-scheme:dark}
-  html,body{margin:0;width:100%;height:100%;min-height:100%;background:#100e20;overflow:hidden;touch-action:none;
+  html,body{margin:0;width:100%;height:100%;min-height:100%;background:#fff3e7;overflow:hidden;touch-action:none;
     -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-  body{display:flex;justify-content:center;align-items:stretch;background:#0d1424}
+  body{display:flex;justify-content:center;align-items:stretch;background:#fff3e7}
   canvas{display:block;touch-action:none;filter:drop-shadow(0 12px 34px rgba(0,0,0,.25))}
   *{box-sizing:border-box}
 </style>
@@ -52,7 +52,7 @@ const Snd = {
 
 const N = 8;
 const FONT = 'ui-rounded, "Nunito", "Segoe UI", system-ui, sans-serif';
-const COLORS = ['#ffb38a','#ffd98a','#a8e0b0','#8fd3f4','#c7a8f0','#f5a3c7'];
+const COLORS = ['#ff9c87','#ffc85f','#7ed8a1','#65c9ee','#a994ff','#ff91bd'];
 const SHAPES = [
   [[0,0]],
   [[0,0],[0,1]], [[0,0],[1,0]],
@@ -101,9 +101,25 @@ function canAny(){
 }
 function say(text, face){ msg = text; cat = face; msgT = 90; }
 
+let particles = [];
+function burst(x,y,color,count){
+  for(let i=0;i<count;i++){
+    const a=Math.random()*Math.PI*2, speed=.8+Math.random()*2.6;
+    particles.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed-1.1,life:22+Math.random()*18,max:40,size:2+Math.random()*3.5,color});
+  }
+  if(particles.length>160) particles=particles.slice(-160);
+}
+function updateFx(){
+  for(const p of particles){p.x+=p.vx;p.y+=p.vy;p.vy+=.04;p.vx*=.985;p.life--;}
+  particles=particles.filter(p=>p.life>0);
+}
+function drawFx(){
+  for(const p of particles){ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+  ctx.globalAlpha=1;
+}
 function place(i, r, c){
   const p = tray[i];
-  for (const [a,b] of p.s) grid[r+a][c+b] = p.col;
+  for (const [a,b] of p.s){ grid[r+a][c+b] = p.col; burst(bx+(c+b+.5)*cell,by+(r+a+.5)*cell,COLORS[p.col-1],3); }
   Snd.drop();
   score += p.s.length;
   const rows = [], cols = [];
@@ -115,6 +131,7 @@ function place(i, r, c){
   for (const k of cols) for (let j=0;j<N;j++) grid[j][k] = 0;
   const lines = rows.length + cols.length;
   if (lines){
+    burst(bx+cell*N/2,by+cell*N/2,'#ffc85f',12);
     combo++;
     const linePoints = lines * lines * 10 * Math.min(combo, 4);
     score += linePoints;
@@ -235,7 +252,7 @@ function draw(){
   btns = [];
   ctx.clearRect(0,0,W,H);
   const bg = ctx.createLinearGradient(0,0,W*.35,H);
-  bg.addColorStop(0,'#241a3d'); bg.addColorStop(.48,'#17152b'); bg.addColorStop(1,'#101725');
+  bg.addColorStop(0,'#fff0df');bg.addColorStop(.48,'#ffe7e3');bg.addColorStop(1,'#f0e7ff');
   ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
   // Rich midnight-teal backdrop with restrained mint and violet light.
   const glow = ctx.createRadialGradient(W*.5,H*.34,2,W*.5,H*.34,W*.72);
@@ -248,31 +265,31 @@ function draw(){
   for(let py=118;py<H;py+=148) for(let px=42+(Math.floor(py/148)%2)*53;px<W;px+=142) paw(px,py,22,'#90d5d4',.035);
 
   // Premium header with separate score and status lanes.
-  ctx.fillStyle='rgba(20,35,53,.78)'; rr(14,12,Math.min(176,W*.48),56,18); ctx.fill();
-  ctx.strokeStyle='rgba(130,224,213,.16)'; ctx.lineWidth=1; rr(14.5,12.5,Math.min(175,W*.48),55,17); ctx.stroke();
-  text('🐾',28,39,25,'#c7fff0','left');
-  text('CAT BLOCK',61,31,13,'#f5fffd','left','900');
-  text('PUZZLE',61,48,10,'#91c9c6','left','800');
+  ctx.fillStyle='rgba(255,255,255,.76)'; rr(14,12,Math.min(176,W*.48),56,18); ctx.fill();
+  ctx.strokeStyle='rgba(190,126,137,.22)'; ctx.lineWidth=1; rr(14.5,12.5,Math.min(175,W*.48),55,17); ctx.stroke();
+  text('🐾',28,39,25,'#e98d9e','left');
+  text('CAT BLOCK',61,31,13,'#5e425b','left','900');
+  text('PUZZLE',61,48,10,'#b8839a','left','800');
   const soundX=W-34;
-  ctx.fillStyle='rgba(141,225,214,.12)'; rr(soundX-18,19,36,36,13); ctx.fill();
-  text(Snd.muted?'🔇':'🔊',soundX,37,18,'#d7fff8','center');
+  ctx.fillStyle='rgba(255,255,255,.78)'; rr(soundX-18,19,36,36,13); ctx.fill();
+  text(Snd.muted?'🔇':'🔊',soundX,37,18,'#71556b','center');
   ctx.fillStyle='rgba(141,225,214,.12)'; rr(W-111,61,97,34,12); ctx.fill();
-  text('BEST  '+best,W-62,78,11,'#c7fff0','center','900');
-  text('YOUR SCORE',24,103,10,'#83bdbb','left','900');
-  text(String(score),24,130,32,'#f4fffe','left','900');
+  text('BEST  '+best,W-62,78,11,'#775267','center','900');
+  text('YOUR SCORE',24,103,10,'#ad7c95','left','900');
+  text(String(score),24,130,32,'#583f5b','left','900');
   ctx.fillStyle='rgba(255,255,255,.045)'; rr(W-102,105,78,42,13); ctx.fill();
-  text('RECORD',W-63,117,8,'#80b4b3','center','800');
-  text(String(best),W-63,135,17,'#e3fffb','center','900');
+  text('RECORD',W-63,117,8,'#ad7c95','center','800');
+  text(String(best),W-63,135,17,'#65455f','center','900');
   if(combo>1){
-    ctx.fillStyle='rgba(255,190,99,.16)'; rr(24,145,Math.min(136,W*.44),25,12); ctx.fill();
-    ctx.strokeStyle='rgba(255,204,132,.32)'; rr(24.5,145.5,Math.min(135,W*.44),24,11.5); ctx.stroke();
-    text('🔥  STREAK x'+Math.min(combo,4),36,157.5,10,'#ffd28a','left','900');
+    ctx.fillStyle='rgba(255,190,99,.75)'; rr(24,145,Math.min(136,W*.44),25,12); ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.7)'; rr(24.5,145.5,Math.min(135,W*.44),24,11.5); ctx.stroke();
+    text('🔥  STREAK x'+Math.min(combo,4),36,157.5,10,'#694553','left','900');
   }
   if(msgT>0){
     const alpha=Math.min(1,msgT/24); ctx.globalAlpha=alpha;
     const badgeW=Math.min(174,W*.48);
-    ctx.fillStyle='rgba(80,210,183,.16)'; rr(W-badgeW-18,145,badgeW,25,12); ctx.fill();
-    text(msg,W-badgeW/2-18,157.5,Math.min(12,W*.035),'#a8fff0','center','900');
+    ctx.fillStyle='rgba(120,202,173,.88)'; rr(W-badgeW-18,145,badgeW,25,12); ctx.fill();
+    text(msg,W-badgeW/2-18,157.5,Math.min(12,W*.035),'#315b51','center','900');
     ctx.globalAlpha=1; msgT--;
   }
 
@@ -280,18 +297,18 @@ function draw(){
   const boardPad=7, boardSize=cell*N, boardX=bx-boardPad, boardY=by-boardPad;
   ctx.save(); ctx.shadowColor='rgba(0,0,0,.36)'; ctx.shadowBlur=24; ctx.shadowOffsetY=9;
   const boardFill=ctx.createLinearGradient(boardX,boardY,boardX+boardSize,boardY+boardSize);
-  boardFill.addColorStop(0,'#21394a'); boardFill.addColorStop(1,'#182a3b');
+  boardFill.addColorStop(0,'#fffaf6'); boardFill.addColorStop(1,'#f6e9f1');
   ctx.fillStyle=boardFill; rr(boardX,boardY,boardSize+boardPad*2,boardSize+boardPad*2,21); ctx.fill(); ctx.restore();
-  ctx.strokeStyle='rgba(135,238,219,.25)'; ctx.lineWidth=1.2;
+  ctx.strokeStyle='rgba(205,145,164,.45)'; ctx.lineWidth=1.2;
   rr(boardX+.6,boardY+.6,boardSize+boardPad*2-1.2,boardSize+boardPad*2-1.2,20); ctx.stroke();
   for(let r=0;r<N;r++) for(let c=0;c<N;c++){
     const x=bx+c*cell,y=by+r*cell;
     if(grid[r][c]) block(x,y,cell,grid[r][c]);
     else{
-      ctx.fillStyle=(r+c)%2===0?'#293d50':'#25384a';
+      ctx.fillStyle=(r+c)%2===0?'#f2e4ec':'#f8edf0';
       rr(x+2,y+2,cell-4,cell-4,Math.max(4,cell*.19)); ctx.fill();
-      paw(x+cell*.51,y+cell*.55,cell*.64,'#a5d9d5',.11);
-      ctx.strokeStyle='rgba(195,246,240,.045)'; ctx.lineWidth=1; rr(x+2.5,y+2.5,cell-5,cell-5,Math.max(4,cell*.19)); ctx.stroke();
+      paw(x+cell*.51,y+cell*.55,cell*.64,'#d5b7c9',.25);
+      ctx.strokeStyle='rgba(190,136,158,.14)'; ctx.lineWidth=1; rr(x+2.5,y+2.5,cell-5,cell-5,Math.max(4,cell*.19)); ctx.stroke();
     }
   }
 
@@ -304,15 +321,15 @@ function draw(){
   // Piece tray is sized from the same cell metric as the board, with equal slots.
   const trayTop=by+cell*N+17;
   const trayBottom=Math.min(H-44,trayTop+Math.max(118,cell*2.85));
-  ctx.fillStyle='rgba(20,37,53,.82)'; rr(14,trayTop,W-28,trayBottom-trayTop,21); ctx.fill();
-  ctx.strokeStyle='rgba(135,238,219,.15)'; ctx.lineWidth=1; rr(14.5,trayTop+.5,W-29,trayBottom-trayTop-1,20); ctx.stroke();
-  text('PIECE TRAY',25,trayTop+17,9,'#8cc8c4','left','900');
-  text('DRAG TO PLACE',W-25,trayTop+17,9,'#739b9f','right','800');
+  ctx.fillStyle='rgba(255,255,255,.82)'; rr(14,trayTop,W-28,trayBottom-trayTop,21); ctx.fill();
+  ctx.strokeStyle='rgba(210,157,176,.35)'; ctx.lineWidth=1; rr(14.5,trayTop+.5,W-29,trayBottom-trayTop-1,20); ctx.stroke();
+  text('PIECE TRAY',25,trayTop+17,9,'#a66f8c','left','900');
+  text('DRAG TO PLACE',W-25,trayTop+17,9,'#b08b9d','right','800');
   const slotTop=trayTop+39, slotHeight=trayBottom-slotTop-12, slotWidth=(W-48)/3;
   for(let i=0;i<3;i++){
     const p=tray[i]; if(!p||(drag&&drag.i===i)) continue;
     const slotX=24+i*slotWidth;
-    ctx.fillStyle='rgba(190,239,234,.055)'; rr(slotX,slotTop,slotWidth-8,slotHeight,14); ctx.fill();
+    ctx.fillStyle='rgba(247,222,231,.72)'; rr(slotX,slotTop,slotWidth-8,slotHeight,14); ctx.fill();
     const o=pieceOrigin(i);
     for(const [a,b] of p.s) block(o.x+b*o.tc,o.y+a*o.tc,o.tc,p.col);
   }
@@ -324,7 +341,7 @@ function draw(){
   }
 
   if(!over){
-    text('MATCH A FULL ROW OR COLUMN',W/2,H-18,9,'#78a9a9','center','800');
+    text('MATCH A FULL ROW OR COLUMN',W/2,H-18,9,'#ad7e98','center','800');
   }
 
   if(over){
@@ -374,7 +391,7 @@ window.addEventListener('resize', resize);
 
 /* ---- Start ---- */
 resize(); reset();
-(function loop(){ draw(); requestAnimationFrame(loop); })();
+(function loop(){ updateFx(); draw(); requestAnimationFrame(loop); })();
 </script>
 </body>
 </html>
