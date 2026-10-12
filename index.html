@@ -68,7 +68,7 @@ const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
 let W, H, cell, bx, by, trayCY, slotW;
 let grid, tray, score, best = 0, over, usedContinue, drag = null;
-let msg = '', msgT = 0, cat = '😺', games = 0, btns = [];
+let msg = '', msgT = 0, cat = '😺', games = 0, btns = [], combo = 0;
 
 try { best = +localStorage.getItem('cbp_best') || 0; } catch (e) {}
 
@@ -80,7 +80,7 @@ function newPiece(){
 function refill(){ tray = [newPiece(), newPiece(), newPiece()]; }
 function reset(){
   grid = Array.from({length:N}, () => Array(N).fill(0));
-  score = 0; over = false; usedContinue = false; drag = null; msg = ''; cat = '😺';
+  score = 0; combo = 0; over = false; usedContinue = false; drag = null; msg = ''; cat = '😺';
   refill();
 }
 function fits(s, r, c){
@@ -113,9 +113,18 @@ function place(i, r, c){
   for (const k of cols) for (let j=0;j<N;j++) grid[j][k] = 0;
   const lines = rows.length + cols.length;
   if (lines){
-    score += lines * lines * 10;
+    combo++;
+    const linePoints = lines * lines * 10 * Math.min(combo, 4);
+    score += linePoints;
     Snd.clear(lines); if (lines >= 3) Snd.meow();
-    say(lines>=3 ? 'Purr-fect combo!' : lines===2 ? 'Double clear!' : 'Nice!', lines>=3 ? '😻' : lines===2 ? '😸' : '😺');
+    if (navigator.vibrate) navigator.vibrate(lines >= 3 ? [18, 35, 24] : 14);
+    say(lines>=3 ? `Purr-fect! x${Math.min(combo,4)}` : lines===2 ? `Double clear! x${Math.min(combo,4)}` : combo > 1 ? `Combo x${Math.min(combo,4)}!` : 'Nice!', lines>=3 ? '😻' : lines===2 ? '😸' : '😺');
+  } else {
+    combo = 0;
+  }
+  if (score > best){
+    best = score;
+    try { localStorage.setItem('cbp_best', best); } catch (e) {}
   }
   tray[i] = null;
   if (tray.every(x => !x)) refill();
@@ -145,11 +154,12 @@ function resize(){
   cv.width = W*dpr; cv.height = H*dpr;
   cv.style.width = W+'px'; cv.style.height = H+'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  cell = Math.floor(Math.min((W-24)/N, (H-260)/N));
+  // Keep the board and piece tray usable on short phones and desktop windows.
+  cell = Math.max(14, Math.floor(Math.min((W-24)/N, (H-220)/N)));
   bx = Math.round((W - cell*N)/2);
-  by = 96;
+  by = Math.max(68, Math.min(96, Math.floor((H - cell*N - 170)/2)));
   const bottom = by + cell*N;
-  trayCY = bottom + (H - bottom)/2;
+  trayCY = bottom + Math.max(54, (H - bottom)/2);
   slotW = W/3;
 }
 
@@ -196,6 +206,7 @@ function draw(){
   text('Score', W-24, 30, 13, '#9d92c9', 'right', '600');
   text(String(score), W-24, 56, 30, '#fff', 'right', '800');
   text('Best ' + best, 84, 44, 15, '#9d92c9', 'left', '600');
+  if (combo > 1) text('🔥 Combo x' + Math.min(combo,4), 84, 66, 12, '#ffd98a', 'left', '800');
   text(Snd.muted ? '🔇' : '🔊', W/2 + 44, 44, 26, '#fff', 'center');
   if (msgT > 0){
     ctx.globalAlpha = Math.min(1, msgT/30);
@@ -247,6 +258,7 @@ function draw(){
 /* ---- Input ---- */
 function pos(e){ const b = cv.getBoundingClientRect(); return { x: e.clientX-b.left, y: e.clientY-b.top }; }
 cv.addEventListener('pointerdown', e => {
+  if (e.button !== undefined && e.button !== 0) return;
   Snd.init();
   const q = pos(e);
   if (q.y < 80 && q.x > W/2 + 22 && q.x < W/2 + 66){ Snd.muted = !Snd.muted; if (!Snd.muted) Snd.pick(); return; }
