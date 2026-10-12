@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Cat Block Puzzle</title>
+<title>Cat Block Puzzle — Pawsome Puzzle Adventure</title>
 <style>
   :root{color-scheme:dark}
   html,body{margin:0;width:100%;height:100%;min-height:100%;background:#fff3e7;overflow:hidden;touch-action:none;
@@ -100,6 +100,13 @@ function canAny(){
   return false;
 }
 function say(text, face){ msg = text; cat = face; msgT = 90; }
+const cheerLines=["You've got this!","Pawsome moves!","I believe in you!","Keep going, superstar!","You're doing great!"];
+let cheerText='',cheerFace='😸',cheerT=0;
+function cheer(text){
+  cheerText=text||cheerLines[Math.random()*cheerLines.length|0];
+  cheerFace=['😸','😻','😺'][Math.random()*3|0];
+  cheerT=115;
+}
 
 let particles = [];
 function burst(x,y,color,count){
@@ -138,6 +145,7 @@ function place(i, r, c){
     Snd.clear(lines); if (lines >= 3) Snd.meow();
     if (navigator.vibrate) navigator.vibrate(lines >= 3 ? [18, 35, 24] : 14);
     say(lines>=3 ? `Purr-fect! x${Math.min(combo,4)}` : lines===2 ? `Double clear! x${Math.min(combo,4)}` : combo > 1 ? `Combo x${Math.min(combo,4)}!` : 'Nice!', lines>=3 ? '😻' : lines===2 ? '😸' : '😺');
+    if(lines>=2 || combo>=2 || score>=500) cheer();
   } else {
     combo = 0;
   }
@@ -155,7 +163,7 @@ function endGame(){
     best = score;
     try { localStorage.setItem('cbp_best', best); } catch (e) {}
   }
-  cat = '🙀'; Snd.over();
+  cat = '😿'; cheerText=['Every great player has a tough round.','Take a breath. You can do this!','One more try? I believe in you!'][Math.random()*3|0]; cheerFace='😿'; cheerT=0; Snd.over();
   if (games % 3 === 0) Ads.interstitial();
 }
 function continueWithAd(){
@@ -343,6 +351,15 @@ function draw(){
   }
 
   drawFx();
+  if(!over && cheerT>0){
+    const fade=Math.min(1,cheerT/16),cw=Math.min(W-48,252),ch=64,cx=(W-cw)/2,cy=by+cell*N*.43;
+    ctx.save();ctx.globalAlpha=fade;
+    ctx.fillStyle='rgba(255,255,255,.94)';rr(cx,cy,cw,ch,20);ctx.fill();
+    ctx.strokeStyle='rgba(224,157,181,.7)';ctx.lineWidth=1.5;rr(cx+.75,cy+.75,cw-1.5,ch-1.5,19);ctx.stroke();
+    text(cheerFace,cx+31,cy+32,31,'#fff','center');
+    text(cheerText,cx+52,cy+32,Math.min(15,cw*.06),'#65455f','left','900');
+    ctx.restore();cheerT--;
+  }
   if(over){
     ctx.fillStyle='rgba(80,48,67,.42)'; ctx.fillRect(0,0,W,H);
     const cardW=Math.min(W-36,350),cardH=usedContinue?280:344;
@@ -350,9 +367,10 @@ function draw(){
     ctx.save(); ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=28;
     ctx.fillStyle='#29213f'; rr(cardX,cardY,cardW,cardH,28); ctx.fill(); ctx.restore();
     ctx.strokeStyle='rgba(255,255,255,.13)'; rr(cardX+.5,cardY+.5,cardW-1,cardH-1,27); ctx.stroke();
-    text('🙀',W/2,cardY+51,53,'#fff','center');
-    text('PAWSE!',W/2,cardY+101,27,'#fff','center','900');
-    text('No more moves this round',W/2,cardY+130,12,'#c8b9df','center','600');
+    text('😿',W/2,cardY+49,53,'#fff','center');
+    text('PAWSE!',W/2,cardY+96,27,'#fff','center','900');
+    text(cheerText || 'Every great player has a tough round.',W/2,cardY+124,Math.min(13,cardW*.042),'#f5d5e6','center','700');
+    text('No worries. Your next run could be your best!',W/2,cardY+144,Math.min(10,cardW*.034),'#c8b9df','center','600');
     ctx.fillStyle='rgba(255,255,255,.06)'; rr(cardX+22,cardY+151,cardW-44,56,16); ctx.fill();
     text('SCORE  '+score,W/2,cardY+170,12,'#c9b9e8','center','800');
     text('BEST  '+best,W/2,cardY+190,12,'#ffe0a0','center','800');
