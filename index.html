@@ -8,8 +8,8 @@
   :root{color-scheme:dark}
   html,body{margin:0;width:100%;height:100%;min-height:100%;background:#100e20;overflow:hidden;touch-action:none;
     -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-  body{display:flex;justify-content:center;align-items:stretch;background:radial-gradient(ellipse at 50% 0%,#34204f 0%,#171329 52%,#0e0d1b 100%)}
-  canvas{display:block;touch-action:none;filter:drop-shadow(0 12px 34px rgba(0,0,0,.18))}
+  body{display:flex;justify-content:center;align-items:stretch;background:#0d1424}
+  canvas{display:block;touch-action:none;filter:drop-shadow(0 12px 34px rgba(0,0,0,.25))}
   *{box-sizing:border-box}
 </style>
 </head>
@@ -151,17 +151,24 @@ function continueWithAd(){
 
 /* ---- Layout ---- */
 function resize(){
+  // A single responsive layout is derived from the available viewport.
   W = Math.min(window.innerWidth, 520); H = window.innerHeight;
   const dpr = window.devicePixelRatio || 1;
   cv.width = W*dpr; cv.height = H*dpr;
   cv.style.width = W+'px'; cv.style.height = H+'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  // Scale the board against the full vertical layout, especially on short phones.
-  cell = Math.max(13, Math.floor(Math.min((W-38)/N, (H-290)/11.3)));
-  bx = Math.round((W - cell*N)/2);
-  by = 198;
+  const topSafe = Math.max(8, (window.visualViewport?.offsetTop || 0));
+  const headerBottom = 184;
+  const footerSpace = 30;
+  const trayHeader = 20, trayVerticalPad = 28, slotGap = 8;
+  // Board and tray now share one calculated cell size: no overlapping independent offsets.
+  const availableH = Math.max(320, H - headerBottom - footerSpace - trayHeader - trayVerticalPad - 14);
+  cell = Math.max(12, Math.floor(Math.min((W-38)/N, availableH/10.65)));
+  cell = Math.min(cell, Math.floor((W-38)/N));
+  bx = Math.round((W-cell*N)/2);
+  by = headerBottom + topSafe;
   const bottom = by + cell*N;
-  trayCY = bottom + cell*1.55 + 35;
+  trayCY = bottom + 20 + trayHeader + cell*1.12;
   slotW = W/3;
 }
 
@@ -230,61 +237,61 @@ function draw(){
   const bg = ctx.createLinearGradient(0,0,W*.35,H);
   bg.addColorStop(0,'#241a3d'); bg.addColorStop(.48,'#17152b'); bg.addColorStop(1,'#101725');
   ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
-  // Ambient pastel orbs give the play screen depth without image assets.
-  const glow = ctx.createRadialGradient(W*.82,H*.19,2,W*.82,H*.19,W*.48);
-  glow.addColorStop(0,'rgba(146,91,205,.17)'); glow.addColorStop(1,'rgba(146,91,205,0)');
+  // Rich midnight-teal backdrop with restrained mint and violet light.
+  const glow = ctx.createRadialGradient(W*.5,H*.34,2,W*.5,H*.34,W*.72);
+  glow.addColorStop(0,'rgba(37,121,133,.24)'); glow.addColorStop(.55,'rgba(35,70,99,.12)'); glow.addColorStop(1,'rgba(10,17,31,0)');
   ctx.fillStyle = glow; ctx.fillRect(0,0,W,H);
-  const glow2 = ctx.createRadialGradient(W*.08,H*.72,1,W*.08,H*.72,W*.4);
-  glow2.addColorStop(0,'rgba(76,171,190,.10)'); glow2.addColorStop(1,'rgba(76,171,190,0)');
+  const glow2 = ctx.createRadialGradient(W*.88,H*.72,1,W*.88,H*.72,W*.42);
+  glow2.addColorStop(0,'rgba(136,91,196,.12)'); glow2.addColorStop(1,'rgba(136,91,196,0)');
   ctx.fillStyle = glow2; ctx.fillRect(0,0,W,H);
-  // Low-contrast paw motifs in the backdrop, kept away from readable UI.
-  for(let py=110;py<H;py+=112) for(let px=34+(Math.floor(py/112)%2)*42;px<W;px+=116) paw(px,py,24,'#b9a3df',.055);
+  // Sparse, low-contrast paw marks only in the background.
+  for(let py=118;py<H;py+=148) for(let px=42+(Math.floor(py/148)%2)*53;px<W;px+=142) paw(px,py,22,'#90d5d4',.035);
 
-  // Brand and score cards
-  ctx.fillStyle = 'rgba(255,255,255,.055)'; rr(14,15,Math.min(172,W*.43),58,19); ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,.09)'; ctx.lineWidth = 1; rr(14.5,15.5,Math.min(171,W*.43),57,18); ctx.stroke();
-  text('🐾',29,43,27,'#fff','left');
-  text('CAT BLOCK',63,34,13,'#f7eefe','left','900');
-  text('PUZZLE',63,51,10,'#b6a4d5','left','800');
-  const soundX = W-36;
-  ctx.fillStyle = 'rgba(255,255,255,.07)'; rr(soundX-19,23,36,36,13); ctx.fill();
-  text(Snd.muted ? '🔇' : '🔊',soundX,41,19,'#fff','center');
-  ctx.fillStyle = 'rgba(255,255,255,.07)'; rr(W-119,66,105,42,14); ctx.fill();
-  text('BEST  '+best,W-66,87,12,'#d4c5f2','center','800');
-  text('BEST SCORE',W-24,125,9,'#9688b8','right','800');
-  text(String(best),W-24,147,18,'#e5dbff','right','900');
-  text('YOUR SCORE',24,113,10,'#9f92c5','left','800');
-  text(String(score),24,143,34,'#fff','left','900');
+  // Premium header with separate score and status lanes.
+  ctx.fillStyle='rgba(20,35,53,.78)'; rr(14,12,Math.min(176,W*.48),56,18); ctx.fill();
+  ctx.strokeStyle='rgba(130,224,213,.16)'; ctx.lineWidth=1; rr(14.5,12.5,Math.min(175,W*.48),55,17); ctx.stroke();
+  text('🐾',28,39,25,'#c7fff0','left');
+  text('CAT BLOCK',61,31,13,'#f5fffd','left','900');
+  text('PUZZLE',61,48,10,'#91c9c6','left','800');
+  const soundX=W-34;
+  ctx.fillStyle='rgba(141,225,214,.12)'; rr(soundX-18,19,36,36,13); ctx.fill();
+  text(Snd.muted?'🔇':'🔊',soundX,37,18,'#d7fff8','center');
+  ctx.fillStyle='rgba(141,225,214,.12)'; rr(W-111,61,97,34,12); ctx.fill();
+  text('BEST  '+best,W-62,78,11,'#c7fff0','center','900');
+  text('YOUR SCORE',24,103,10,'#83bdbb','left','900');
+  text(String(score),24,130,32,'#f4fffe','left','900');
+  ctx.fillStyle='rgba(255,255,255,.045)'; rr(W-102,105,78,42,13); ctx.fill();
+  text('RECORD',W-63,117,8,'#80b4b3','center','800');
+  text(String(best),W-63,135,17,'#e3fffb','center','900');
   if(combo>1){
-    ctx.fillStyle='rgba(255,203,112,.16)'; rr(24,160,Math.min(132,W*.42),25,12); ctx.fill();
-    ctx.strokeStyle='rgba(255,217,138,.22)'; rr(24.5,160.5,Math.min(131,W*.42),24,11.5); ctx.stroke();
-    text('🔥  COMBO x'+Math.min(combo,4),36,172.5,11,'#ffd98a','left','900');
+    ctx.fillStyle='rgba(255,190,99,.16)'; rr(24,145,Math.min(136,W*.44),25,12); ctx.fill();
+    ctx.strokeStyle='rgba(255,204,132,.32)'; rr(24.5,145.5,Math.min(135,W*.44),24,11.5); ctx.stroke();
+    text('🔥  STREAK x'+Math.min(combo,4),36,157.5,10,'#ffd28a','left','900');
   }
-  if (msgT > 0){
-    const alpha = Math.min(1,msgT/24);
-    ctx.globalAlpha=alpha;
-    ctx.fillStyle='rgba(255,211,133,.13)'; rr(W*.29,154,W*.68,32,15); ctx.fill();
-    text(msg,W*.63,170,Math.min(15,W*.042),'#ffe1a3','center','900');
+  if(msgT>0){
+    const alpha=Math.min(1,msgT/24); ctx.globalAlpha=alpha;
+    const badgeW=Math.min(174,W*.48);
+    ctx.fillStyle='rgba(80,210,183,.16)'; rr(W-badgeW-18,145,badgeW,25,12); ctx.fill();
+    text(msg,W-badgeW/2-18,157.5,Math.min(12,W*.035),'#a8fff0','center','900');
     ctx.globalAlpha=1; msgT--;
   }
 
-  // Play area with layered frame and inset grid cells
-  ctx.save();
-  ctx.shadowColor='rgba(7,5,18,.55)'; ctx.shadowBlur=22; ctx.shadowOffsetY=10;
-  const boardPad=7;
-  ctx.fillStyle='#292342'; rr(bx-boardPad,by-boardPad,cell*N+boardPad*2,cell*N+boardPad*2,20); ctx.fill();
-  ctx.restore();
-  const frame=ctx.createLinearGradient(bx,by,bx+cell*N,by+cell*N);
-  frame.addColorStop(0,'rgba(210,180,255,.18)'); frame.addColorStop(1,'rgba(100,82,150,.08)');
-  ctx.strokeStyle=frame; ctx.lineWidth=1.2; rr(bx-boardPad+.6,by-boardPad+.6,cell*N+boardPad*2-1.2,cell*N+boardPad*2-1.2,19); ctx.stroke();
-  for (let r=0;r<N;r++) for (let c=0;c<N;c++){
+  // Unified board frame: the outer frame and every cell use the same measured grid.
+  const boardPad=7, boardSize=cell*N, boardX=bx-boardPad, boardY=by-boardPad;
+  ctx.save(); ctx.shadowColor='rgba(0,0,0,.36)'; ctx.shadowBlur=24; ctx.shadowOffsetY=9;
+  const boardFill=ctx.createLinearGradient(boardX,boardY,boardX+boardSize,boardY+boardSize);
+  boardFill.addColorStop(0,'#21394a'); boardFill.addColorStop(1,'#182a3b');
+  ctx.fillStyle=boardFill; rr(boardX,boardY,boardSize+boardPad*2,boardSize+boardPad*2,21); ctx.fill(); ctx.restore();
+  ctx.strokeStyle='rgba(135,238,219,.25)'; ctx.lineWidth=1.2;
+  rr(boardX+.6,boardY+.6,boardSize+boardPad*2-1.2,boardSize+boardPad*2-1.2,20); ctx.stroke();
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){
     const x=bx+c*cell,y=by+r*cell;
     if(grid[r][c]) block(x,y,cell,grid[r][c]);
-    else {
-      ctx.fillStyle=(r+c)%2===0?'#39304f':'#352c4b';
-      rr(x+2,y+2,cell-4,cell-4,Math.max(4,cell*.2)); ctx.fill();
-      paw(x+cell*.51,y+cell*.55,cell*.64,'#b6a5d2',.12);
-      ctx.strokeStyle='rgba(255,255,255,.025)'; ctx.lineWidth=1; rr(x+2.5,y+2.5,cell-5,cell-5,Math.max(4,cell*.2)); ctx.stroke();
+    else{
+      ctx.fillStyle=(r+c)%2===0?'#293d50':'#25384a';
+      rr(x+2,y+2,cell-4,cell-4,Math.max(4,cell*.19)); ctx.fill();
+      paw(x+cell*.51,y+cell*.55,cell*.64,'#a5d9d5',.11);
+      ctx.strokeStyle='rgba(195,246,240,.045)'; ctx.lineWidth=1; rr(x+2.5,y+2.5,cell-5,cell-5,Math.max(4,cell*.19)); ctx.stroke();
     }
   }
 
@@ -294,17 +301,19 @@ function draw(){
     if(fits(p.s,d.r,d.c)) for(const [a,b] of p.s) block(bx+(d.c+b)*cell,by+(d.r+a)*cell,cell,p.col,.4);
   }
 
-  // Tray card and three separate piece slots
-  const trayTop=trayCY-cell*1.55-24;
-  const trayBottom=trayCY+cell*1.55+23;
-  ctx.fillStyle='rgba(255,255,255,.045)'; rr(14,trayTop,W-28,Math.max(92,trayBottom-trayTop),22); ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,.075)'; ctx.lineWidth=1; rr(14.5,trayTop+.5,W-29,Math.max(91,trayBottom-trayTop)-1,21); ctx.stroke();
-  text('CHOOSE A PIECE',25,trayTop+17,9,'#a99ac9','left','900');
-  text('Drag onto the board',W-25,trayTop+17,9,'#887da7','right','600');
+  // Piece tray is sized from the same cell metric as the board, with equal slots.
+  const trayTop=by+cell*N+17;
+  const trayBottom=Math.min(H-44,trayTop+Math.max(118,cell*2.85));
+  ctx.fillStyle='rgba(20,37,53,.82)'; rr(14,trayTop,W-28,trayBottom-trayTop,21); ctx.fill();
+  ctx.strokeStyle='rgba(135,238,219,.15)'; ctx.lineWidth=1; rr(14.5,trayTop+.5,W-29,trayBottom-trayTop-1,20); ctx.stroke();
+  text('PIECE TRAY',25,trayTop+17,9,'#8cc8c4','left','900');
+  text('DRAG TO PLACE',W-25,trayTop+17,9,'#739b9f','right','800');
+  const slotTop=trayTop+39, slotHeight=trayBottom-slotTop-12, slotWidth=(W-48)/3;
   for(let i=0;i<3;i++){
     const p=tray[i]; if(!p||(drag&&drag.i===i)) continue;
+    const slotX=24+i*slotWidth;
+    ctx.fillStyle='rgba(190,239,234,.055)'; rr(slotX,slotTop,slotWidth-8,slotHeight,14); ctx.fill();
     const o=pieceOrigin(i);
-    ctx.fillStyle='rgba(255,255,255,.035)'; rr(slotW*i+8,trayCY-cell*1.18,slotW-16,cell*2.36,13); ctx.fill();
     for(const [a,b] of p.s) block(o.x+b*o.tc,o.y+a*o.tc,o.tc,p.col);
   }
 
@@ -314,9 +323,8 @@ function draw(){
     for(const [a,b] of p.s) block(d.left+b*cell,d.top+a*cell,cell,p.col);
   }
 
-  // Simple tip near bottom for first-time players
   if(!over){
-    text('CLEAR A FULL ROW OR COLUMN',W/2,Math.min(H-30,trayBottom+25),10,'#b6a8d3','center','800');
+    text('MATCH A FULL ROW OR COLUMN',W/2,H-18,9,'#78a9a9','center','800');
   }
 
   if(over){
