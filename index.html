@@ -5,16 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Cat Block Puzzle</title>
 <style>
-  html,body{margin:0;height:100%;background:#1f1a33;overflow:hidden;touch-action:none;
+  :root{color-scheme:dark}
+  html,body{margin:0;width:100%;height:100%;min-height:100%;background:#100e20;overflow:hidden;touch-action:none;
     -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-  body{display:flex;justify-content:center}
-  canvas{display:block;touch-action:none}
+  body{display:flex;justify-content:center;align-items:stretch;background:radial-gradient(ellipse at 50% 0%,#34204f 0%,#171329 52%,#0e0d1b 100%)}
+  canvas{display:block;touch-action:none;filter:drop-shadow(0 12px 34px rgba(0,0,0,.18))}
+  *{box-sizing:border-box}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <script>
-/* ============ Cat Block Puzzle - skeleton v0.1 ============ */
+/* ============ Cat Block Puzzle - polished play screen ============ */
 
 /* ---- Ad hooks: replace the bodies with AdMob calls when we wrap with Capacitor ---- */
 const Ads = {
@@ -154,12 +156,12 @@ function resize(){
   cv.width = W*dpr; cv.height = H*dpr;
   cv.style.width = W+'px'; cv.style.height = H+'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  // Keep the board and piece tray usable on short phones and desktop windows.
-  cell = Math.max(14, Math.floor(Math.min((W-24)/N, (H-220)/N)));
+  // Reserve space for the redesigned score header, board, tray and bottom tip.
+  cell = Math.max(13, Math.floor(Math.min((W-38)/N, (H-335)/N)));
   bx = Math.round((W - cell*N)/2);
-  by = Math.max(68, Math.min(96, Math.floor((H - cell*N - 170)/2)));
+  by = Math.max(185, Math.min(204, Math.floor((H-cell*N-205)/2)));
   const bottom = by + cell*N;
-  trayCY = bottom + Math.max(54, (H - bottom)/2);
+  trayCY = bottom + Math.max(67, Math.min(92,(H-bottom-80)/2));
   slotW = W/3;
 }
 
@@ -171,17 +173,33 @@ function rr(x,y,w,h,r){
 }
 function block(x,y,s,col,alpha){
   ctx.globalAlpha = alpha == null ? 1 : alpha;
-  ctx.fillStyle = COLORS[col-1]; rr(x+1,y+1,s-2,s-2,s*0.22); ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,.35)'; rr(x+s*0.16,y+s*0.14,s*0.5,s*0.14,s*0.07); ctx.fill();
-  ctx.globalAlpha = 1;
+  const color = COLORS[col-1];
+  ctx.save();
+  ctx.shadowColor = color;
+  ctx.shadowBlur = alpha == null ? Math.min(9,s*.22) : 0;
+  ctx.fillStyle = color; rr(x+1,y+1,s-2,s-2,s*0.23); ctx.fill();
+  ctx.shadowBlur = 0;
+  const gloss = ctx.createLinearGradient(x,y,x,y+s);
+  gloss.addColorStop(0,'rgba(255,255,255,.35)');
+  gloss.addColorStop(.42,'rgba(255,255,255,.04)');
+  gloss.addColorStop(1,'rgba(25,15,45,.16)');
+  ctx.fillStyle = gloss; rr(x+1,y+1,s-2,s-2,s*0.23); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.48)'; rr(x+s*.17,y+s*.13,s*.48,Math.max(2,s*.12),s*.06); ctx.fill();
+  ctx.restore(); ctx.globalAlpha = 1;
 }
 function text(t,x,y,size,color,align,weight){
   ctx.fillStyle = color; ctx.textAlign = align || 'left'; ctx.textBaseline = 'middle';
   ctx.font = (weight||'700')+' '+size+'px '+FONT; ctx.fillText(t,x,y);
 }
 function button(label,x,y,w,h,fill,fn){
+  ctx.save();
+  ctx.shadowColor = fill; ctx.shadowBlur = 18;
   ctx.fillStyle = fill; rr(x,y,w,h,h/2); ctx.fill();
-  text(label, x+w/2, y+h/2, 18, '#2a2140', 'center', '800');
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1;
+  rr(x+.75,y+.75,w-1.5,h-1.5,h/2); ctx.stroke();
+  text(label, x+w/2, y+h/2, Math.min(18,w*.075), '#21172f', 'center', '850');
+  ctx.restore();
   btns.push({x,y,w,h,fn});
 }
 function pieceOrigin(i){
@@ -197,61 +215,110 @@ function dragCell(){
 function draw(){
   btns = [];
   ctx.clearRect(0,0,W,H);
-  const bg = ctx.createLinearGradient(0,0,0,H);
-  bg.addColorStop(0,'#2d2450'); bg.addColorStop(1,'#1a1530');
+  const bg = ctx.createLinearGradient(0,0,W*.35,H);
+  bg.addColorStop(0,'#241a3d'); bg.addColorStop(.48,'#17152b'); bg.addColorStop(1,'#101725');
   ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+  // Ambient pastel orbs give the play screen depth without image assets.
+  const glow = ctx.createRadialGradient(W*.82,H*.19,2,W*.82,H*.19,W*.48);
+  glow.addColorStop(0,'rgba(146,91,205,.17)'); glow.addColorStop(1,'rgba(146,91,205,0)');
+  ctx.fillStyle = glow; ctx.fillRect(0,0,W,H);
+  const glow2 = ctx.createRadialGradient(W*.08,H*.72,1,W*.08,H*.72,W*.4);
+  glow2.addColorStop(0,'rgba(76,171,190,.10)'); glow2.addColorStop(1,'rgba(76,171,190,0)');
+  ctx.fillStyle = glow2; ctx.fillRect(0,0,W,H);
 
-  // header
-  text(cat, 24, 44, 38, '#fff', 'left');
-  text('Score', W-24, 30, 13, '#9d92c9', 'right', '600');
-  text(String(score), W-24, 56, 30, '#fff', 'right', '800');
-  text('Best ' + best, 84, 44, 15, '#9d92c9', 'left', '600');
-  if (combo > 1) text('🔥 Combo x' + Math.min(combo,4), 84, 66, 12, '#ffd98a', 'left', '800');
-  text(Snd.muted ? '🔇' : '🔊', W/2 + 44, 44, 26, '#fff', 'center');
+  // Brand and score cards
+  ctx.fillStyle = 'rgba(255,255,255,.055)'; rr(14,15,Math.min(172,W*.43),58,19); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.09)'; ctx.lineWidth = 1; rr(14.5,15.5,Math.min(171,W*.43),57,18); ctx.stroke();
+  text('🐾',29,43,27,'#fff','left');
+  text('CAT BLOCK',63,34,13,'#f7eefe','left','900');
+  text('PUZZLE',63,51,10,'#b6a4d5','left','800');
+  const soundX = W-36;
+  ctx.fillStyle = 'rgba(255,255,255,.07)'; rr(soundX-19,23,36,36,13); ctx.fill();
+  text(Snd.muted ? '🔇' : '🔊',soundX,41,19,'#fff','center');
+  ctx.fillStyle = 'rgba(255,255,255,.07)'; rr(W-119,66,105,42,14); ctx.fill();
+  text('BEST  '+best,W-66,87,12,'#d4c5f2','center','800');
+  text('BEST SCORE',W-24,125,9,'#9688b8','right','800');
+  text(String(best),W-24,147,18,'#e5dbff','right','900');
+  text('YOUR SCORE',24,113,10,'#9f92c5','left','800');
+  text(String(score),24,143,34,'#fff','left','900');
+  if(combo>1){
+    ctx.fillStyle='rgba(255,203,112,.14)'; rr(24,161,Math.min(124,W*.38),27,13); ctx.fill();
+    text('🔥  COMBO x'+Math.min(combo,4),36,175,11,'#ffd98a','left','900');
+  }
   if (msgT > 0){
-    ctx.globalAlpha = Math.min(1, msgT/30);
-    text(msg, W/2, 84, 17, '#ffd98a', 'center', '800');
-    ctx.globalAlpha = 1; msgT--;
+    const alpha = Math.min(1,msgT/24);
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle='rgba(255,211,133,.13)'; rr(W*.29,154,W*.68,32,15); ctx.fill();
+    text(msg,W*.63,170,Math.min(15,W*.042),'#ffe1a3','center','900');
+    ctx.globalAlpha=1; msgT--;
   }
 
-  // board
-  ctx.fillStyle = '#3a2f66'; rr(bx-6,by-6,cell*N+12,cell*N+12,18); ctx.fill();
+  // Play area with layered frame and inset grid cells
+  ctx.save();
+  ctx.shadowColor='rgba(7,5,18,.55)'; ctx.shadowBlur=22; ctx.shadowOffsetY=10;
+  const boardPad=7;
+  ctx.fillStyle='#292342'; rr(bx-boardPad,by-boardPad,cell*N+boardPad*2,cell*N+boardPad*2,20); ctx.fill();
+  ctx.restore();
+  const frame=ctx.createLinearGradient(bx,by,bx+cell*N,by+cell*N);
+  frame.addColorStop(0,'rgba(210,180,255,.18)'); frame.addColorStop(1,'rgba(100,82,150,.08)');
+  ctx.strokeStyle=frame; ctx.lineWidth=1.2; rr(bx-boardPad+.6,by-boardPad+.6,cell*N+boardPad*2-1.2,cell*N+boardPad*2-1.2,19); ctx.stroke();
   for (let r=0;r<N;r++) for (let c=0;c<N;c++){
-    const x = bx+c*cell, y = by+r*cell;
-    if (grid[r][c]) block(x,y,cell,grid[r][c]);
-    else { ctx.fillStyle = '#463a7a'; rr(x+2,y+2,cell-4,cell-4,cell*0.2); ctx.fill(); }
-  }
-
-  // drag preview on the board
-  if (drag && !over){
-    const p = tray[drag.i], d = dragCell();
-    if (fits(p.s, d.r, d.c)){
-      for (const [a,b] of p.s) block(bx+(d.c+b)*cell, by+(d.r+a)*cell, cell, p.col, 0.35);
+    const x=bx+c*cell,y=by+r*cell;
+    if(grid[r][c]) block(x,y,cell,grid[r][c]);
+    else {
+      ctx.fillStyle=(r+c)%2===0?'#39304f':'#352c4b';
+      rr(x+2,y+2,cell-4,cell-4,Math.max(4,cell*.2)); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,.025)'; ctx.lineWidth=1; rr(x+2.5,y+2.5,cell-5,cell-5,Math.max(4,cell*.2)); ctx.stroke();
     }
   }
 
-  // tray
-  for (let i=0;i<3;i++){
-    const p = tray[i]; if (!p || (drag && drag.i===i)) continue;
-    const o = pieceOrigin(i);
-    for (const [a,b] of p.s) block(o.x+b*o.tc, o.y+a*o.tc, o.tc, p.col);
+  // Drag placement preview
+  if(drag&&!over){
+    const p=tray[drag.i],d=dragCell();
+    if(fits(p.s,d.r,d.c)) for(const [a,b] of p.s) block(bx+(d.c+b)*cell,by+(d.r+a)*cell,cell,p.col,.4);
   }
 
-  // piece under the finger
-  if (drag){
-    const p = tray[drag.i], d = dragCell();
-    for (const [a,b] of p.s) block(d.left+b*cell, d.top+a*cell, cell, p.col);
+  // Tray card and three separate piece slots
+  const trayTop=trayCY-cell*1.55-24;
+  const trayBottom=trayCY+cell*1.55+23;
+  ctx.fillStyle='rgba(255,255,255,.045)'; rr(14,trayTop,W-28,Math.max(92,trayBottom-trayTop),22); ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.075)'; ctx.lineWidth=1; rr(14.5,trayTop+.5,W-29,Math.max(91,trayBottom-trayTop)-1,21); ctx.stroke();
+  text('CHOOSE A PIECE',25,trayTop+17,9,'#a99ac9','left','900');
+  text('Drag onto the board',W-25,trayTop+17,9,'#887da7','right','600');
+  for(let i=0;i<3;i++){
+    const p=tray[i]; if(!p||(drag&&drag.i===i)) continue;
+    const o=pieceOrigin(i);
+    ctx.fillStyle='rgba(255,255,255,.035)'; rr(slotW*i+8,trayCY-cell*1.18,slotW-16,cell*2.36,13); ctx.fill();
+    for(const [a,b] of p.s) block(o.x+b*o.tc,o.y+a*o.tc,o.tc,p.col);
   }
 
-  // game over
-  if (over){
-    ctx.fillStyle = 'rgba(20,15,40,.82)'; ctx.fillRect(0,0,W,H);
-    text('🙀', W/2, H*0.26, 64, '#fff', 'center');
-    text('No more moves', W/2, H*0.26+60, 28, '#fff', 'center', '800');
-    text('Score ' + score + '   ·   Best ' + best, W/2, H*0.26+98, 17, '#c9bff0', 'center', '600');
-    let y = H*0.26 + 140;
-    if (!usedContinue){ button('Watch ad to continue', W/2-130, y, 260, 52, '#ffd98a', continueWithAd); y += 68; }
-    button('Play again', W/2-130, y, 260, 52, '#a8e0b0', reset);
+  // Piece follows finger / mouse
+  if(drag){
+    const p=tray[drag.i],d=dragCell();
+    for(const [a,b] of p.s) block(d.left+b*cell,d.top+a*cell,cell,p.col);
+  }
+
+  // Simple tip near bottom for first-time players
+  if(!over){
+    text('CLEAR A FULL ROW OR COLUMN',W/2,Math.min(H-30,trayBottom+25),10,'#b6a8d3','center','800');
+  }
+
+  if(over){
+    ctx.fillStyle='rgba(10,8,23,.78)'; ctx.fillRect(0,0,W,H);
+    const cardW=Math.min(W-36,350),cardH=usedContinue?280:344;
+    const cardX=(W-cardW)/2,cardY=Math.max(24,(H-cardH)/2);
+    ctx.save(); ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=28;
+    ctx.fillStyle='#29213f'; rr(cardX,cardY,cardW,cardH,28); ctx.fill(); ctx.restore();
+    ctx.strokeStyle='rgba(255,255,255,.13)'; rr(cardX+.5,cardY+.5,cardW-1,cardH-1,27); ctx.stroke();
+    text('🙀',W/2,cardY+51,53,'#fff','center');
+    text('PAWSE!',W/2,cardY+101,27,'#fff','center','900');
+    text('No more moves this round',W/2,cardY+130,12,'#c8b9df','center','600');
+    ctx.fillStyle='rgba(255,255,255,.06)'; rr(cardX+22,cardY+151,cardW-44,56,16); ctx.fill();
+    text('SCORE  '+score,W/2,cardY+170,12,'#c9b9e8','center','800');
+    text('BEST  '+best,W/2,cardY+190,12,'#ffe0a0','center','800');
+    let y=cardY+222;
+    if(!usedContinue){ button('Watch ad to continue',W/2-Math.min(130,(cardW-36)/2),y,Math.min(260,cardW-36),48,'#ffd98a',continueWithAd); y+=59; }
+    button('Play again',W/2-Math.min(130,(cardW-36)/2),y,Math.min(260,cardW-36),48,'#a8e0b0',reset);
   }
 }
 
