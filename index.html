@@ -156,12 +156,12 @@ function resize(){
   cv.width = W*dpr; cv.height = H*dpr;
   cv.style.width = W+'px'; cv.style.height = H+'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  // Reserve space for the redesigned score header, board, tray and bottom tip.
-  cell = Math.max(13, Math.floor(Math.min((W-38)/N, (H-335)/N)));
+  // Scale the board against the full vertical layout, especially on short phones.
+  cell = Math.max(13, Math.floor(Math.min((W-38)/N, (H-290)/11.3)));
   bx = Math.round((W - cell*N)/2);
-  by = Math.max(185, Math.min(204, Math.floor((H-cell*N-205)/2)));
+  by = 185;
   const bottom = by + cell*N;
-  trayCY = bottom + Math.max(67, Math.min(92,(H-bottom-80)/2));
+  trayCY = bottom + cell*1.55 + 35;
   slotW = W/3;
 }
 
