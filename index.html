@@ -159,7 +159,7 @@ function resize(){
   // Scale the board against the full vertical layout, especially on short phones.
   cell = Math.max(13, Math.floor(Math.min((W-38)/N, (H-290)/11.3)));
   bx = Math.round((W - cell*N)/2);
-  by = 185;
+  by = 198;
   const bottom = by + cell*N;
   trayCY = bottom + cell*1.55 + 35;
   slotW = W/3;
@@ -170,6 +170,16 @@ function rr(x,y,w,h,r){
   ctx.beginPath();
   ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
   ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function paw(x,y,size,color,alpha){
+  ctx.save(); ctx.globalAlpha=alpha==null?.18:alpha; ctx.fillStyle=color;
+  const r=size*.105;
+  for(const [dx,dy,scale] of [[-.27,-.19,.82],[-.09,-.34,.88],[.12,-.34,.88],[.29,-.17,.82]]){
+    ctx.beginPath(); ctx.ellipse(x+dx*size,y+dy*size,r*scale,r*1.15,dx*1.5,0,Math.PI*2); ctx.fill();
+  }
+  ctx.beginPath();
+  ctx.ellipse(x,y+size*.09,size*.27,size*.20,0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
 }
 function block(x,y,s,col,alpha){
   ctx.globalAlpha = alpha == null ? 1 : alpha;
@@ -184,6 +194,8 @@ function block(x,y,s,col,alpha){
   gloss.addColorStop(.42,'rgba(255,255,255,.04)');
   gloss.addColorStop(1,'rgba(25,15,45,.16)');
   ctx.fillStyle = gloss; rr(x+1,y+1,s-2,s-2,s*0.23); ctx.fill();
+  // Soft embossed paw mark replaces the generic highlight-only tile.
+  paw(x+s*.52,y+s*.56,s*.72,'#fff',alpha==null?.30:.2);
   ctx.fillStyle = 'rgba(255,255,255,.48)'; rr(x+s*.17,y+s*.13,s*.48,Math.max(2,s*.12),s*.06); ctx.fill();
   ctx.restore(); ctx.globalAlpha = 1;
 }
@@ -225,6 +237,8 @@ function draw(){
   const glow2 = ctx.createRadialGradient(W*.08,H*.72,1,W*.08,H*.72,W*.4);
   glow2.addColorStop(0,'rgba(76,171,190,.10)'); glow2.addColorStop(1,'rgba(76,171,190,0)');
   ctx.fillStyle = glow2; ctx.fillRect(0,0,W,H);
+  // Low-contrast paw motifs in the backdrop, kept away from readable UI.
+  for(let py=110;py<H;py+=112) for(let px=34+(Math.floor(py/112)%2)*42;px<W;px+=116) paw(px,py,24,'#b9a3df',.055);
 
   // Brand and score cards
   ctx.fillStyle = 'rgba(255,255,255,.055)'; rr(14,15,Math.min(172,W*.43),58,19); ctx.fill();
@@ -242,8 +256,9 @@ function draw(){
   text('YOUR SCORE',24,113,10,'#9f92c5','left','800');
   text(String(score),24,143,34,'#fff','left','900');
   if(combo>1){
-    ctx.fillStyle='rgba(255,203,112,.14)'; rr(24,161,Math.min(124,W*.38),27,13); ctx.fill();
-    text('🔥  COMBO x'+Math.min(combo,4),36,175,11,'#ffd98a','left','900');
+    ctx.fillStyle='rgba(255,203,112,.16)'; rr(24,160,Math.min(132,W*.42),25,12); ctx.fill();
+    ctx.strokeStyle='rgba(255,217,138,.22)'; rr(24.5,160.5,Math.min(131,W*.42),24,11.5); ctx.stroke();
+    text('🔥  COMBO x'+Math.min(combo,4),36,172.5,11,'#ffd98a','left','900');
   }
   if (msgT > 0){
     const alpha = Math.min(1,msgT/24);
@@ -268,6 +283,7 @@ function draw(){
     else {
       ctx.fillStyle=(r+c)%2===0?'#39304f':'#352c4b';
       rr(x+2,y+2,cell-4,cell-4,Math.max(4,cell*.2)); ctx.fill();
+      paw(x+cell*.51,y+cell*.55,cell*.64,'#b6a5d2',.12);
       ctx.strokeStyle='rgba(255,255,255,.025)'; ctx.lineWidth=1; rr(x+2.5,y+2.5,cell-5,cell-5,Math.max(4,cell*.2)); ctx.stroke();
     }
   }
