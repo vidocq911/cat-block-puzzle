@@ -371,10 +371,10 @@ function draw(){
     text('PAWSE!',W/2,cardY+96,27,'#fff','center','900');
     text(cheerText || 'Every great player has a tough round.',W/2,cardY+124,Math.min(13,cardW*.042),'#f5d5e6','center','700');
     text('No worries. Your next run could be your best!',W/2,cardY+144,Math.min(10,cardW*.034),'#c8b9df','center','600');
-    ctx.fillStyle='rgba(255,255,255,.06)'; rr(cardX+22,cardY+151,cardW-44,56,16); ctx.fill();
-    text('SCORE  '+score,W/2,cardY+170,12,'#c9b9e8','center','800');
-    text('BEST  '+best,W/2,cardY+190,12,'#ffe0a0','center','800');
-    let y=cardY+222;
+    ctx.fillStyle='rgba(255,255,255,.06)'; rr(cardX+22,cardY+160,cardW-44,56,16); ctx.fill();
+    text('SCORE  '+score,W/2,cardY+179,12,'#c9b9e8','center','800');
+    text('BEST  '+best,W/2,cardY+199,12,'#ffe0a0','center','800');
+    let y=cardY+231;
     if(!usedContinue){ button('Watch ad to continue',W/2-Math.min(130,(cardW-36)/2),y,Math.min(260,cardW-36),48,'#ffd98a',continueWithAd); y+=59; }
     button('Play again',W/2-Math.min(130,(cardW-36)/2),y,Math.min(260,cardW-36),48,'#a8e0b0',reset);
   }
