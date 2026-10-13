@@ -526,7 +526,6 @@ cv.addEventListener('pointerdown', e => {
   Snd.init();
   const q = pos(e);
   if(screen!=='puzzle'){
-    if(q.y<85&&q.x>W-190){screen=q.x>W-105?'puzzle':(screen==='garden'?'home':'garden');return;}
     for(const b of btns)if(q.x>=b.x&&q.x<=b.x+b.w&&q.y>=b.y&&q.y<=b.y+b.h){b.fn();return;}
     return;
   }
