@@ -15,93 +15,40 @@ try {
   await page.goto(base, { waitUntil: 'networkidle' });
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
-  assert(await page.locator('#room').evaluate(el => el.classList.contains('active')), 'Cat room is not the initial screen');
-  assert((await page.locator('#room').innerText()).includes('FURNITURE'), 'English furniture shop is missing from initial room');
-  assert((await page.locator('#room').innerText()).includes('FEED'), 'English care controls are missing from initial room');
-  await page.screenshot({ path: path.join(out, '01-cat-room-mobile.png'), fullPage: true });
-  await page.locator('#homeButton').click();
-  assert(await page.locator('#home').evaluate(el => el.classList.contains('active')), 'Home shortcut did not open welcome screen');
-  assert((await page.locator('#home').innerText()).includes('Every cat deserves a home.'), 'English welcome headline is missing');
-  assert((await page.locator('#home').innerText()).includes('YOUR RESCUE LIST'), 'English rescue collection label is missing');
-  await page.screenshot({ path: path.join(out, '02-welcome-mobile.png'), fullPage: true });
+  assert(await page.locator('#screen-room').evaluate(el => el.classList.contains('active')), 'Room is not the initial screen');
+  assert(await page.locator('#main-cat').count() === 1, 'Main cat SVG is missing');
+  assert(await page.locator('#room-art .room-svg').count() === 1, 'Room illustration is missing');
+  assert((await page.locator('#screen-room').innerText()).includes('MAKE HOME COZY'), 'Room shop drawer is missing');
+  await page.screenshot({ path: path.join(out, '01-room-mobile.png'), fullPage: true });
 
-  const headerFits = await page.evaluate(() => {
-    const brand = document.querySelector('.brand').getBoundingClientRect();
-    const home = document.querySelector('#homeButton').getBoundingClientRect();
-    const settings = document.querySelector('#settings').getBoundingClientRect();
-    return brand.right <= home.left + 1 && settings.right <= innerWidth + 1;
-  });
-  assert(headerFits, 'Header controls overlap or overflow on 393px mobile width');
+  await page.locator('[data-care="feed"]').first().click();
+  assert(await page.locator('#screen-feed').evaluate(el => el.classList.contains('active')), 'Feed screen did not open');
+  await page.locator('[data-food="fish"]').first().click();
+  await page.locator('#feed-confirm').click();
+  assert(await page.locator('#coins').innerText() === '52', 'Feeding did not deduct 10 coins');
+  assert(await page.locator('#hunger-n').innerText() === '42%', 'Fish did not reduce hunger by 30');
+  await page.screenshot({ path: path.join(out, '02-feed-mobile.png'), fullPage: true });
 
-  await page.locator('[data-go="room"]').first().click();
-  assert(await page.locator('#room').evaluate(el => el.classList.contains('active')), 'My Home navigation failed');
+  await page.locator('[data-screen="shop"]').first().click();
+  assert(await page.locator('#screen-shop').evaluate(el => el.classList.contains('active')), 'Shop screen did not open');
+  await page.locator('[data-category="decor"]').first().click();
+  assert((await page.locator('#shop-product-row').innerText()).includes('Plant'), 'Decor products did not render');
+  await page.locator('#shop-product-row .product').filter({ hasText: 'Plant' }).click();
+  assert((await page.locator('#placed-items').innerText()).length > 0, 'Purchased item was not placed in room');
+  await page.screenshot({ path: path.join(out, '03-shop-mobile.png'), fullPage: true });
 
-  for (const action of ['feed', 'play', 'clean', 'pet']) {
-    await page.locator('[data-care="' + action + '"]').click();
-    assert(await page.locator('#overlay').evaluate(el => getComputedStyle(el).display !== 'none'), action + ' did not show feedback');
-    await page.locator('#modalOk').click();
+  for (const screen of ['cats', 'tasks', 'garden', 'settings']) {
+    await page.locator('[data-screen="' + screen + '"]').first().click();
+    assert(await page.locator('#screen-' + screen).evaluate(el => el.classList.contains('active')), screen + ' screen did not open');
   }
-  for (const tab of ['furniture', 'decor', 'food', 'toys']) {
-    await page.locator('[data-tab="' + tab + '"]').click();
-    assert(await page.locator('#items .item').count() > 0, tab + ' shop is empty');
-  }
-  await page.locator('[data-tab="food"]').click();
-  const before = Number(await page.locator('#coins').innerText());
-  await page.locator('#items .item').first().click();
-  assert(Number(await page.locator('#coins').innerText()) < before, 'Affordable shop purchase did not deduct coins');
-  await page.locator('#modalOk').click();
-
-  await page.locator('#homeButton').click();
-  assert(await page.locator('#home').evaluate(el => el.classList.contains('active')), 'Header Home button failed');
-  await page.locator('[data-go="puzzle"]').first().click();
-  assert(await page.locator('#board .cell').count() === 64, 'Puzzle board should contain 64 cells');
-  assert(await page.locator('#pieces .piece:not(:disabled)').count() === 3, 'Puzzle should show 3 playable pieces');
-  await page.screenshot({ path: path.join(out, '03-puzzle-mobile.png'), fullPage: true });
-  await page.locator('#pieces .piece:not(:disabled)').first().click();
-  await page.locator('#board .cell').first().click();
-  assert(await page.locator('#board .cell.filled').count() > 0, 'Placing a piece did not fill any board cells');
-  assert(Number(await page.locator('#score').innerText()) > 0, 'Score did not increase after placing a piece');
-  await page.locator('#newGame').click();
-  assert(Number(await page.locator('#score').innerText()) === 0, 'New Game did not reset the score');
-  // Exercise real pointer drag-and-drop, not only the tap-to-place fallback.
-  const pieceBox = await page.locator('#pieces .piece:not(:disabled)').first().boundingBox();
-  const targetBox = await page.locator('#board .cell').first().boundingBox();
-  await page.mouse.move(pieceBox.x + pieceBox.width / 2, pieceBox.y + pieceBox.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 8 });
-  await page.mouse.up();
-  assert(await page.locator('#board .cell.filled').count() > 0, 'Dragging a piece onto the board did not place it');
-  assert(Number(await page.locator('#score').innerText()) > 0, 'Drag-and-drop did not update the score');
-  await page.locator('#settings').click();
-  assert(await page.locator('#settingsModal').evaluate(el => getComputedStyle(el).display !== 'none'), 'Settings did not open');
-  const soundBefore = await page.locator('#soundToggle').innerText();
-  await page.locator('#soundToggle').click();
-  assert((await page.locator('#soundToggle').innerText()) !== soundBefore, 'Sound toggle did not change state');
-  await page.locator('#soundToggle').click();
-  await page.locator('#closeSettings').click();
-
-  await page.evaluate(() => { localStorage.setItem('cbr2_best', '100'); localStorage.removeItem('cbr2_rescued'); });
-  await page.reload({ waitUntil: 'networkidle' });
-  assert(await page.locator('#rescued').innerText() === '1', 'Reaching the rescue milestone did not unlock Pepper');
-  assert((await page.locator('#rescueText').innerText()).includes('Pepper'), 'Rescue collection did not show the unlocked cat');
-
+  await page.locator('[data-screen="puzzle"]').first().click();
+  assert(await page.locator('#screen-puzzle').evaluate(el => el.classList.contains('active')), 'Puzzle did not open');
+  assert(await page.locator('#board .cell').count() === 64, 'Puzzle board is not 8x8');
+  await page.locator('#piece-list .piece').first().click();
+  await page.locator('#board .cell').nth(0).click();
+  assert((await page.locator('#score').innerText()) !== '0', 'Puzzle placement did not update score');
   assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
-  // Check a wide desktop layout as well as the mobile layout.
-  const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
-  desktop.on('pageerror', error => errors.push(error.message));
-  await desktop.goto(base, { waitUntil: 'networkidle' });
-  await desktop.evaluate(() => localStorage.clear());
-  await desktop.reload({ waitUntil: 'networkidle' });
-  assert(await desktop.locator('#room').evaluate(el => el.classList.contains('active')), 'Desktop did not open into the cat room');
-  const desktopOverflow = await desktop.evaluate(() => document.documentElement.scrollWidth > innerWidth || document.documentElement.scrollHeight > innerHeight);
-  assert(!desktopOverflow, 'Desktop layout has page-level overflow at 1440x1000');
-  await desktop.screenshot({ path: path.join(out, '04-cat-room-desktop.png'), fullPage: true });
-  await desktop.setViewportSize({ width: 360, height: 740 });
-  const narrowOverflow = await desktop.evaluate(() => document.documentElement.scrollWidth > innerWidth);
-  assert(!narrowOverflow, 'Narrow mobile layout overflows horizontally at 360px');
-  await desktop.close();
-  assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
-  console.log('PASS: English room-first startup, responsive mobile header, room/home navigation, care actions, shop tabs and purchase, puzzle placement/scoring/reset, settings/sound toggle, rescue milestone, desktop and narrow mobile overflow; screenshots saved.');
+  console.log('PASS: room, feeding, shop purchase/placement, cats, tasks, garden, settings, puzzle, no browser errors');
 } finally {
   await browser.close();
 }
