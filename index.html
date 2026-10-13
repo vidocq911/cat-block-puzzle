@@ -1,471 +1,141 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Cat Block Rescue — Cozy Cat World</title>
-<meta name="theme-color" content="#fff0e8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#f4d5e1">
+<title>Cat Block Rescue Club</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap');
-:root{--ink:#49334f;--muted:#967b98;--pink:#f6b9d0;--cream:#fff8f1;--mint:#b9e7c8;--lilac:#d4c9fa}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Nunito,system-ui,sans-serif;color:var(--ink);background:#fff0e8;touch-action:manipulation}button{font:800 14px Nunito,system-ui;border:0;cursor:pointer;color:var(--ink);-webkit-tap-highlight-color:transparent}#world{position:fixed;inset:0;z-index:1;pointer-events:none}#world canvas{display:block;width:100%;height:100%;pointer-events:none}#ui{position:fixed;inset:0;z-index:2;pointer-events:none;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 12px);gap:12px}#ui>*{pointer-events:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:8px}.brand,.stat,.panel{background:rgba(255,250,247,.91);border:1px solid rgba(255,255,255,.9);box-shadow:0 8px 30px #7d52701a;backdrop-filter:blur(14px)}.brand{border-radius:22px;padding:10px 12px;display:flex;align-items:center;gap:10px;flex:1;min-width:0;max-width:245px}.brand>div{min-width:0}.brand strong,.brand small{white-space:nowrap}.brand strong{font-size:15px}.pawlogo{flex-shrink:0}.pawlogo{font-size:28px;filter:drop-shadow(0 3px 0 #e7b4cb)}.brand strong{font-size:16px;line-height:1.05;display:block;font-weight:900;letter-spacing:.2px}.brand small{font-size:10px;color:var(--muted);font-weight:900;letter-spacing:1.3px}.pill{border-radius:999px;padding:12px 16px;background:#fff9;box-shadow:0 5px 18px #7049671b}.settings-btn{width:52px;height:52px;flex:0 0 52px;border-radius:50%;font-size:23px;padding:0;background:rgba(255,250,247,.94);box-shadow:0 5px 18px #7049671b}.settings-panel{background:#fff8f2;border-radius:28px;padding:24px;width:min(100%,360px);box-shadow:0 25px 80px #261a2c55;color:var(--ink)}.settings-panel h2{margin:0 0 6px;font-size:24px}.settings-panel p{margin:0 0 20px;color:#896f8e;font-size:13px}.setting-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid #eadde7;font-weight:900}.setting-row small{display:block;color:#967b98;font-size:11px;font-weight:700;margin-top:3px}.switch{width:52px;height:30px;flex-shrink:0;appearance:none;border-radius:999px;background:#d9cbd8;position:relative;cursor:pointer;transition:background .2s}.switch:before{content:"";position:absolute;left:4px;top:4px;width:22px;height:22px;border-radius:50%;background:white;box-shadow:0 2px 5px #49334f22;transition:transform .2s}.switch:checked{background:#86cda0}.switch:checked:before{transform:translateX(22px)}.settings-actions{display:flex;gap:8px;margin-top:18px}.settings-actions button{flex:1;padding:14px;border-radius:15px;background:#b9e7c8}.settings-actions .secondary{background:#f4e7ef}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{border-radius:18px;padding:10px 5px;text-align:center}.stat small{display:block;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.5px}.stat strong{display:block;font-size:22px;font-weight:900;margin-top:2px}.spacer{flex:1;min-height:6px}.hero{border-radius:28px;background:linear-gradient(145deg,#f6c4d5ed,#ffe7d5e8 52%,#d8d4f9ed);padding:20px;box-shadow:0 18px 45px #78506c24;position:relative;overflow:hidden;min-height:148px}.hero:before{content:"";position:absolute;width:190px;height:190px;right:-35px;top:-90px;border-radius:50%;background:#fff7}.eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:900;color:#956780}.hero h1{font-size:clamp(23px,6vw,34px);line-height:1.02;margin:8px 0 7px;font-weight:900;max-width:290px}.hero p{font-size:12px;line-height:1.5;margin:0;max-width:270px;color:#735b77}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.nav button{min-height:51px;border-radius:18px;box-shadow:0 7px 18px #8d678022;transition:transform .15s}.nav button:active,.pill:active{transform:scale(.97)}.play{background:linear-gradient(135deg,#b7e8c6,#94d9b0)}.home{background:linear-gradient(135deg,#f7c5d8,#f0aeca)}.garden{background:linear-gradient(135deg,#d8d0ff,#bdb3f2)}.panel{border-radius:24px;padding:14px;overflow:hidden}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:6px}.panelhead strong{font-size:14px;font-weight:900}.panelhead small{font-size:10px;color:var(--muted);font-weight:900}.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.catcard{border-radius:17px;background:#fff0e5;padding:8px 3px 9px;text-align:center;min-width:0}.catcard.locked{background:#eee8f0;color:#a393aa}.catthumb{height:54px;display:flex;align-items:center;justify-content:center;font-size:36px;filter:drop-shadow(0 5px 2px #49334f16)}.catcard b{display:block;font-size:11px;font-weight:900}.catcard small{font-size:9px;color:#a1849d;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.screen{display:none;flex:1;min-height:0;flex-direction:column;gap:12px}.screen.active{display:flex}.scene{position:relative;flex:1;min-height:180px;border-radius:28px;overflow:hidden;background:rgba(255,255,255,.035);box-shadow:0 15px 40px #62406420;isolation:isolate}.scene:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 42%,rgba(255,255,255,.05));border-radius:inherit}.scene-label{position:absolute;top:16px;left:16px;padding:12px 15px;border-radius:18px;background:#fff9;backdrop-filter:blur(12px);font-weight:900;font-size:14px}.scene-label small{display:block;font-size:10px;color:var(--muted);font-weight:700;margin-top:2px}.no-3d .scene{background:linear-gradient(180deg,#f8e3ed 0 58%,#d9b49e 58% 100%)}.no-3d .scene:before{content:'🐈';position:absolute;left:38%;top:40%;font-size:clamp(76px,24vw,140px);filter:drop-shadow(0 12px 8px #60425933);animation:fallbackBob 2.4s ease-in-out infinite}.no-3d #roomScene:after{content:'🛋️　🪴';position:absolute;left:12%;bottom:7%;font-size:clamp(30px,9vw,55px)}.no-3d #gardenScene{background:linear-gradient(180deg,#cce9d5 0 58%,#8cc47e 58% 100%)}.no-3d #gardenScene:after{content:'🌳　🌷　💧';position:absolute;left:10%;bottom:7%;font-size:clamp(30px,9vw,55px)}@keyframes fallbackBob{50%{transform:translateY(-9px) rotate(-3deg)}}.no-3d .scene{background:linear-gradient(180deg,#f8e3ed 0 58%,#d9b49e 58% 100%)}.no-3d .scene:before{content:'🐈';position:absolute;left:38%;top:40%;font-size:clamp(76px,24vw,140px);filter:drop-shadow(0 12px 8px #60425933);animation:fallbackBob 2.4s ease-in-out infinite}.no-3d #roomScene:after{content:'🛋️　🪴';position:absolute;left:12%;bottom:7%;font-size:clamp(30px,9vw,55px)}.no-3d #gardenScene{background:linear-gradient(180deg,#cce9d5 0 58%,#8cc47e 58% 100%)}.no-3d #gardenScene:after{content:'🌳　🌷　💧';position:absolute;left:10%;bottom:7%;font-size:clamp(30px,9vw,55px)}@keyframes fallbackBob{50%{transform:translateY(-9px) rotate(-3deg)}}.scene-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.scene-actions button{padding:13px 4px;border-radius:16px;background:#fff0f7;box-shadow:0 5px 16px #67415c15;font-size:11px}.scene-actions button:disabled{opacity:.45}.puzzle-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.score{padding:10px 15px;border-radius:18px;background:#fff9;min-width:100px}.score small{display:block;font-size:10px;color:var(--muted);font-weight:900}.score strong{font-size:27px;font-weight:900}.board{aspect-ratio:1;max-height:min(54vh,480px);width:min(100%,480px);margin:auto;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:8px;border-radius:23px;background:#fffaf5;box-shadow:0 12px 28px #73516c27;border:1px solid #fff}.cell{border-radius:8px;background:#f4e7ef;box-shadow:inset 0 1px 0 #ffffffaa;min-width:0;min-height:0}.cell.filled{background:linear-gradient(145deg,#fff0a9,#ffc85f 55%,#eaa345);box-shadow:inset 0 2px 0 #fff8,0 2px 0 #db9d5c}.cell.preview{background:#9edcb4}.tray{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.piece{touch-action:none;user-select:none;-webkit-user-select:none;background:#fff1f6;border-radius:17px;min-height:76px;display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;padding:10px;border:2px solid transparent}.piece.selected{border-color:#db9fbd;background:#ffe4ef}.mini{width:18px;height:18px;border-radius:5px;background:linear-gradient(145deg,#ffeb9c,#f8b84d);box-shadow:inset 0 2px 0 #fff9,0 2px 0 #d89b54}.piece-grid{display:grid;grid-template-columns:repeat(4,18px);grid-auto-rows:18px;gap:3px;pointer-events:none}.mini.ghost{opacity:.2}.drag-ghost{position:fixed;z-index:20;touch-action:none;pointer-events:none;display:grid;grid-auto-rows:24px;grid-template-columns:repeat(4,24px);gap:4px;filter:drop-shadow(0 7px 8px #5a3b4c30)}.drag-ghost i{width:24px;height:24px;border-radius:7px;background:linear-gradient(145deg,#fff0a8,#ffc04c 65%,#e9a03d);box-shadow:inset 0 2px 0 #fff9,0 3px 0 #d49343}.toast{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);padding:13px 18px;border-radius:20px;background:#fff9;box-shadow:0 10px 30px #6b476522;font-weight:900;display:none;white-space:nowrap}.bottomnote{text-align:center;color:#a1849d;font-size:10px;font-weight:900;padding-bottom:2px}.overlay{position:fixed;inset:0;background:#38273d99;z-index:5;display:none;align-items:center;justify-content:center;padding:24px}.modal{background:#fff8f2;border-radius:28px;padding:24px;text-align:center;max-width:330px;width:100%;box-shadow:0 25px 80px #261a2c55}.modal h2{margin:8px 0;font-size:26px}.modal p{font-size:13px;color:#896f8e}.modal button{width:100%;border-radius:16px;padding:15px;margin-top:8px;background:var(--mint)}@media(min-width:700px){#ui{max-width:620px;left:50%;transform:translateX(-50%);width:100%}.hero{min-height:165px}.catthumb{height:62px}.board{max-height:46vh}.screen.active{min-height:0}}@media(max-height:740px){#ui{gap:8px;padding-top:8px;padding-bottom:8px}.hero{padding:14px;min-height:120px}.catthumb{height:40px}.catcard{padding:5px 3px}.board{max-height:47vh}.panel{padding:10px}}
-
-/* Mobile room layout: keep the 3D preview compact and the controls tidy. */
-#room.screen.active,#garden.screen.active{gap:10px;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:2px}
-#room .scene,#garden .scene{flex:0 0 clamp(250px,38svh,390px);height:clamp(250px,38svh,390px);min-height:0;border-radius:26px}
-#room .scene-label,#garden .scene-label{top:14px;left:14px;padding:11px 14px;font-size:13px;box-shadow:0 5px 18px #62406412}
-#room .scene-label small,#garden .scene-label small{font-size:10px}
-.scene-actions{gap:8px}
-.scene-actions button{min-height:48px;padding:10px 3px;border-radius:18px;font-size:11px;line-height:1.15;letter-spacing:.1px;white-space:nowrap}
-#room>.pill,#garden>.pill{flex:0 0 auto;min-height:52px;padding:13px 18px;border-radius:999px;background:#fff8f1eF;box-shadow:0 8px 22px #67415c12}
-@media(max-width:420px){
- #ui{padding-left:12px;padding-right:12px;gap:10px}
- .top{gap:7px}
- .brand{padding:9px 10px;gap:8px;border-radius:20px}
- .brand strong{font-size:14px}
- .brand small{font-size:10px;letter-spacing:1.3px}
- .pawlogo{font-size:25px}
- #wallet{padding:10px 12px!important}
- .settings-btn{width:52px;height:52px}
- #room .scene,#garden .scene{flex-basis:clamp(235px,35svh,340px);height:clamp(235px,35svh,340px)}
- .scene-actions{gap:7px}
- .scene-actions button{font-size:10px;min-height:45px;padding:9px 2px}
- #room>.pill,#garden>.pill{min-height:48px;font-size:12px}
-}
-@media(max-height:760px){
- #room .scene,#garden .scene{flex-basis:34svh;height:34svh;min-height:205px}
- #room.screen.active,#garden.screen.active{gap:8px}
- .scene-actions button{min-height:42px;padding:8px 2px}
- #room>.pill,#garden>.pill{min-height:44px;padding:10px 14px}
-}
-
-/* Pet care HUD */
-.pet-care{flex:0 0 auto;background:#fff9f4eF;border:1px solid #fff;border-radius:20px;padding:10px 12px;box-shadow:0 7px 20px #62406412}
-.pet-meters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.pet-meters span{font-size:10px;font-weight:900;color:var(--muted);display:block;min-width:0}
-.pet-meters b{float:right;color:var(--ink);font-size:10px}
-.pet-meters i{display:block;height:6px;border-radius:99px;background:#eadfe9;overflow:hidden;margin-top:5px}
-.pet-meters em{display:block;width:100%;height:100%;border-radius:99px;background:linear-gradient(90deg,#a6dfb7,#f1cb75);transition:width .3s}
-.care-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
-.care-actions button{min-height:39px;border-radius:13px;background:#f8dbe7;font-size:10px;padding:8px 2px;white-space:nowrap}
-#petMessage{display:block;font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-top:7px}
-#room.screen.active{gap:8px}
-#room .scene{flex-basis:clamp(210px,30svh,300px);height:clamp(210px,30svh,300px);min-height:0}
-#room .scene-actions button{min-height:40px}
-@media(max-height:760px){#room .scene{flex-basis:25svh;height:25svh;min-height:175px}.pet-care{padding:7px 9px}.care-actions button{min-height:34px}.pet-meters{gap:5px}}
-
-/* Cozy full-room framing inspired by the new pastel concept */
-#room.screen.active{height:100%;min-height:0;overflow-y:auto;align-content:start;gap:9px;padding-bottom:8px}
-#room .scene{flex:0 0 clamp(205px,29svh,285px);height:clamp(205px,29svh,285px);min-height:0;width:100%;overflow:hidden;border-radius:24px;background:#f8dfe5}
-#room .scene-label{top:10px;left:10px;padding:9px 12px;border-radius:15px;background:#fffaf1ed}
-#room .pet-care{padding:9px 11px;border-radius:17px}
-#room .pet-meters span{font-size:10px}
-#room .care-actions button{min-height:38px;border-radius:12px;font-size:10px}
-#room .scene-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
-#room .scene-actions button{min-width:0;min-height:42px;white-space:normal;font-size:10px;padding:7px 3px;border-radius:14px}
-#room>.pill{min-height:43px;padding:10px 14px;font-size:12px}
-@media(max-height:760px){#room .scene{flex-basis:24svh;height:24svh;min-height:165px}#room .pet-care{padding:7px 9px}#room .care-actions button{min-height:33px}}
-
-/* Full-screen cozy pet-simulator layout */
-#room.screen.active{position:absolute;inset:0;display:block;min-height:0;height:100%;padding:0;margin:0;overflow:hidden;background:transparent;z-index:3}
-#room .scene{position:absolute;inset:0 0 205px 0;width:100%;height:auto;min-height:0;flex:none;border-radius:0;background:transparent;overflow:visible;pointer-events:none}
-#room .scene-label{top:9px;left:10px;padding:10px 13px;border-radius:17px;background:#fffaf2ed;box-shadow:0 5px 18px #80576a1b}
-#room .pet-care{position:absolute;top:8px;right:10px;width:min(52%,230px);padding:10px;border-radius:19px;background:#fffaf2ed;box-shadow:0 8px 22px #80576a18}
-#room .pet-meters{grid-template-columns:1fr;gap:7px}
-#room .pet-meters span{font-size:10px}
-#room .pet-meters i{height:7px;margin-top:4px}
-#room .care-actions{position:absolute;left:10px;top:145px;width:76px;display:flex;flex-direction:column;gap:8px;margin:0}
-#room .care-actions button{min-height:67px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:20px;background:#fffaf2f2;border:1px solid #fff;font-size:10px;box-shadow:0 5px 18px #80576a15}
-#room .care-actions button::first-letter{font-size:20px}
-#room #petMessage{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:calc(100% - 190px);max-width:170px;min-height:32px;padding:8px;border-radius:15px;background:#fffaf2e8;font-size:9px;box-shadow:0 5px 18px #80576a12}
-#room .scene-actions{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:13px 12px 14px;background:linear-gradient(180deg,#fff8f0f0,#fff8f6 35%);border-radius:25px 25px 0 0;box-shadow:0 -8px 28px #7d527018;scrollbar-width:none}
-#room .scene-actions::-webkit-scrollbar{display:none}
-#room .scene-actions button{flex:0 0 94px;min-height:105px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;white-space:normal;border-radius:17px;background:#f8e9ef;border:1px solid #fff;font-size:10px;line-height:1.2;padding:8px 5px}
-#room .scene-actions button::first-line{font-size:22px}
-#room>.pill{position:absolute;right:10px;top:94px;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;font-size:0;background:#fffaf2f2;box-shadow:0 5px 18px #80576a15}
-#room>.pill::after{content:"⌂";font-size:23px}
-@media(max-width:390px){
- #room .pet-care{width:48%;right:8px;top:8px;padding:8px}
- #room .pet-meters{gap:5px}
- #room .pet-meters span{font-size:9px}
- #room .care-actions{left:8px;top:137px;width:66px;gap:7px}
- #room .care-actions button{min-height:60px;font-size:9px}
- #room #petMessage{top:88px;width:calc(100% - 145px);left:78px;transform:none;font-size:8px}
- #room .scene-actions button{flex-basis:86px;min-height:94px}
-}
-@media(max-height:700px){
- #room .scene{bottom:150px}
- #room .care-actions{top:125px;gap:5px}
- #room .care-actions button{min-height:52px}
- #room .scene-actions{padding:8px}
- #room .scene-actions button{min-height:82px}
-}
-
-/* CAT BLOCK RESCUE CLUB — complete cozy pet-room layout */
-:root{--ink:#4a2850;--muted:#9a7c9c;--cream:#fff8f3;--pink:#f5a9ca}
-#ui{padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 10px);gap:9px;max-width:none;width:100%;left:0;transform:none}
-.top{position:relative;z-index:8;flex:0 0 58px;gap:10px}
-.brand{max-width:260px;flex:0 1 auto;padding:9px 15px;border-radius:28px;background:#fffaf4f5;box-shadow:0 8px 25px #65415b20}
-.brand strong{font-size:clamp(14px,3.5vw,20px);letter-spacing:.4px}
-.brand small{font-size:10px;letter-spacing:1.6px}
-.pawlogo{font-size:30px}
-#wallet{height:50px;display:flex;align-items:center;justify-content:center;min-width:84px;border-radius:26px;background:#fffaf4f5;font-size:16px;padding:0 15px}
-.settings-btn{background:#fffaf4f5;width:50px;height:50px;flex-basis:50px;color:#49254e}
-#room.screen.active{position:absolute;top:calc(env(safe-area-inset-top) + 77px);right:0;bottom:0;left:0;display:block;min-height:0;height:auto;margin:0;padding:0 0 calc(env(safe-area-inset-bottom) + 8px);overflow:hidden;background:transparent;z-index:3}
-#room .scene{position:absolute;inset:0 0 218px 0;width:100%;height:auto;min-height:0;flex:none;border-radius:0;background:transparent;overflow:visible;pointer-events:none}
-#room .scene-label{top:9px;left:10px;padding:12px 16px;border-radius:22px;background:#fffaf4f2;font-size:14px;box-shadow:0 6px 22px #79536c1c}
-#room .scene-label small{font-size:10px}
-#room .pet-care{position:absolute;top:75px;left:10px;right:auto;width:clamp(150px,27%,270px);padding:0;border:0;background:transparent;box-shadow:none}
-#room .pet-meters{display:flex;flex-direction:column;gap:8px}
-#room .pet-meters span{position:relative;display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:7px;padding:10px 11px;border-radius:23px;background:#fffaf4f2;box-shadow:0 5px 18px #76506b18;font-size:10px;font-weight:900}
-#room .pet-meters .meter-icon{grid-row:1 / span 2;font-size:24px;text-align:center}
-#room .pet-meters label{font-size:11px;color:#8d718f;letter-spacing:.35px}
-#room .pet-meters span>b:not(.meter-icon){font-size:10px}
-#room .pet-meters i{grid-column:2 / 4;display:block;height:9px;margin:0;border-radius:99px;background:#e7dce4;overflow:hidden}
-#room .pet-meters em{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#f5a0c6,#ec6fa9)}
-#room .pet-meters span:nth-child(2) em{background:linear-gradient(90deg,#70d3f5,#54bce8)}
-#room .pet-meters span:nth-child(3) em{background:linear-gradient(90deg,#93e0a8,#45bd7b)}
-#room #petMessage{display:block;position:static;width:auto;max-width:100%;margin:7px 0 0;padding:8px 11px;border-radius:16px;background:#fffaf4ed;font-size:10px;box-shadow:0 4px 14px #79536c14;transform:none}
-#room .care-actions{position:absolute;left:10px;top:245px;width:72px;display:flex;flex-direction:column;gap:7px;margin:0}
-#room .care-actions button{min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-radius:21px;background:#fffaf4f5;border:1px solid #fff;box-shadow:0 5px 16px #76506b18;font-size:10px;letter-spacing:.3px}
-.care-emoji{font-size:25px;line-height:1.15}
-#room .care-actions button:active,.shop-card:active{transform:scale(.96)}
-.shop-shortcut{position:absolute;right:12px;bottom:236px;z-index:5;width:78px;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:24px;background:#fffaf4f5;box-shadow:0 7px 22px #76506b20}
-.shop-shortcut span{font-size:29px}.shop-shortcut b{font-size:11px}
-#room .scene-actions{position:absolute;left:0;right:0;bottom:0;height:224px;display:block;overflow:hidden;padding:11px 12px calc(env(safe-area-inset-bottom) + 8px);background:linear-gradient(180deg,#fff8f0f4,#fff8f4 25%);border-radius:28px 28px 0 0;box-shadow:0 -8px 30px #79536c1c}
-.shop-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:10px}
-.shop-tab{height:42px;min-width:0;border-radius:25px;background:#f8edf3;color:#8c728f;font-size:clamp(8px,2.1vw,11px);padding:0 3px;white-space:nowrap}
-.shop-tab.active{background:#f7b8d3;color:#4a2850;box-shadow:0 4px 12px #e58fb61e}
-.shop-cards{display:flex;gap:8px;overflow-x:auto;padding:0 0 5px;scrollbar-width:none}
-.shop-cards::-webkit-scrollbar{display:none}
-.shop-card{flex:0 0 98px;min-width:0;height:132px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 5px;border:2px solid #fff;border-radius:22px;background:#fff7f3;box-shadow:0 4px 13px #79536c10}
-.shop-card .shop-art{width:100%;height:73px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#fce6ee,#f7eaf5);font-size:39px}
-.shop-card b{font-size:12px}
-.shop-card strong{font-size:13px}
-.shop-card.owned{border-color:#7dcf9a;opacity:.7}
-#room .scene-actions button:disabled{opacity:.5}
-.bottom-nav{display:none}
-#garden.screen.active{position:absolute;top:calc(env(safe-area-inset-top) + 77px);left:0;right:0;bottom:0;display:block;padding:0;overflow:hidden}
-@media(min-width:700px){
- #ui{max-width:none;width:100%;left:0;transform:none}
- #room .scene{inset:0 0 235px 0}
- #room .pet-care{left:20px;top:90px;width:235px}
- #room .care-actions{left:20px;top:265px;width:82px}
- #room .care-actions button{min-height:76px}
- #room .scene-actions{height:235px;padding-left:24px;padding-right:24px}
- .shop-card{flex-basis:128px;height:145px}
- .shop-card .shop-art{height:82px}
- .shop-shortcut{right:22px;bottom:248px}
-}
-@media(max-height:740px){
- #room.screen.active{top:calc(env(safe-area-inset-top) + 68px)}
- #room .scene{bottom:192px}
- #room .pet-care{top:60px}
- #room .pet-meters{gap:5px}
- #room .pet-meters span{padding:7px 9px}
- #room .care-actions{top:218px;gap:5px}
- #room .care-actions button{min-height:56px}
- #room .scene-actions{height:198px;padding-top:8px}
- .shop-tab{height:35px}
- .shop-card{height:122px}
- .shop-card .shop-art{height:64px}
- .shop-shortcut{bottom:208px;width:66px;height:66px}
-}
-
-
-/* Mobile screenshot corrections: keep the play space visible and shop compact. */
-#room.screen.active{top:calc(env(safe-area-inset-top) + 77px);bottom:0;padding-bottom:0}
-#room .scene{inset:0 0 242px 0!important;bottom:242px!important;overflow:hidden!important}
-#room .scene-label{z-index:2}
-#room .pet-care{top:72px;left:10px;width:min(42%,235px);z-index:4}
-#room .pet-meters{gap:6px}
-#room .pet-meters span{grid-template-columns:27px 1fr auto;gap:5px;padding:8px 9px;border-radius:21px}
-#room .pet-meters .meter-icon{font-size:21px}
-#room .pet-meters label{font-size:10px}
-#room .pet-meters i{height:7px}
-#room #petMessage{max-width:100%;padding:7px 9px;font-size:9px}
-#room .care-actions{top:255px;left:10px;width:68px;z-index:4}
-#room .care-actions button{min-height:63px;height:63px;flex:0 0 63px;padding:6px 2px}
-#room .care-emoji{font-size:22px}
-#room .shop-shortcut{bottom:250px;right:10px;width:66px;height:66px;border-radius:20px;z-index:5}
-#room .scene-actions{height:234px!important;min-height:234px!important;bottom:0!important;padding:10px 10px calc(env(safe-area-inset-bottom) + 8px)!important;overflow:hidden!important;display:block!important;border-radius:25px 25px 0 0}
-#room .shop-tabs{height:42px!important;min-height:42px!important;max-height:42px!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px;margin:0 0 9px!important}
-#room .shop-tabs .shop-tab{height:42px!important;min-height:42px!important;max-height:42px!important;align-self:stretch;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 2px!important;border-radius:22px;font-size:clamp(8px,2.2vw,11px)!important;line-height:1.05;white-space:nowrap}
-#room .shop-cards{height:158px!important;min-height:0!important;display:flex!important;align-items:stretch;gap:8px;overflow-x:auto!important;overflow-y:hidden!important;padding:0 0 3px!important}
-#room .shop-card{height:150px!important;min-height:150px!important;max-height:150px!important;flex:0 0 100px!important;display:flex!important;flex-direction:column;justify-content:space-between;align-items:center;padding:7px 5px!important;border-radius:20px}
-#room .shop-card .shop-art{height:76px!important;min-height:76px!important;flex:0 0 76px;width:100%;display:grid;place-items:center;font-size:36px!important}
-#room .shop-card b{font-size:12px!important;line-height:1.15}
-#room .shop-card strong{font-size:12px!important;line-height:1.1}
-@media(min-width:700px){
- #room .scene{inset:0 0 248px 0!important;bottom:248px!important}
- #room .pet-care{left:20px;top:85px;width:230px}
- #room .care-actions{left:20px;top:280px}
- #room .scene-actions{height:242px!important;min-height:242px!important}
- #room .shop-card{flex-basis:128px!important;height:158px!important;min-height:158px!important;max-height:158px!important}
-}
-@media(max-height:740px){
- #room .scene{inset:0 0 210px 0!important;bottom:210px!important}
- #room .pet-care{top:55px}
- #room .care-actions{top:220px}
- #room .care-actions button{height:53px;min-height:53px;flex-basis:53px}
- #room .scene-actions{height:204px!important;min-height:204px!important;padding-top:7px!important}
- #room .shop-tabs{height:35px!important;min-height:35px!important;max-height:35px!important}
- #room .shop-tabs .shop-tab{height:35px!important;min-height:35px!important;max-height:35px!important}
- #room .shop-cards{height:150px!important}
- #room .shop-card{height:140px!important;min-height:140px!important;max-height:140px!important}
- #room .shop-card .shop-art{height:68px!important;min-height:68px!important;flex-basis:68px!important}
- #room .shop-shortcut{bottom:218px}
-}
-
+:root{--ink:#4b2b50;--muted:#927795;--pink:#f5a9ca;--paper:#fff9f4;--lilac:#e7dafa;--green:#8ed7a7;--shadow:0 5px 18px #75496618}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Nunito,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:#f5dce5}button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:active{transform:scale(.97)}#app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(160deg,#f8dfe9,#f5d5dc 50%,#f7e5d9);padding-top:env(safe-area-inset-top)}
+header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding:10px 16px;position:relative;z-index:5}
+.brand{height:66px;flex:1;min-width:0;max-width:330px;display:flex;align-items:center;gap:11px;padding:8px 15px;border-radius:30px;background:var(--paper);box-shadow:var(--shadow)}
+.paws{font-size:31px;line-height:1}.brand strong{display:block;font-size:clamp(15px,4vw,23px);font-weight:1000;line-height:1.05;white-space:nowrap}.brand small{display:block;color:#a48aa6;font-size:10px;letter-spacing:1.8px;font-weight:1000;margin-top:4px;white-space:nowrap}
+.wallet,.round{height:54px;background:var(--paper);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;border-radius:30px;flex:0 0 auto}.wallet{min-width:86px;padding:0 14px;font-weight:1000;font-size:18px;gap:7px}.round{width:54px;font-size:27px}
+#main{flex:1;min-height:0;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;min-height:0}.screen.active{display:flex}
+#room{flex-direction:column}
+.stage{position:absolute;inset:0 0 0;background:linear-gradient(180deg,#edcbd5 0%,#f6dfe1 55%,#dcae8b 55%,#d5a17c 100%);overflow:hidden}
+.wall-trim{position:absolute;left:0;right:0;top:43%;height:9px;background:#fff2e6;border-top:3px solid #fff9f2;border-bottom:2px solid #dfc5c0}
+.window{position:absolute;left:3%;top:11%;width:28%;height:30%;border:8px solid #fff0dd;border-radius:6px;background:linear-gradient(#9ee0f5 0 55%,#b4dba1 56%);box-shadow:inset 0 0 0 3px #e9bca9}
+.window:before,.window:after{content:"";position:absolute;background:#fff3e5}.window:before{width:6px;top:0;bottom:0;left:48%}.window:after{height:6px;left:0;right:0;top:48%}
+.curtain{position:absolute;top:9%;height:34%;width:5%;background:#e6a8c0;border-radius:0 0 18px 18px}.curtain.l{left:0}.curtain.r{left:30%}
+.picture{position:absolute;top:13%;left:43%;width:14%;height:17%;background:#dba77f;border:6px solid #e6b68e;box-shadow:var(--shadow);display:grid;place-items:center;font-size:clamp(20px,5vw,38px)}
+.shelf{position:absolute;right:4%;top:19%;width:22%;height:7px;background:#bd8868;border-radius:4px}.shelf:before{content:"📚  🪴";position:absolute;bottom:4px;left:8px;font-size:clamp(17px,4vw,28px)}
+.plant{position:absolute;right:5%;top:30%;font-size:clamp(36px,9vw,68px);filter:drop-shadow(0 5px 2px #76514a20)}
+.floorboard{position:absolute;inset:55% 0 0;background:repeating-linear-gradient(0deg,transparent 0 39px,#9e705225 40px 42px),repeating-linear-gradient(90deg,transparent 0 85px,#9e705225 86px 88px),linear-gradient(#e9c19b,#d9a77e)}
+.rug{position:absolute;left:25%;bottom:5%;width:53%;height:28%;border-radius:50%;background:#f7d6e2;border:5px solid #ffe8ec;box-shadow:0 5px 0 #d6a4b6;transform:rotate(-5deg)}
+.rug:after{content:"🐾";position:absolute;left:42%;top:30%;font-size:clamp(35px,8vw,60px);opacity:.2}
+.sofa{position:absolute;z-index:1;left:25%;top:43%;width:52%;height:24%;background:#ed91b6;border-radius:20px 20px 14px 14px;box-shadow:0 12px 0 #d97da4}
+.sofa:before{content:"";position:absolute;left:-7%;right:-7%;top:5%;height:78%;border-radius:23px;background:#f3a4c3;border:5px solid #e68caf}
+.sofa:after{content:"";position:absolute;left:6%;right:6%;bottom:4%;height:48%;border-radius:15px;background:linear-gradient(90deg,#ee9aba 0 49%,#f5aec9 50%);border:3px solid #e58caf}
+.pillow{position:absolute;z-index:2;top:48%;left:31%;font-size:clamp(24px,6vw,42px);transform:rotate(-10deg)}
+.pillow.p2{left:62%;transform:rotate(9deg)}
+.tv{position:absolute;right:-2%;top:39%;width:17%;height:15%;background:#403449;border:6px solid #67536d;border-radius:4px;z-index:2}.tv:after{content:"";position:absolute;inset:6px;background:#a4dbe1}.tvstand{position:absolute;right:0;top:53%;width:21%;height:7%;background:#b77f5b;border-radius:4px}
+.lamp{position:absolute;right:23%;top:34%;font-size:clamp(45px,9vw,70px);z-index:2}
+.tower{position:absolute;left:5%;top:37%;width:17%;height:20%;z-index:2}.tower:before{content:"";position:absolute;left:43%;top:8%;width:17%;height:70%;background:repeating-linear-gradient(0deg,#caa07c 0 5px,#e1c09a 6px 10px);border-radius:10px}.tower:after{content:"";position:absolute;left:8%;top:0;width:85%;height:16%;border-radius:14px;background:#f3c6b4;box-shadow:0 65px #efc4b6,0 130px #efc4b6}
+.foodbowl{position:absolute;z-index:3;left:49%;bottom:11%;font-size:clamp(30px,7vw,48px)}
+.kitten{position:absolute;z-index:3;left:44%;bottom:15%;width:116px;height:150px;transform:translateX(-50%);filter:drop-shadow(0 8px 4px #75496622);animation:bob 3s ease-in-out infinite}
+.kitten .body{position:absolute;bottom:0;left:24px;width:68px;height:78px;border-radius:48% 48% 40% 40%;background:#f2c27e;border:2px solid #e4ad68}
+.kitten .belly{position:absolute;bottom:8px;left:40px;width:38px;height:43px;border-radius:50%;background:#fff0dc}
+.kitten .head{position:absolute;top:8px;left:10px;width:96px;height:83px;border-radius:48% 48% 45% 45%;background:#f6cc8b;border:2px solid #e4ad68}
+.ear{position:absolute;top:-12px;width:31px;height:37px;background:#f6cc8b;border:2px solid #e4ad68;border-radius:7px 22px 4px 22px;transform:rotate(-16deg)}.ear:after{content:"";position:absolute;inset:7px 6px 6px;background:#e89ab2;border-radius:8px 15px 4px 13px}.ear.e1{left:7px}.ear.e2{right:7px;transform:scaleX(-1) rotate(-16deg)}
+.eye{position:absolute;top:30px;width:16px;height:22px;border-radius:50%;background:#4b2d50;box-shadow:inset 3px 2px 0 #fff}.eye.e1{left:20px}.eye.e2{right:20px}
+.muzzle{position:absolute;top:49px;left:26px;width:44px;height:24px;border-radius:50%;background:#fff4e6}.nose{position:absolute;top:50px;left:43px;width:10px;height:7px;background:#df86a1;border-radius:50% 50% 60% 60%}.smile{position:absolute;top:58px;left:44px;font-size:15px}
+.tail{position:absolute;right:-3px;bottom:21px;width:37px;height:20px;border:10px solid #f2c27e;border-left:0;border-radius:0 24px 24px 0;transform:rotate(-28deg)}
+.bubble{position:absolute;top:5%;left:10px;max-width:48%;padding:11px 14px;background:#fff9f4;border-radius:22px;box-shadow:var(--shadow);font-size:12px;font-weight:900}.bubble small{display:block;color:var(--muted);font-weight:700;margin-top:4px}
+.needs{position:absolute;top:22%;left:10px;width:min(42%,235px);display:flex;flex-direction:column;gap:8px;z-index:4}
+.need{display:grid;grid-template-columns:31px 1fr auto;align-items:center;gap:5px;padding:9px 10px;background:#fff9f4;border-radius:24px;box-shadow:var(--shadow);font-size:10px;font-weight:1000}.need .ico{font-size:23px;grid-row:1 / span 2}.need label{color:#927795;font-size:clamp(9px,2.3vw,12px);letter-spacing:.2px}.need b{font-size:10px}.bar{grid-column:2/4;height:8px;border-radius:20px;background:#e6dbe4;overflow:hidden}.bar span{display:block;height:100%;width:20%;background:linear-gradient(90deg,#f7a6c8,#e96eaa);border-radius:20px}.need:nth-child(2) .bar span{background:linear-gradient(90deg,#7ad7f4,#50bde5)}.need:nth-child(3) .bar span{background:linear-gradient(90deg,#92dfa9,#48bf7d)}
+.care{position:absolute;left:10px;top:55%;display:flex;flex-direction:column;gap:7px;z-index:4}.care button{width:70px;height:70px;border-radius:22px;background:#fff9f4;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:1000}.care .ico{font-size:25px;line-height:1.1}
+.shop-short{position:absolute;right:12px;bottom:246px;width:76px;height:76px;border-radius:24px;background:#fff9f4;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:1000;font-size:11px;z-index:4}.shop-short span{font-size:28px}
+.shop{position:absolute;bottom:0;left:0;right:0;height:236px;background:#fff9f4f7;border-radius:27px 27px 0 0;padding:10px 10px calc(env(safe-area-inset-bottom) + 6px);box-shadow:0 -7px 24px #76506b17;z-index:6;display:flex;flex-direction:column;gap:9px}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;flex:0 0 42px}.tab{min-width:0;border-radius:24px;background:#f7eaf1;color:#8e7592;font-size:clamp(8px,2.15vw,11px);font-weight:1000;white-space:nowrap;padding:0 2px}.tab.active{background:#f7b7d2;color:#4b2b50}
+.items{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;min-height:0;flex:1;padding:0 0 3px;scrollbar-width:none}.items::-webkit-scrollbar{display:none}
+.item{flex:0 0 105px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:7px 6px 8px;border-radius:21px;background:#fff4f3;border:2px solid #fff;box-shadow:0 3px 10px #76506b0b}.item-art{height:76px;width:100%;flex:0 0 76px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#fbe6ee,#f3e8f6);font-size:38px}.item b{font-size:12px;line-height:1.15}.item strong{font-size:12px}.item.owned{border-color:#92d7a7}
+#home,#puzzle{padding:12px;overflow:auto;flex-direction:column;gap:12px}
+.card{padding:16px;background:#fff9f4;border-radius:23px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#f5b7d0,#ffe6d6 65%,#d9d1fa);padding:22px;border-radius:25px}.hero h1{font-size:clamp(27px,7vw,38px);line-height:1;margin:8px 0}.hero p{font-size:13px;line-height:1.5}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.actions button{border-radius:18px;padding:15px 2px;background:#bde9cb;font-size:12px;font-weight:1000}.actions button:nth-child(2){background:#f3b8d0}.actions button:nth-child(3){background:#d7cbfa}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;padding:11px 4px;background:#fff9f4;border-radius:17px}.stat small{display:block;font-size:9px;color:var(--muted);font-weight:900}.stat b{font-size:22px}
+#puzzle{align-items:center}#puzzle .puz-head{width:100%;display:flex;align-items:center;justify-content:space-between}.board{width:min(100%,430px,46vh);aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:8px;border-radius:22px;background:#fff9f4;box-shadow:var(--shadow)}.cell{background:#f2e5ed;border-radius:7px;min-width:0;min-height:0}.cell.filled{background:linear-gradient(145deg,#ffe7a0,#f6b84e);box-shadow:inset 0 2px 0 #fff9,0 2px 0 #d99e4c}.cell.hint{outline:3px solid #91d8a8}.pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}.piece{min-height:75px;display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;padding:9px;border-radius:17px;background:#fff3f8;border:2px solid transparent}.piece.selected{border-color:#e47cab;background:#fce0ec}.mini{width:17px;height:17px;border-radius:4px;background:linear-gradient(145deg,#ffe8a0,#f4b448)}.puz-help{font-size:11px;color:var(--muted);text-align:center}
+.overlay{position:fixed;inset:0;z-index:20;background:#39253e88;display:none;align-items:center;justify-content:center;padding:22px}.modal{width:min(100%,350px);padding:23px;border-radius:26px;background:#fff9f4;text-align:center;box-shadow:0 15px 55px #38233e45}.modal h2{margin:0 0 8px}.modal p{font-size:13px;color:var(--muted)}.modal button{width:100%;padding:14px;border-radius:15px;background:#bde9cb;font-weight:1000}
+@keyframes bob{50%{transform:translate(-50%,-5px)}}
+@media(max-height:740px){header{height:72px;flex-basis:72px;padding-top:5px;padding-bottom:5px}.brand{height:56px}.wallet,.round{height:47px}.round{width:47px}.shop{height:205px;padding-top:8px;gap:7px}.tabs{flex-basis:35px}.tab{font-size:8px}.item-art{height:62px;flex-basis:62px}.item{flex-basis:94px}.needs{top:20%;gap:5px}.need{padding:6px 8px}.care{top:53%;gap:5px}.care button{height:57px;width:64px}.shop-short{bottom:214px;width:64px;height:64px}.sofa{top:45%;height:21%}.kitten{bottom:13%;transform:translateX(-50%) scale(.86)}}
+@media(min-width:700px){#app{max-width:600px;margin:0 auto;box-shadow:0 0 50px #76506b22}body{background:#e8d3df}.shop-short{right:18px}.needs{left:16px}.care{left:16px}}
 </style>
 </head>
 <body>
-<div id="world"></div>
-<div id="ui">
- <div class="top"><div class="brand"><span class="pawlogo">🐾</span><div><strong>CAT BLOCK</strong><small>RESCUE CLUB</small></div></div><div style="display:flex;gap:6px;align-items:center"><span class="pill" id="wallet" style="font-weight:900">🪙 0</span><button class="settings-btn" id="settingsOpen" aria-label="Settings" title="Settings">⚙</button></div></div>
- <section id="welcome" class="screen">
-  <div class="stats"><div class="stat"><small>PLAYER LEVEL</small><strong id="level">1</strong></div><div class="stat"><small>CATS RESCUED</small><strong id="rescued">0</strong></div><div class="stat"><small>BEST SCORE</small><strong id="best">0</strong></div></div>
-  <div class="spacer"></div>
-  <div class="hero"><div class="eyebrow">A LITTLE PAW-SOME ADVENTURE</div><h1>Every cat deserves<br>a home.</h1><p>Solve puzzles, rescue lonely cats, and give them a cozy place to call their own.</p></div>
-  <div class="nav"><button class="play" data-go="puzzle">▶ PLAY</button><button class="home" data-go="room">⌂ MY HOME</button><button class="garden" data-go="garden">✿ GARDEN</button></div>
-  <div class="panel"><div class="panelhead"><strong>YOUR RESCUE LIST</strong><small id="catcount">0 / 6 CATS</small></div><div class="cats" id="catlist"></div></div>
- </section>
- <section id="room" class="screen active">
-  <div class="scene" id="roomScene"><div class="scene-label">MY CAT HOME<small>Home is where the purr is.</small></div></div>
-  <div class="pet-care">
-   <div class="pet-meters">
-    <span><b class="meter-icon">🍴</b><label>HUNGRY</label><b id="hungerValue">20%</b><i><em id="hungerBar"></em></i></span>
-    <span><b class="meter-icon">💧</b><label>HAPPY</label><b id="moodValue">100%</b><i><em id="moodBar"></em></i></span>
-    <span><b class="meter-icon">😊</b><label>CLEAN</label><b id="cleanValue">100%</b><i><em id="cleanBar"></em></i></span>
-   </div>
-   <small id="petMessage">Mochi is exploring the room.</small>
+<div id="app">
+<header>
+ <div class="brand"><span class="paws">🐾</span><div><strong>CAT BLOCK</strong><small>RESCUE CLUB</small></div></div>
+ <div class="wallet"><span>🪙</span><b id="coins">42</b></div>
+ <button class="round" id="settings" aria-label="Ayarlar">⚙</button>
+</header>
+<div id="main">
+ <section class="screen active" id="room">
+  <div class="stage" aria-label="Kedi odası">
+   <div class="window"></div><div class="curtain l"></div><div class="curtain r"></div><div class="picture">🐱</div><div class="shelf"></div><div class="plant">🪴</div><div class="wall-trim"></div><div class="floorboard"></div><div class="rug"></div><div class="tower"></div><div class="sofa"></div><div class="pillow">🌼</div><div class="pillow p2">💗</div><div class="lamp">💡</div><div class="tv"></div><div class="tvstand"></div>
+   <div class="kitten" aria-label="Mochi kedi"><div class="tail"></div><div class="body"></div><div class="belly"></div><div class="head"><div class="ear e1"></div><div class="ear e2"></div><div class="eye e1"></div><div class="eye e2"></div><div class="muzzle"></div><div class="nose"></div><div class="smile">⌣</div></div></div><div class="foodbowl">🥣</div>
   </div>
-  <div class="care-actions">
-   <button id="feedCat"><span class="care-emoji">🍲</span><span>FEED</span></button>
-   <button id="playCat"><span class="care-emoji">🪶</span><span>PLAY</span></button>
-   <button id="cleanRoom"><span class="care-emoji">🧹</span><span>CLEAN</span></button>
-   <button id="petCat"><span class="care-emoji">💗</span><span>PET</span></button>
+  <div class="bubble" id="bubble">MY CAT HOME<small>Home is where the purr is.</small></div>
+  <div class="needs">
+   <div class="need"><span class="ico">🍴</span><label>HUNGRY</label><b id="hungerNum">20%</b><div class="bar"><span id="hungerBar"></span></div></div>
+   <div class="need"><span class="ico">💧</span><label>HAPPY</label><b id="happyNum">100%</b><div class="bar"><span id="happyBar"></span></div></div>
+   <div class="need"><span class="ico">😊</span><label>CLEAN</label><b id="cleanNum">100%</b><div class="bar"><span id="cleanBar"></span></div></div>
   </div>
-  <button class="shop-shortcut" id="openShop" aria-label="Open shop"><span>🛍️</span><b>SHOP</b></button>
-  <div class="scene-actions">
-   <div class="shop-tabs"><button class="shop-tab active" data-shop-tab="furniture">🛋 FURNITURE</button><button class="shop-tab" data-shop-tab="decor">🪴 DECOR</button><button class="shop-tab" data-shop-tab="food">🥣 FOOD</button><button class="shop-tab" data-shop-tab="toys">🧶 TOYS</button></div>
-   <div class="shop-cards" id="shopCards">
-    <button class="shop-card" data-decor="sofa"><span class="shop-art">🛋️</span><b>Sofa</b><strong>🪙 80</strong></button>
-    <button class="shop-card" data-decor="rug"><span class="shop-art">🐾</span><b>Rug</b><strong>🪙 45</strong></button>
-    <button class="shop-card" data-decor="tv"><span class="shop-art">📺</span><b>TV</b><strong>🪙 110</strong></button>
-    <button class="shop-card" data-decor="lamp"><span class="shop-art">💡</span><b>Lamp</b><strong>🪙 60</strong></button>
-    <button class="shop-card" data-decor="shelf"><span class="shop-art">🪴</span><b>Shelf</b><strong>🪙 75</strong></button>
-    <button class="shop-card" data-decor="plant"><span class="shop-art">🌿</span><b>Plant</b><strong>🪙 55</strong></button>
-   </div>
+  <div class="care">
+   <button data-care="feed"><span class="ico">🍲</span>FEED</button><button data-care="play"><span class="ico">🪶</span>PLAY</button><button data-care="clean"><span class="ico">🧹</span>CLEAN</button><button data-care="pet"><span class="ico">💗</span>PET</button>
+  </div>
+  <button class="shop-short" id="shopJump"><span>🛍️</span>SHOP</button>
+  <div class="shop">
+   <div class="tabs"><button class="tab active" data-tab="furniture">🛋 FURNITURE</button><button class="tab" data-tab="decor">🪴 DECOR</button><button class="tab" data-tab="food">🥣 FOOD</button><button class="tab" data-tab="toys">🧶 TOYS</button></div>
+   <div class="items" id="items"></div>
   </div>
  </section>
- <section id="garden" class="screen"><div class="scene" id="gardenScene"><div class="scene-label">CAT GARDEN<small>A little paradise to grow.</small></div></div><div class="scene-actions"><button data-decor="flower">🌷 FLOWERS · 30</button><button data-decor="tree">🌳 TREE · 65</button><button data-decor="pond">💧 POND · 100</button><button data-decor="gardenbench">🪑 BENCH · 90</button></div><button class="pill" data-go="welcome">← BACK TO HOME</button></section>
- <section id="puzzle" class="screen"><div class="puzzle-top"><div class="score"><small>YOUR SCORE</small><strong id="score">0</strong></div><div class="score"><small>BEST SCORE</small><strong id="best2">0</strong></div><button class="pill" data-go="welcome">HOME</button></div><div class="board" id="board"></div><div class="panel"><div class="panelhead"><strong>CHOOSE A SHAPE</strong><small>TAP A PIECE, THEN A CELL</small></div><div class="tray" id="tray"></div></div><div class="bottomnote">FILL A ROW OR COLUMN TO CLEAR IT ✨</div></section>
+ <section class="screen" id="home">
+  <div class="stats"><div class="stat"><small>PLAYER LEVEL</small><b id="level">1</b></div><div class="stat"><small>CATS RESCUED</small><b id="rescued">0</b></div><div class="stat"><small>BEST SCORE</small><b id="best">0</b></div></div>
+  <div class="hero"><small>A LITTLE PAW-SOME ADVENTURE</small><h1>Every cat deserves a home.</h1><p>Solve puzzles, rescue lonely cats, and give them a cozy place to call their own.</p></div>
+  <div class="actions"><button data-go="puzzle">▶ PLAY</button><button data-go="room">⌂ MY HOME</button><button data-go="room">✿ GARDEN</button></div>
+  <div class="card"><b>YOUR RESCUE LIST</b><p id="rescueText">🐱 Mochi · The Dreamer</p><p class="puz-help">Play the block puzzle to earn coins and unlock new items.</p></div>
+  <button class="card" data-go="room">← BACK TO MY CAT</button>
+ </section>
+ <section class="screen" id="puzzle">
+  <div class="puz-head"><div class="card"><small>YOUR SCORE</small><br><b id="score">0</b></div><div class="card"><small>BEST SCORE</small><br><b id="best2">0</b></div><button class="round" data-go="room">⌂</button></div>
+  <div class="board" id="board"></div><div class="pieces" id="pieces"></div><div class="puz-help">Bir parçayı seç, sonra tahtada yerleştirmek istediğin kareye dokun.</div><button class="card" id="newGame">↻ YENİ OYUN</button>
+ </section>
 </div>
-<div class="overlay" id="modal"><div class="modal"><div style="font-size:48px">🥺🐱</div><h2 id="modalTitle">A new friend!</h2><p id="modalText">You gave a lonely cat a home.</p><button id="modalButton">CONTINUE</button></div></div>
-<div class="overlay" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><div class="settings-panel"><h2 id="settingsTitle">Game settings</h2><p>Make your little cat world feel right.</p><label class="setting-row"><span>Background music<small>Soft, looping game melody</small></span><input class="switch" id="musicToggle" type="checkbox" checked></label><label class="setting-row"><span>Sound effects<small>Placing blocks and rewards</small></span><input class="switch" id="effectsToggle" type="checkbox" checked></label><div class="settings-actions"><button class="secondary" id="settingsClose">CLOSE</button><button id="settingsDone">DONE</button></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+</div>
+<div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle">Mochi mutlu! 💗</h2><p id="modalText"></p><button id="modalOk">TAMAM</button></div></div>
+<div class="overlay" id="settingsModal"><div class="modal"><h2>Ayarlar</h2><p>Cat Block Rescue Club</p><button id="reset">Oyunu sıfırla</button><button id="closeSettings" style="margin-top:8px;background:#f5dce8">Kapat</button></div></div>
 <script>
-(()=>{'use strict';
-const $=id=>document.getElementById(id);let scene, camera, renderer, clock, catActors=[],decorations=[],screen='room',muted=false,effectsEnabled=true,selected=0,score=0,best=+(localStorage.getItem('cbr_best')||0),level=+(localStorage.getItem('cbr_level')||1),rescued=+(localStorage.getItem('cbr_rescued')||0),coins=+(localStorage.getItem('cbr_coins')||0),owned={sofa:false,toy:false,plant:false,flower:false,tree:false,pond:false,garden:false},gameOver=false,pet={hunger:20,clean:100,mood:100,poop:0,action:'wander',targetX:0,targetZ:-1.4,actionUntil:0,lastNeedTick:0};
-try{pet=Object.assign(pet,JSON.parse(localStorage.getItem('cbr_pet')||'{}'))}catch(e){}
-try{owned=Object.assign(owned,JSON.parse(localStorage.getItem('cbr_owned')||'{}'))}catch(e){}
-const shop={sofa:{cost:80,label:'Cozy sofa'},toy:{cost:35,label:'Yarn toy'},plant:{cost:55,label:'Potted plant'},tv:{cost:110,label:'TV'},rug:{cost:45,label:'Soft rug'},lamp:{cost:60,label:'Warm lamp'},shelf:{cost:75,label:'Book shelf'},flower:{cost:30,label:'Flower patch'},tree:{cost:65,label:'Garden tree'},pond:{cost:100,label:'Little pond'},garden:{cost:120,label:'Garden access'},gardenbench:{cost:90,label:'Garden bench'}};
-const cats=[{name:'Mochi',kind:'The Dreamer',color:0xf0b879,need:1},{name:'Pepper',kind:'Little Explorer',color:0x555064,need:2},{name:'Luna',kind:'Moon Chaser',color:0xbfc6e9,need:3},{name:'Biscuit',kind:'Snack Hunter',color:0xd99568,need:4},{name:'Misty',kind:'Shy Sweetheart',color:0xaab9c9,need:5},{name:'Clover',kind:'Garden Guardian',color:0x8ac69a,need:7}];
-const shapes=[[[0,0]],[[0,0],[1,0]],[[0,0],[0,1],[1,0]],[[0,0],[0,1],[0,2]],[[0,0],[1,0],[2,0]],[[0,0],[1,0],[0,1],[1,1]],[[0,0],[1,0],[1,1]],[[0,0],[0,1],[1,1]]];let grid, tray, dragState=null, dragGhost=null;
-function save(){try{localStorage.setItem('cbr_pet',JSON.stringify(pet))}catch(e){}localStorage.setItem('cbr_best',best);localStorage.setItem('cbr_level',level);localStorage.setItem('cbr_rescued',rescued);localStorage.setItem('cbr_coins',coins);localStorage.setItem('cbr_owned',JSON.stringify(owned));updateWallet()}
-function updateWallet(){$('wallet').textContent='🪙 '+coins}
-function buy(key){const item=shop[key];if(!item)return false;if(owned[key]){toast(item.label+' is already yours!');return false}if(coins<item.cost){toast('You need '+(item.cost-coins)+' more coins for '+item.label+'. Play a puzzle to earn coins!');sayCat('room','I wish I had a '+item.label.toLowerCase()+'… 🥺');return false}coins-=item.cost;owned[key]=true;if(key==='sofa'){pet.mood=Math.min(100,pet.mood+22);pet.action='play';pet.targetX=-.2;pet.targetZ=.1;pet.actionUntil=0}else if(key==='toy'){pet.action='play';pet.mood=Math.min(100,pet.mood+15)}save();playTone(760,.12);toast('You bought '+item.label+'! Your cat is so happy 💖');buildScene(screen);if(screen==='room')updatePetUI();return true}
-let audioCtx=null,musicTimer=null,musicStep=0,musicGain=null;try{muted=localStorage.getItem('cbr_music')==='off';effectsEnabled=localStorage.getItem('cbr_effects')!=='off'}catch(e){}
-function audio(){if(!audioCtx){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;audioCtx=new A()}if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}
-function playTone(freq,duration=.12,wave='sine',volume=.055){if(muted||!effectsEnabled)return;try{const a=audio();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type=wave;o.frequency.setValueAtTime(freq,a.currentTime);g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(volume,a.currentTime+.018);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+duration);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+duration+.03)}catch(e){}}
-function startMusic(){const a=audio();if(!a||musicTimer)return;musicGain=a.createGain();musicGain.gain.value=.032;musicGain.connect(a.destination);const notes=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,523.25,587.33,659.25,523.25,392,493.88,587.33,493.88];musicStep=0;musicTimer=setInterval(()=>{if(muted||!audioCtx||audioCtx.state!=='running')return;const t=audioCtx.currentTime,n=notes[musicStep++%notes.length];for(const [f,delay,dur,vol] of [[n,0,.42,.65],[n/2,.015,.58,.23],[n*1.5,.04,.18,.08]]){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,t+delay);g.gain.setValueAtTime(.0001,t+delay);g.gain.exponentialRampToValueAtTime(vol,t+delay+.025);g.gain.exponentialRampToValueAtTime(.0001,t+delay+dur);o.connect(g);g.connect(musicGain);o.start(t+delay);o.stop(t+delay+dur+.02)}},390)}
-function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}if(musicGain){try{musicGain.gain.setTargetAtTime(.0001,audioCtx.currentTime,.08);setTimeout(()=>{try{musicGain.disconnect()}catch(e){}musicGain=null},350)}catch(e){musicGain=null}}}
-function sayCat(where,message){const el=document.createElement('div');el.className='toast';el.textContent=message;$(where==='room'?'roomScene':'gardenScene').appendChild(el);el.style.display='block';el.style.top='72%';setTimeout(()=>el.remove(),2600)}
-function init3D(){try{if(!window.THREE)throw new Error('Three.js failed to load');scene=new THREE.Scene();scene.background=new THREE.Color('#f8e6e8');scene.fog=new THREE.Fog('#f8e6e8',12,30);camera=new THREE.PerspectiveCamera(34,innerWidth/innerHeight,.1,100);camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;$('world').appendChild(renderer.domElement);clock=new THREE.Clock();scene.add(new THREE.HemisphereLight(0xfff1f4,0x9b8b9b,2));const sun=new THREE.DirectionalLight(0xffedcf,3.1);sun.position.set(-4,9,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);buildScene('room');animate();window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});}catch(err){console.error('3D scene failed:',err);document.body.classList.add('no-3d');$('world').style.display='none';}}
-function mat(color,rough=.72,metal=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal})}
-function mesh(geo,material,x,y,z,group){const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;(group||scene).add(m);return m}
-function box(group,x,y,z,w,h,d,color,round=false){let geo;if(round)geo=new THREE.BoxGeometry(w,h,d,3,3,3);else geo=new THREE.BoxGeometry(w,h,d);return mesh(geo,mat(color),x,y,z,group)}
-function sphere(group,x,y,z,sx,sy,sz,color){const s=mesh(new THREE.SphereGeometry(1,24,18),mat(color),x,y,z,group);s.scale.set(sx,sy,sz);return s}
-function clearWorld(){for(const o of [...scene.children])if(!o.isLight&&!o.isCamera)scene.remove(o);catActors=[];decorations=[]}
-function floor(color){const f=mesh(new THREE.PlaneGeometry(30,30),mat(color),0,0,0);f.rotation.x=-Math.PI/2;f.userData.worldItem=true;return f}
-function makeCat(x,z,color,scale=1){
- const g=new THREE.Group();g.position.set(x,0,z);g.scale.setScalar(scale);g.userData.worldItem=true;scene.add(g);
- const fur=mat(color,.68),pink=mat('#e99bb5',.58),dark=mat('#38283f',.3),white=mat('#fffaf4',.22),whisker=mat('#fff3e9',.5);
- // Softer, more cohesive toy-like kitten proportions.
- const rump=sphere(g,0,.62,-.12,.37,.43,.40,color);rump.material=fur;
- const body=sphere(g,0,.78,-.04,.335,.46,.34,color);body.material=fur;
- sphere(g,0,.72,.245,.22,.30,.12,'#fff0dc');
- const head=new THREE.Group();head.position.set(0,1.35,.16);g.add(head);
- sphere(head,0,0,0,.47,.43,.39,color);
- // Short rounded ears instead of sharp cones.
- for(const side of [-1,1]){
-   const ear=sphere(head,side*.305,.315,-.015,.145,.205,.105,color);ear.rotation.z=-side*.22;
-   const inner=sphere(head,side*.305,.33,.075,.082,.125,.025,'#e99bb5');inner.rotation.z=-side*.22;
-   // Large, friendly eyes with clear pupils and two soft highlights.
-   sphere(head,side*.17,.015,.345,.078,.105,.045,'#38283f');
-   sphere(head,side*.17,.004,.379,.043,.068,.02,'#795775');
-   sphere(head,side*.187,.044,.398,.021,.026,.012,'#fffdf7');
-   sphere(head,side*.151,-.018,.399,.010,.014,.008,'#fffdf7');
-   sphere(head,side*.205,-.135,.335,.155,.115,.09,'#fff0dc');
-   for(let j=0;j<2;j++){
-     const line=mesh(new THREE.CylinderGeometry(.004,.006,.19,6),whisker,side*.32,-.15-j*.045,.34,head);
-     line.rotation.z=side*(Math.PI/2+(j-.5)*.17);line.rotation.y=side*.12;
-   }
-   if(color===0xf0b879||color===0xd99568){
-     const stripe=sphere(head,side*.065,.245,.355,.018,.07,.012,'#d99b67');stripe.rotation.z=side*.2;
-   }
- }
- sphere(head,0,-.125,.426,.045,.032,.022,'#df86a1');
- // tiny curved smile
- const mouthL=mesh(new THREE.TorusGeometry(.035,.006,6,12,Math.PI),dark,-.028,-.18,.424,head);mouthL.rotation.z=Math.PI;
- const mouthR=mesh(new THREE.TorusGeometry(.035,.006,6,12,Math.PI),dark,.028,-.18,.424,head);
- const legs=[];
- for(const [lx,lz] of [[-.22,.14],[.22,.14],[-.23,-.25],[.23,-.25]]){
-   const leg=mesh(new THREE.CapsuleGeometry(.095,.27,5,12),fur,lx,.27,lz,g);leg.rotation.z=lx<0?-.035:.035;legs.push(leg);
-   sphere(g,lx,.09,lz+.035,.12,.075,.14,'#fff0dc');
- }
- const tail=new THREE.Group();tail.position.set(.29,.68,-.31);g.add(tail);
- const tailA=mesh(new THREE.CapsuleGeometry(.075,.25,5,12),fur,.02,.17,-.02,tail);tailA.rotation.z=-.35;
- const tailB=mesh(new THREE.CapsuleGeometry(.067,.21,5,12),fur,.12,.34,-.02,tail);tailB.rotation.z=-.7;
- sphere(tail,.19,.45,-.02,.075,.08,.075,color);
- g.userData.head=head;g.userData.tail=tail;g.userData.body=body;g.userData.homeBaseY=1.35;g.userData.sleeping=false;g.userData.legs=legs;g.userData.phase=Math.random()*5;g.userData.homeY=0;catActors.push(g);return g
-}
-function tree(x,z){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);mesh(new THREE.CylinderGeometry(.13,.2,.9,12),mat('#93624f'),0,.45,0,g);for(const [y,s,c] of [[1.05,.58,'#9fc98d'],[1.45,.46,'#8ab97f'],[1.8,.34,'#b3d5a0']])mesh(new THREE.IcosahedronGeometry(s,2),mat(c),0,y,0,g);g.userData.worldItem=true;decorations.push(g)}
-function flower(x,z){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);mesh(new THREE.CylinderGeometry(.025,.03,.32,8),mat('#6da978'),0,.16,0,g);for(let i=0;i<5;i++){let a=i*Math.PI*2/5;sphere(g,Math.cos(a)*.10,.39,Math.sin(a)*.10,.09,.065,.07,'#f18db7')}sphere(g,0,.4,0,.06,.06,.06,'#f6cf76');g.userData.worldItem=true;decorations.push(g)}
-function buildScene(which){if(!scene)return;clearWorld();scene.background=new THREE.Color(which==='garden'?'#d9efdb':which==='room'?'#f6d9e2':'#f8e6e8');scene.fog.color.copy(scene.background);floor(which==='garden'?'#a9d39b':which==='room'?'#d4a993':'#d8c9df');if(which==='room'){box(scene,0,1.1,-2,7,2.3,.18,'#f2d4df');box(scene,-2,1.5,-1.87,1.35,1.1,.12,'#a8dce7');box(scene,-2,1.5,-1.78,.09,1.1,.09,'#fff8f2');box(scene,-2,1.5,-1.75,1.35,.09,.09,'#fff8f2');box(scene,0,.025,0,7,.06,6,'#d5a98f');box(scene,-3.35,1.1,-.4,.12,2.2,4.8,'#f2d4df');box(scene,3.35,1.1,-.4,.12,2.2,4.8,'#f2d4df');box(scene,0,2.25,-2.1,6.8,.12,.15,'#f7e7eb');box(scene,-2.1,1.45,-1.73,1.45,1.2,.13,'#9bd8e8');box(scene,-2.1,1.45,-1.63,.08,1.15,.08,'#fff8f2');box(scene,-2.1,1.45,-1.61,1.4,.08,.08,'#fff8f2');box(scene,2.15,.32,.2,.85,.55,.8,'#a67b61');
- // Starter room props: a paw-print rug, scratching tower, food and litter corner.
- const starterRug=mesh(new THREE.PlaneGeometry(3.25,2.25),mat('#f8dce5'),-.05,.075,.48);starterRug.rotation.x=-Math.PI/2;
- for(let k=0;k<4;k++){const paw=sphere(scene,-1.1+(k%2)*.34,.082,.05+Math.floor(k/2)*.28,.09,.012,.07,'#edb5ca');paw.userData.worldItem=true}
- const towerBase=mesh(new THREE.CylinderGeometry(.48,.52,.18,24),mat('#f0c6b7'),-2.25,.12,.35);towerBase.userData.worldItem=true;
- const towerPost=mesh(new THREE.CylinderGeometry(.14,.16,1.15,18),mat('#d4a477'),-2.25,.72,.35);towerPost.userData.worldItem=true;
- const towerTop=mesh(new THREE.CylinderGeometry(.43,.43,.14,24),mat('#f5c8b8'),-2.25,1.35,.35);towerTop.userData.worldItem=true;
- const bowl=mesh(new THREE.CylinderGeometry(.27,.2,.13,24),mat('#e98db1'),-2.25,.14,1.45);bowl.userData.worldItem=true;
- sphere(scene,-2.25,.205,1.45,.19,.045,.15,'#c58a4c');
- box(scene,2.25,.14,1.6,.9,.22,.65,'#e98eaa');box(scene,2.25,.26,1.6,.82,.08,.57,'#d7b2c7');
- {
- // Furnished starter apartment: pink sofa, patterned rug, TV stand, lamp, shelves and leafy plants.
- const sc='#ed91b5';
- box(scene,-.2,.36,.45,2.25,.52,1.02,sc,true);
- box(scene,-.2,.69,.04,1.88,.46,.76,'#f29fc0',true);
- box(scene,-1.17,.66,.43,.38,.67,.94,'#e982ab',true);
- box(scene,.77,.66,.43,.38,.67,.94,'#e982ab',true);
- box(scene,-.72,.79,.38,.62,.12,.48,'#ffe8ed',true);
- box(scene,.27,.79,.38,.62,.12,.48,'#ffe8ed',true);
- const rug=mesh(new THREE.CircleGeometry(1.48,48),mat('#f7d6e4'),-.1,.075,.85);rug.rotation.x=-Math.PI/2;
- for(let k=0;k<5;k++){const paw=sphere(scene,-.75+(k%3)*.62,.084,.35+Math.floor(k/3)*.6,.08,.012,.065,'#edb1c9');}
- // Cat tower with two platforms and sisal-like posts.
- const towerBase=mesh(new THREE.CylinderGeometry(.52,.55,.16,24),mat('#f3c8b7'),-2.4,.13,.1);
- const towerPost2=mesh(new THREE.CylinderGeometry(.13,.15,.8,18),mat('#d4a477'),-2.4,.58,.1);
- const towerTop2=mesh(new THREE.CylinderGeometry(.4,.4,.13,24),mat('#f7cdbb'),-2.4,1.02,.1);
- const towerPost3=mesh(new THREE.CylinderGeometry(.12,.14,.68,18),mat('#d4a477'),-2.4,1.42,-.12);
- const towerTop3=mesh(new THREE.CylinderGeometry(.36,.36,.13,24),mat('#f7cdbb'),-2.4,1.8,-.12);
- // Window ledges, plant pots and a book shelf.
- box(scene,-2.1,1.45,-1.73,1.45,1.2,.13,'#9bd8e8');
- box(scene,-2.1,1.45,-1.63,.08,1.15,.08,'#fff8f2');
- box(scene,-2.1,1.45,-1.61,1.4,.08,.08,'#fff8f2');
- box(scene,2.15,.32,.2,.85,.55,.8,'#a67b61');
- box(scene,2.15,.62,.2,.9,.12,.85,'#c28b69');
- box(scene,2.15,1.05,-.3,1.05,.7,.12,'#493b53');
- box(scene,2.15,1.05,-.22,.91,.54,.04,'#91d4e6');
- box(scene,2.15,.62,-.3,.16,.25,.16,'#72576b');
- const lampPole=mesh(new THREE.CylinderGeometry(.035,.06,1.2,12),mat('#c89a68'),1.45,.62,-.7);
- mesh(new THREE.ConeGeometry(.34,.38,24),mat('#f6d4a8'),1.45,1.42,-.7);
- // Plants use a pot, stem and broad leaf clusters.
- const pot=mesh(new THREE.CylinderGeometry(.19,.14,.28,20),mat('#d59a71'),1.15,.16,-.8);
- for(let k=0;k<7;k++){const leaf=sphere(scene,1.15+Math.sin(k*2.4)*.22,.55+(k%3)*.12,-.8+Math.cos(k*2.4)*.16,.13,.25,.07,'#62b77a');leaf.rotation.z=Math.sin(k*2.4)*.5;}
- box(scene,-3,.95,-.9,.12,1.6,1.2,'#a77c63');
- for(let k=0;k<3;k++)box(scene,-2.9,.45+k*.45,-.9,.25,.25,.35,['#f2a8be','#a9d9bd','#f2ce7e'][k]);
- if(owned.toy)sphere(scene,-1.7,.13,1.2,.22,.14,.22,'#f5cb69');
- if(owned.plant)tree(2.5,-.7);
- if(owned.lamp){const extra=mesh(new THREE.ConeGeometry(.28,.32,20),mat('#f6d4a8'),2.9,1.5,-.7);}
- if(owned.sofa){sphere(scene,-.5,.86,.36,.12,.09,.06,'#fff0dc');}
- if(owned.rug){const rug2=mesh(new THREE.CircleGeometry(1.1,36),mat('#f3c5d6'),-.2,.08,.55);rug2.rotation.x=-Math.PI/2;}
-}makeCat(-.1,-2.0,cats[Math.min(Math.max(rescued-1,0),cats.length-1)].color,.86);if(rescued>1)makeCat(-1.6,-1.8,cats[Math.min(rescued-2,1)].color,.62);if(!owned.sofa){sayCat('room','It is so quiet here… could we have a cozy sofa? 🥺');}}else if(which==='garden'){if(owned.garden){for(let i=0;i<7;i++)tree(-4+i*1.35,-3.5);if(owned.flower)for(let i=0;i<12;i++)flower(-3.3+(i%6)*1.25,-1.4+Math.floor(i/6)*1.0);if(owned.pond){const p=mesh(new THREE.CylinderGeometry(1,.9,.12,40),mat('#85cfe1',.25),2,.05,1);p.userData.worldItem=true}if(owned.tree)tree(3,1);if(owned.gardenbench){box(scene,-2,.25,1.5,1.6,.18,.45,'#a9785d');for(const x of [-2.6,-1.4])box(scene,x,.1,1.5,.12,.3,.12,'#795440')}makeCat(0,-1.9,cats[Math.min(Math.max(rescued-1,0),cats.length-1)].color,.66)}else{makeCat(0,-1.9,cats[0].color,.66);sayCat('garden','This garden is waiting for a kind heart… 🌱');}}else{for(let i=0;i<5;i++){const cloud=sphere(scene,-4+i*2,3.3+(i%2)*.4,-2,.9,.22,.5,'#fff5f4');cloud.userData.worldItem=true}makeCat(1.35,-1.2,cats[Math.min(rescued,cats.length-1)].color,.94);if(rescued>1)makeCat(-1.5,-.9,cats[1].color,.68)}}
-function updatePetUI(){
- const set=(id,v)=>{const el=$(id);if(el)el.textContent=v+'%'};const bar=(id,v)=>{const el=$(id);if(el)el.style.width=v+'%'};
- set('hungerValue',Math.round(pet.hunger));set('cleanValue',Math.round(pet.clean));set('moodValue',Math.round(pet.mood));
- bar('hungerBar',pet.hunger);bar('cleanBar',pet.clean);bar('moodBar',pet.mood);
- const msg=$('petMessage');if(msg){msg.textContent=pet.hunger>75?'Mochi is hungry. Please feed me! 🍲':pet.clean<35?'The room is messy. Mochi feels sad. 🥺':pet.mood<35?'Mochi needs some love and play. 💗':pet.action==='sleep'?'Mochi is taking a cozy nap. 😴':pet.action==='play'?'Mochi is having fun! ✨':'Mochi is exploring the room. 🐾';}
-}
-function petAction(action){
- const c=catActors[0];if(!c){toast('Your cat is coming!');return}
- if(action==='feed'){pet.hunger=Math.max(0,pet.hunger-65);pet.mood=Math.min(100,pet.mood+12);pet.action='eat';pet.actionUntil=clock.getElapsedTime()+3;toast('Yum! Mochi is happy and full. 🍲');playTone(740,.16)}
- if(action==='clean'){pet.clean=100;pet.poop=0;scene.traverse(o=>{if(o.userData&&o.userData.petPoop&&o.parent)o.parent.remove(o)});pet.mood=Math.min(100,pet.mood+25);toast('All clean! Mochi is purring again. ✨');playTone(880,.14)}
- if(action==='play'){pet.mood=Math.min(100,pet.mood+28);pet.hunger=Math.min(100,pet.hunger+8);pet.action='play';pet.actionUntil=clock.getElapsedTime()+5;pet.targetX=(Math.random()-.5)*2.3;pet.targetZ=-2+Math.random()*.8;toast('Mochi is chasing the toy! 🧶');playTone(900,.1)}
- pet.lastNeedTick=clock.getElapsedTime();save();updatePetUI()
-}
-function animate(){
- requestAnimationFrame(animate);const t=clock.getElapsedTime(),dt=Math.min(clock.getDelta(),.08);
- if(screen==='room'&&t-pet.lastNeedTick>18){pet.hunger=Math.min(100,pet.hunger+1.6);pet.clean=Math.max(0,pet.clean-.8);pet.mood=Math.max(0,pet.mood-(pet.clean<35?1.5:.45));pet.lastNeedTick=t;
-  if(pet.hunger>80)pet.mood=Math.max(0,pet.mood-.5);
-  if(t>45&&pet.poop<2&&pet.clean<75){pet.poop++;const po=sphere(scene,(Math.random()-.5)*2,.09,.2+Math.random()*1.2,.11,.075,.09,'#8a674e');po.userData.petPoop=true}
-  updatePetUI();save()
- }
- for(const c of catActors){
-  const u=c.userData;
-  if(screen==='room'||screen==='garden'){
-   if(!u.actionUntil||t>u.actionUntil){
-    if(pet.action==='sleep'&&owned.sofa){u.sleeping=true;u.actionUntil=t+5}
-    else if(Math.random()<.012){pet.targetX=(Math.random()-.5)*2.2;pet.targetZ=screen==='room'?-2.2+Math.random()*1.5:-1.5+Math.random()*1.8;pet.action='wander';u.sleeping=false;u.actionUntil=t+4}
-    else if(screen==='room'&&owned.sofa&&Math.random()<.003){pet.action='sleep';u.sleeping=true;u.actionUntil=t+8;pet.targetX=-.2;pet.targetZ=.1}
-   }
-   const tx=screen==='room'?pet.targetX:Math.max(-2,Math.min(2,pet.targetX));
-   c.position.x+=(tx-c.position.x)*Math.min(1,dt*.75);
-   c.position.z+=(pet.targetZ-c.position.z)*Math.min(1,dt*.65);
-   c.position.y=u.sleeping?0:Math.abs(Math.sin(t*5+u.phase))*.035;
-   u.head.rotation.y=Math.sin(t*1.25+u.phase)*.12;
-   u.head.rotation.x=u.sleeping?.28:Math.sin(t*2+u.phase)*.035;
-   u.tail.rotation.z=u.sleeping?.02:Math.sin(t*2.4+u.phase)*.22;
-   if(u.sleeping&&u.body)u.body.scale.y=.82;
-   else if(u.body)u.body.scale.y=1;
-   if(u.legs)u.legs.forEach((leg,i)=>{leg.rotation.x=u.sleeping?0:Math.sin(t*6+u.phase+i*Math.PI)*.12});
-  }else{
-   u.head.rotation.y=Math.sin(t*1.25+u.phase)*.12;u.head.rotation.x=Math.sin(t*2+u.phase)*.035;u.tail.rotation.z=Math.sin(t*2.4+u.phase)*.22;c.position.y=Math.abs(Math.sin(t*2.1+u.phase))*.025
-  }
- }
- renderer.render(scene,camera)
-}
-function switchScreen(id){if(id==='garden'&&!owned.garden){if(!buy('garden')){toast('Garden unlock costs 120 coins. Play puzzles to earn coins.');id='welcome'}else id='garden'}screen=id;document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===id));if(id==='welcome'){camera.position.set(0,5.1,11.7);camera.lookAt(0,1.05,-.4);buildScene('room');updateStats()}if(id==='room'){camera.position.set(0,5.1,11.7);camera.lookAt(0,1.05,-.4);buildScene('room');updatePetUI()}if(id==='garden'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('garden')}if(id==='puzzle'){buildScene('welcome');renderBoard()} }
-function updateStats(){updateWallet();$('level').textContent=level;$('rescued').textContent=rescued;$('best').textContent=best;$('best2').textContent=best;$('catcount').textContent=Math.min(rescued,cats.length)+' / '+cats.length+' CATS';$('catlist').innerHTML='';cats.forEach(c=>{const open=cats.indexOf(c)<rescued;const el=document.createElement('div');el.className='catcard '+(open?'':'locked');el.innerHTML='<div class="catthumb">'+(open?'🐈':'🔒')+'</div><b>'+(open?c.name:'LEVEL '+c.need)+'</b><small>'+(open?c.kind:'Still waiting for a home')+'</small>';el.addEventListener('click',()=>{if(open){switchScreen('room');}else toast('Reach level '+c.need+' to rescue '+c.name+'!')});$('catlist').appendChild(el)})}
-function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);t.style.display='block';setTimeout(()=>t.remove(),1800)}
-function renderBoard(){const b=$('board');b.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','row '+(r+1)+' column '+(c+1));el.addEventListener('click',()=>{if(tray[selected])placePiece(selected,r,c)});b.appendChild(el)}renderTray();if(tray&&tray.some(Boolean)&&!tray.some(s=>s&&canFit(s)))endRun()}
-function canFit(shape){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(shape.every(([a,b])=>r+a<8&&c+b<8&&!grid[r+a][c+b]))return true;return false}
-function newGame(){grid=Array.from({length:8},()=>Array(8).fill(0));tray=[shapes[Math.random()*shapes.length|0],shapes[Math.random()*shapes.length|0],shapes[Math.random()*shapes.length|0]];selected=0;score=0;gameOver=false;$('score').textContent=score;$('modal').style.display='none';renderBoard()}
-function renderTray(){const t=$('tray');t.innerHTML='';tray.forEach((shape,i)=>{const el=document.createElement('button');el.className='piece'+(selected===i?' selected':'');if(!shape){el.style.opacity='.25';el.disabled=true}else{const gridEl=document.createElement('span');gridEl.className='piece-grid';const h=Math.max(...shape.map(p=>p[0]))+1,w=Math.max(...shape.map(p=>p[1]))+1;gridEl.style.gridTemplateColumns='repeat('+w+',18px)';gridEl.style.gridTemplateRows='repeat('+h+',18px)';for(let rr=0;rr<h;rr++)for(let cc=0;cc<w;cc++){const m=document.createElement('i');m.className='mini'+(shape.some(([a,b])=>a===rr&&b===cc)?'':' ghost');gridEl.appendChild(m)}el.appendChild(gridEl);el.addEventListener('pointerdown',e=>startDrag(e,i,el));}el.addEventListener('click',()=>{selected=i;renderTray()});t.appendChild(el)})}
-function startDrag(e,i,el){if(!tray[i])return;selected=i;dragState={i,pointerId:e.pointerId};if(dragGhost)dragGhost.remove();dragGhost=document.createElement('div');dragGhost.className='drag-ghost';const s=tray[i],h=Math.max(...s.map(p=>p[0]))+1,w=Math.max(...s.map(p=>p[1]))+1;dragGhost.style.gridTemplateColumns='repeat('+w+',24px)';for(let rr=0;rr<h;rr++)for(let cc=0;cc<w;cc++){const m=document.createElement('i');if(s.some(([a,b])=>a===rr&&b===cc))dragGhost.appendChild(m);else{m.style.opacity='0';dragGhost.appendChild(m)}}document.body.appendChild(dragGhost);moveGhost(e.clientX,e.clientY);window.addEventListener('pointermove',moveDrag,{passive:false});window.addEventListener('pointerup',endDrag,{once:true});window.addEventListener('pointercancel',cancelDrag,{once:true});e.preventDefault()}
-function moveGhost(x,y){if(dragGhost){dragGhost.style.left=(x-12)+'px';dragGhost.style.top=(y-12)+'px'}}
-function moveDrag(e){if(dragState&&e.pointerId===dragState.pointerId)moveGhost(e.clientX,e.clientY)}
-function cleanupDrag(){dragState=null;if(dragGhost){dragGhost.remove();dragGhost=null}window.removeEventListener('pointermove',moveDrag);window.removeEventListener('pointerup',endDrag);window.removeEventListener('pointercancel',cancelDrag)}function cancelDrag(){cleanupDrag()}function endDrag(e){if(!dragState)return;const b=$('board').getBoundingClientRect(),x=e.clientX,y=e.clientY,pad=8,gap=4,cellW=(b.width-pad*2-gap*7)/8,cellH=(b.height-pad*2-gap*7)/8,ix=b.left+pad,iy=b.top+pad;if(x>=ix&&x<=b.right-pad&&y>=iy&&y<=b.bottom-pad){const col=Math.max(0,Math.min(7,Math.floor((x-ix)/(cellW+gap)))),row=Math.max(0,Math.min(7,Math.floor((y-iy)/(cellH+gap))));placePiece(dragState.i,row,col)}cleanupDrag()}
-function placePiece(i,r,c){const s=tray[i];if(!s)return false;if(s.some(([a,b])=>r+a>=8||c+b>=8||grid[r+a][c+b])){toast('Try another spot!');return false}s.forEach(([a,b])=>grid[r+a][c+b]=1);score+=s.length;coins+=s.length;const rows=[],cols=[];for(let k=0;k<8;k++){if(grid[k].every(Boolean))rows.push(k);if(grid.every(row=>row[k]))cols.push(k)}rows.forEach(k=>grid[k].fill(0));cols.forEach(k=>grid.forEach(row=>row[k]=0));if(rows.length+cols.length){score+=(rows.length+cols.length)*10;coins+=(rows.length+cols.length)*8;playTone(880,.16)}tray[i]=null;if(tray.every(x=>!x))tray=[shapes[Math.random()*shapes.length|0],shapes[Math.random()*shapes.length|0],shapes[Math.random()*shapes.length|0]];$('score').textContent=score;if(score>best){best=score;save();$('best2').textContent=best;$('best').textContent=best}else save();if(score>=level*100){level++;if(rescued<cats.length&&level>=cats[Math.min(rescued,cats.length-1)].need){rescued++;save();showRescue(cats[rescued-1])}else save()}renderBoard();if(!tray.some(Boolean)){tray=[shapes[Math.random()*shapes.length|0],shapes[Math.random()*shapes.length|0],shapes[Math.random()*shapes.length|0]];selected=0}renderBoard();return true}
-function showRescue(c){$('modalTitle').textContent=c.name+' is home!';$('modalText').textContent='You rescued '+c.name+', '+c.kind.toLowerCase()+'. Visit your home to see your new friend.';$('modal').style.display='flex';$('modalButton').onclick=()=>{$('modal').style.display='none';updateStats();switchScreen('room')}}
-function endRun(){if(gameOver)return;gameOver=true;$('modalTitle').textContent='Paws for a moment';$('modalText').textContent='Score: '+score+'. Your next run could rescue another cat!';$('modalButton').textContent='TRY AGAIN';$('modal').style.display='flex';$('modalButton').onclick=()=>{$('modal').style.display='none';newGame()}}
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.go==='puzzle')newGame();switchScreen(b.dataset.go)}));
-$('petCat')?.addEventListener('click',()=>{pet.mood=Math.min(100,pet.mood+12);pet.action='play';pet.actionUntil=performance.now()/1000+3;save();updatePetUI();sayCat('room','Purr purr! Mochi loves you 💗');playTone(820,.1);});
-$('openShop')?.addEventListener('click',()=>{$('shopCards')?.scrollTo({left:0,behavior:'smooth'});document.querySelector('.shop-tabs')?.scrollIntoView({block:'nearest',behavior:'smooth'});});
-document.querySelectorAll('[data-shop-tab]').forEach(b=>b.addEventListener('click',()=>{
- document.querySelectorAll('[data-shop-tab]').forEach(x=>x.classList.toggle('active',x===b));
- const type=b.dataset.shopTab;
- const items={
-  furniture:[['sofa','🛋️','Sofa',80],['rug','🐾','Rug',45],['tv','📺','TV',110],['lamp','💡','Lamp',60],['shelf','🪴','Shelf',75],['plant','🌿','Plant',55]],
-  decor:[['plant','🌿','Plant',55],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['flower','🌷','Flowers',30],['tree','🌳','Tree',65]],
-  food:[['food','🥣','Food bowl',20],['treat','🐟','Fish treat',35],['can','🥫','Tuna',40]],
-  toys:[['toy','🧶','Yarn toy',35],['ball','🟣','Ball',25],['laser','🔴','Laser',50]]
- };
- const cards=$('shopCards');if(!cards)return;
- cards.innerHTML=(items[type]||items.furniture).map(([key,emoji,label,cost])=>'<button class="shop-card" data-decor="'+key+'"><span class="shop-art">'+emoji+'</span><b>'+label+'</b><strong>🪙 '+cost+'</strong></button>').join('');
- cards.querySelectorAll('[data-decor]').forEach(x=>x.addEventListener('click',()=>{if(!shop[x.dataset.decor]){toast(labelForShop(x.dataset.decor)+' coming soon 🐾');return}buy(x.dataset.decor)}));
-}));
-function labelForShop(key){return ({food:'Food',treat:'Treats',can:'Canned food',ball:'Ball',laser:'Laser'})[key]||key;}
-
-$('feedCat').addEventListener('click',()=>petAction('feed'));$('cleanRoom').addEventListener('click',()=>petAction('clean'));$('playCat').addEventListener('click',()=>petAction('play'));document.querySelectorAll('[data-decor]').forEach(b=>b.addEventListener('click',()=>{const d=b.dataset.decor;if(owned[d]){toast('Already unlocked — your cat loves it!');return}buy(d)}));
-function openSettings(){ $('musicToggle').checked=!muted; $('effectsToggle').checked=effectsEnabled; $('settingsModal').style.display='flex'; }
-function closeSettings(){ $('settingsModal').style.display='none'; }
-$('settingsOpen').addEventListener('click',()=>{openSettings();if(!muted){audio();startMusic()}});
-$('settingsClose').addEventListener('click',closeSettings);$('settingsDone').addEventListener('click',closeSettings);
-$('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))closeSettings()});
-$('musicToggle').addEventListener('change',e=>{muted=!e.target.checked;try{localStorage.setItem('cbr_music',muted?'off':'on')}catch(err){}if(muted)stopMusic();else{audio();startMusic();playTone(660,.18,'sine',.04)}});
-$('effectsToggle').addEventListener('change',e=>{effectsEnabled=e.target.checked;try{localStorage.setItem('cbr_effects',effectsEnabled?'on':'off')}catch(err){}if(effectsEnabled)playTone(660,.12,'sine',.035)});
-document.addEventListener('pointerdown',()=>{if(!muted){audio();startMusic()}},{once:true});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettings()});
-init3D();updateStats();newGame();
-})();</script></body></html>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+let coins=Number(localStorage.getItem('cbr2_coins')||42),pet={hunger:20,happy:100,clean:100},tab='furniture',selected=0,score=0,best=Number(localStorage.getItem('cbr2_best')||0),grid=[],pieces=[],owned=JSON.parse(localStorage.getItem('cbr2_owned')||'{}');
+const catalog={
+ furniture:[['sofa','🛋️','Sofa',80],['rug','🐾','Rug',45],['tv','📺','TV',110],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['plant','🪴','Plant',55],['tower','🐈‍⬛','Cat tree',95],['table','🪵','Table',70]],
+ decor:[['plant','🪴','Plant',55],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['flower','🌷','Flowers',30],['tree','🌳','Tree',65],['rug','🐾','Paw rug',45]],
+ food:[['bowl','🥣','Food bowl',20],['treat','🐟','Fish treat',35],['can','🥫','Tuna',40],['milk','🥛','Milk',25]],
+ toys:[['toy','🧶','Yarn toy',35],['ball','🟣','Ball',25],['feather','🪶','Feather',20],['laser','🔴','Laser',50]]
+};
+const shapes=[[[0,0],[0,1],[1,0],[1,1]],[[0,0],[1,0],[2,0]],[[0,0],[0,1],[0,2]],[[0,0],[1,0],[1,1]],[[0,0],[0,1],[1,1]],[[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,0],[1,1],[1,2]],[[0,0],[1,0],[2,0],[2,1],[2,2]],[[0,0],[0,1],[0,2],[1,1]],[[0,0]]];
+function save(){localStorage.setItem('cbr2_coins',coins);localStorage.setItem('cbr2_owned',JSON.stringify(owned));localStorage.setItem('cbr2_best',best);$('coins').textContent=coins;$('best').textContent=best;$('best2').textContent=best}
+function modal(title,msg){$('modalTitle').textContent=title;$('modalText').textContent=msg;$('overlay').style.display='flex'}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));if(id==='puzzle')renderPuzzle();if(id==='home'){ $('level').textContent=1;$('rescued').textContent=0;}}
+function drawItems(){const list=catalog[tab];$('items').innerHTML=list.map(([id,emoji,label,cost])=>'<button class="item '+(owned[id]?'owned':'')+'" data-buy="'+id+'"><span class="item-art">'+emoji+'</span><b>'+label+'</b><strong>'+(owned[id]?'✓ SAHİP':'🪙 '+cost)+'</strong></button>').join('');$('items').querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>buy(b.dataset.buy)))}
+function buy(id){const item=Object.values(catalog).flat().find(x=>x[0]===id);if(!item)return;if(owned[id]){modal('Zaten senin! 💗',item[2]+' zaten odanda.');return}if(coins<item[3]){modal('Biraz daha altın gerek 🪙',item[2]+' için '+(item[3]-coins)+' altın daha kazanmalısın. Bulmaca oynayabilirsin.');return}coins-=item[3];owned[id]=true;save();drawItems();const decor=document.querySelector('.stage');if(id==='sofa')document.querySelector('.sofa').style.background='#ed91b6';if(id==='plant')document.querySelector('.plant').style.display='block';modal('Yeni eşya! ✨',item[2]+' odana eklendi.');}
+function care(action){if(action==='feed'){pet.hunger=Math.max(0,pet.hunger-35);pet.happy=Math.min(100,pet.happy+5);modal('Mmm, nefis! 🍲','Mochi karnını doyurdu.')}if(action==='play'){pet.happy=Math.min(100,pet.happy+18);pet.hunger=Math.min(100,pet.hunger+8);modal('Oyun zamanı! 🧶','Mochi çok eğleniyor.')}if(action==='clean'){pet.clean=100;modal('Pırıl pırıl! ✨','Oda tertemiz oldu.')}if(action==='pet'){pet.happy=Math.min(100,pet.happy+12);modal('Mır mır... 💗','Mochi onu sevdiğini biliyor.')}updatePet()}
+function updatePet(){[['hunger',pet.hunger],['happy',pet.happy],['clean',pet.clean]].forEach(([key,val])=>{$(key+'Num').textContent=Math.round(val)+'%';$(key+'Bar').style.width=val+'%'})}
+function newPuzzle(){grid=Array.from({length:8},()=>Array(8).fill(0));pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0;score=0;$('score').textContent=score;renderPuzzle()}
+function renderPuzzle(){if(!grid.length)newPuzzle();const board=$('board');board.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','Satır '+(r+1)+', sütun '+(c+1));el.addEventListener('click',()=>place(selected,r,c));board.appendChild(el)}const box=$('pieces');box.innerHTML='';pieces.forEach((shape,i)=>{const b=document.createElement('button');b.className='piece'+(i===selected?' selected':'');b.disabled=!shape;b.innerHTML=shape?shape.map(()=>'<span class="mini"></span>').join(''):'✓';b.addEventListener('click',()=>{selected=i;renderPuzzle()});box.appendChild(b)});$('best2').textContent=best}
+function place(which,r,c){const shape=pieces[which];if(!shape)return;const fits=shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){$('puzzle').querySelector('.puz-help').textContent='Buraya sığmıyor; başka bir kare seç.';return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;pieces[which]=null;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*5;modal('Harika hamle! ✨',cleared+' çizgi temizlendi, +'+(cleared*5)+' altın kazandın.')}if(score>best){best=score;localStorage.setItem('cbr2_best',best)}if(pieces.every(p=>!p)){pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0}save();renderPuzzle();if(!pieces.some(p=>p&&canPlaceAnywhere(p))){setTimeout(()=>modal('Yeni oyun zamanı 🐱','Tahta doldu. Yeni oyunla tekrar başla!'),150)}}
+function canPlaceAnywhere(shape){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]))return true;return false}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));drawItems()}));
+document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>care(b.dataset.care)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('shopJump').addEventListener('click',()=>{document.querySelector('.shop').scrollIntoView({block:'nearest',behavior:'smooth'});drawItems()});
+$('newGame').addEventListener('click',newPuzzle);$('settings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('closeSettings').addEventListener('click',()=>$('settingsModal').style.display='none');$('reset').addEventListener('click',()=>{coins=42;owned={};pet={hunger:20,happy:100,clean:100};save();updatePet();drawItems();$('settingsModal').style.display='none';modal('Sıfırlandı','Oyun yeni bir başlangıca hazır.')});$('modalOk').addEventListener('click',()=>$('overlay').style.display='none');$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))$('overlay').style.display='none'});$('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))$('settingsModal').style.display='none'});
+drawItems();updatePet();save();newPuzzle();
+})();
+</script>
+</body>
+</html>
