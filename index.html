@@ -16,7 +16,7 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 .screen{position:absolute;inset:0;display:none;min-height:0}.screen.active{display:flex}
 #room{flex-direction:column}
 .stage{position:absolute;inset:0 0 236px;background:linear-gradient(180deg,#edcbd5 0%,#f6dfe1 55%,#dcae8b 55%,#d5a17c 100%);overflow:hidden}
-.wall-trim{position:absolute;left:0;right:0;top:43%;height:9px;background:#fff2e6;border-top:3px solid #fff9f2;border-bottom:2px solid #dfc5c0}
+.room-art{width:100%;height:100%;display:block}.wall-trim{position:absolute;left:0;right:0;top:43%;height:9px;background:#fff2e6;border-top:3px solid #fff9f2;border-bottom:2px solid #dfc5c0}
 .window{position:absolute;left:3%;top:11%;width:28%;height:30%;border:8px solid #fff0dd;border-radius:6px;background:linear-gradient(#9ee0f5 0 55%,#b4dba1 56%);box-shadow:inset 0 0 0 3px #e9bca9}
 .window:before,.window:after{content:"";position:absolute;background:#fff3e5}.window:before{width:6px;top:0;bottom:0;left:48%}.window:after{height:6px;left:0;right:0;top:48%}
 .curtain{position:absolute;top:9%;height:34%;width:5%;background:#e6a8c0;border-radius:0 0 18px 18px}.curtain.l{left:0}.curtain.r{left:30%}
@@ -74,9 +74,45 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 </header>
 <div id="main">
  <section class="screen" id="room">
-  <div class="stage" aria-label="Kedi odası">
-   <div class="window"></div><div class="curtain l"></div><div class="curtain r"></div><div class="picture">🐱</div><div class="shelf"></div><div class="plant">🪴</div><div class="wall-trim"></div><div class="floorboard"></div><div class="rug"></div><div class="tower"></div><div class="sofa"></div><div class="pillow">🌼</div><div class="pillow p2">💗</div><div class="lamp">💡</div><div class="tv"></div><div class="tvstand"></div>
-   <div class="kitten" aria-label="Mochi kedi"><div class="tail"></div><div class="body"></div><div class="belly"></div><div class="head"><div class="ear e1"></div><div class="ear e2"></div><div class="eye e1"></div><div class="eye e2"></div><div class="muzzle"></div><div class="nose"></div><div class="smile">⌣</div></div></div><div class="foodbowl">🥣</div>
+  <div class="stage" aria-label="Pembe kedi odası">
+   <svg class="room-art" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pembe koltuklu, güneş alan kedi odası">
+    <defs>
+     <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f4d1db"/><stop offset="1" stop-color="#f8e0e3"/></linearGradient>
+     <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#efcda8"/><stop offset="1" stop-color="#d99f75"/></linearGradient>
+     <linearGradient id="sofa" x2="0" y2="1"><stop stop-color="#f8a9c7"/><stop offset="1" stop-color="#df79a4"/></linearGradient>
+     <linearGradient id="fur" x2=".2" y2="1"><stop stop-color="#ffe0a0"/><stop offset="1" stop-color="#e9a64f"/></linearGradient>
+     <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#80536a" flood-opacity=".22"/></filter>
+    </defs>
+    <rect width="400" height="600" fill="url(#wall)"/>
+    <rect x="0" y="330" width="400" height="270" fill="url(#floor)"/>
+    <path d="M0 352H400M0 410H400M0 470H400M0 530H400M80 330V600M180 330V600M280 330V600" stroke="#b77d5b" stroke-opacity=".25" stroke-width="2"/>
+    <rect x="15" y="54" width="117" height="172" rx="4" fill="#dca5b7"/><rect x="22" y="61" width="103" height="158" fill="#fff0d9"/><rect x="29" y="68" width="89" height="144" fill="#9fdef4"/><path d="M29 155Q55 125 77 151T118 145V212H29Z" fill="#a7dba0"/><path d="M73 68V212M29 140H118" stroke="#fff4e5" stroke-width="8"/>
+    <path d="M0 35Q18 42 20 66V224Q5 231 0 212ZM130 40Q145 55 146 77V224L132 224Z" fill="#e8a3c0"/>
+    <rect x="163" y="66" width="63" height="86" rx="3" fill="#c28d68" filter="url(#shadow)"/><rect x="169" y="72" width="51" height="74" fill="#f8e6d3"/><rect x="175" y="78" width="39" height="62" fill="#f2c2d2"/><path d="M185 104l8 -11 8 11v17h-16z" fill="#f4bd65"/><circle cx="193" cy="101" r="10" fill="#f4bd65"/><path d="M185 102l-4 -8 9 3m9 5l5 -8 -10 3" fill="#e8a54e"/>
+    <rect x="285" y="100" width="95" height="8" rx="4" fill="#bd8868"/><rect x="296" y="72" width="22" height="27" rx="2" fill="#e9c7d6"/><path d="M297 77h19m-19 7h19m-19 7h19" stroke="#ad8fa7" stroke-width="2"/><path d="M331 96q-18 -18 -7 -25q12 -4 13 12q8 -22 18 -12q9 14 -12 25z" fill="#69b878"/><path d="M343 96v-20" stroke="#4c9d68" stroke-width="3"/>
+    <g filter="url(#shadow)">
+     <ellipse cx="304" cy="270" rx="70" ry="18" fill="#9e5d80" opacity=".25"/>
+     <rect x="217" y="207" width="155" height="104" rx="23" fill="url(#sofa)"/><rect x="204" y="191" width="177" height="96" rx="24" fill="#f5a2c2" stroke="#e986ad" stroke-width="4"/><rect x="216" y="215" width="70" height="60" rx="14" fill="#f7b4ce"/><rect x="294" y="215" width="72" height="60" rx="14" fill="#f7b4ce"/><rect x="208" y="276" width="170" height="30" rx="12" fill="#ec8eb2"/><path d="M229 307v17m128 -17v17" stroke="#b77860" stroke-width="8" stroke-linecap="round"/>
+     <rect x="232" y="225" width="35" height="30" rx="7" fill="#fff0df" transform="rotate(-10 249 240)"/><rect x="310" y="226" width="35" height="30" rx="7" fill="#fff0df" transform="rotate(8 327 241)"/>
+    </g>
+    <g filter="url(#shadow)">
+     <ellipse cx="60" cy="350" rx="45" ry="12" fill="#8d674f" opacity=".22"/><path d="M52 329V244" stroke="#c69b75" stroke-width="10" stroke-linecap="round"/><rect x="12" y="234" width="82" height="13" rx="6" fill="#efc5b5"/><rect x="20" y="278" width="66" height="12" rx="6" fill="#efc5b5"/><rect x="18" y="324" width="70" height="12" rx="6" fill="#efc5b5"/><rect x="17" y="328" width="72" height="10" rx="5" fill="#d9ae8b"/>
+    </g>
+    <g><path d="M378 314v-51" stroke="#b17b58" stroke-width="7"/><path d="M350 267q-4 -33 21 -28q15 10 7 31q23 -28 32 -6q3 24 -29 31q-25 0 -31 -28z" fill="#68b77b"/><path d="M379 264l-2 51" stroke="#3c9159" stroke-width="3"/><path d="M355 315h43l-7 29h-29z" fill="#d99c76"/></g>
+    <ellipse cx="205" cy="468" rx="124" ry="70" fill="#f7d6e5" stroke="#ffeaf1" stroke-width="8" filter="url(#shadow)"/><ellipse cx="205" cy="468" rx="107" ry="56" fill="#f8dce9"/>
+    <g filter="url(#shadow)">
+     <path d="M234 484q43 18 39 -9q-4 -13 -20 -7" fill="none" stroke="#e8ad61" stroke-width="18" stroke-linecap="round"/>
+     <ellipse cx="199" cy="459" rx="48" ry="55" fill="url(#fur)" stroke="#d99547" stroke-width="2"/><ellipse cx="199" cy="474" rx="25" ry="32" fill="#fff0d9"/>
+     <ellipse cx="169" cy="505" rx="17" ry="12" fill="#fff1de"/><ellipse cx="226" cy="505" rx="17" ry="12" fill="#fff1de"/>
+     <path d="M165 423l-8 -33q-2 -14 11 -9l22 23m26 0l20 -23q12 -7 11 8l-7 34" fill="url(#fur)" stroke="#d99547" stroke-width="3"/><path d="M166 414l-2 -21 16 17m43 0l16 -17 -2 22" fill="#e88da7"/>
+     <ellipse cx="199" cy="421" rx="54" ry="45" fill="url(#fur)" stroke="#d99547" stroke-width="2"/>
+     <path d="M181 385l-4 15m22 -20l-2 17m20 -12l-4 15" stroke="#d88d3f" stroke-width="6" stroke-linecap="round"/>
+     <ellipse cx="180" cy="420" rx="9" ry="13" fill="#4b2b50"/><ellipse cx="218" cy="420" rx="9" ry="13" fill="#4b2b50"/><circle cx="183" cy="416" r="3" fill="#fff"/><circle cx="221" cy="416" r="3" fill="#fff"/>
+     <ellipse cx="169" cy="433" rx="13" ry="9" fill="#fff3e3"/><ellipse cx="229" cy="433" rx="13" ry="9" fill="#fff3e3"/><path d="M195 431q4 -7 9 0q-4 7 -9 0" fill="#d77b98"/><path d="M199 438q-5 8 -11 0m11 0q5 8 11 0" fill="none" stroke="#7b4b5d" stroke-width="2" stroke-linecap="round"/>
+     <path d="M172 443l-17 -3m17 8l-18 3m74 -8l17 -3m-17 8l18 3" stroke="#fff5e8" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <ellipse cx="266" cy="521" rx="25" ry="7" fill="#8f604d" opacity=".2"/><path d="M243 506h46l-7 21q-16 13 -32 0z" fill="#6cc5ed" stroke="#fff0df" stroke-width="4"/><ellipse cx="266" cy="507" rx="23" ry="7" fill="#f0d7c0"/><ellipse cx="266" cy="506" rx="17" ry="4" fill="#a66b36"/><circle cx="256" cy="505" r="3" fill="#7b4d2e"/><circle cx="270" cy="503" r="3" fill="#7b4d2e"/><circle cx="278" cy="507" r="3" fill="#7b4d2e"/>
+   </svg>
   </div>
   <div class="bubble" id="bubble">MY CAT HOME<small>Home is where the purr is.</small></div>
   <div class="needs">
