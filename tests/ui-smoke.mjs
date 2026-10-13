@@ -16,8 +16,8 @@ try {
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
   assert(await page.locator('#home').evaluate(el => el.classList.contains('active')), 'Welcome screen is not the initial screen');
-  assert((await page.locator('#home').innerText()).includes('Her kedi bir yuvayı hak eder.'), 'Reference Turkish welcome headline is missing');
-  assert((await page.locator('#home').innerText()).includes('KEDİ KOLEKSİYONUN'), 'Turkish rescue collection label is missing');
+  assert((await page.locator('#home').innerText()).includes('Every cat deserves a home.'), 'English welcome headline is missing');
+  assert((await page.locator('#home').innerText()).includes('YOUR RESCUE LIST'), 'English rescue collection label is missing');
   await page.screenshot({ path: path.join(out, '01-welcome-mobile.png'), fullPage: true });
 
   const headerFits = await page.evaluate(() => {
