@@ -63,6 +63,15 @@ try {
   assert(Number(await page.locator('#score').innerText()) > 0, 'Score did not increase after placing a piece');
   await page.locator('#newGame').click();
   assert(Number(await page.locator('#score').innerText()) === 0, 'New Game did not reset the score');
+  // Exercise real pointer drag-and-drop, not only the tap-to-place fallback.
+  const pieceBox = await page.locator('#pieces .piece:not(:disabled)').first().boundingBox();
+  const targetBox = await page.locator('#board .cell').first().boundingBox();
+  await page.mouse.move(pieceBox.x + pieceBox.width / 2, pieceBox.y + pieceBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 8 });
+  await page.mouse.up();
+  assert(await page.locator('#board .cell.filled').count() > 0, 'Dragging a piece onto the board did not place it');
+  assert(Number(await page.locator('#score').innerText()) > 0, 'Drag-and-drop did not update the score');
   await page.locator('#settings').click();
   assert(await page.locator('#settingsModal').evaluate(el => getComputedStyle(el).display !== 'none'), 'Settings did not open');
   const soundBefore = await page.locator('#soundToggle').innerText();
