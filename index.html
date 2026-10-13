@@ -146,6 +146,78 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
  #room .bubble{max-width:54%!important}
 }
 
+
+/* VISUAL REBUILD v18 — playful hand-illustrated 2D game finish */
+:root{--ink:#57304e;--muted:#9d7c98;--pink:#ff78ae;--paper:#fffaf3;--lilac:#bda3ec;--green:#8fe0a0;--shadow:0 7px 0 #8f54751c,0 12px 25px #70405e20}
+body,#app{background:#f7d8e5}
+header{padding:8px 12px;gap:7px;height:78px;flex-basis:78px}
+.brand{background:linear-gradient(145deg,#fffdf8,#ffeaf2);border:2px solid #fff;box-shadow:0 4px 0 #d69ab81c,0 8px 20px #8e54701c}
+.paws{display:grid;place-items:center;width:43px;height:43px;border-radius:15px;background:linear-gradient(145deg,#ffdf6c,#ffad57);border:2px solid #fff;box-shadow:inset 0 -3px 0 #d88a42;font-size:27px}
+.wallet,.round{border:2px solid #fff;box-shadow:0 4px 0 #d69ab81c,0 8px 20px #8e54701c}
+.wallet{background:linear-gradient(145deg,#fff8d6,#ffedab);min-width:76px;padding:0 10px}
+.round{background:linear-gradient(145deg,#fff,#f5e9ff)}
+.stage{background:#f8dce5}
+.stage:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(180deg,#fff4 0%,transparent 20%,transparent 76%,#9c5b4b10 100%)}
+.room-art{filter:saturate(1.16) contrast(1.035)}
+.bubble{top:4%;left:12px;max-width:48%;padding:12px 15px 11px 17px;border:2px solid #fff;background:linear-gradient(145deg,#fffefb,#fff0f5);border-radius:20px 22px 22px 8px;box-shadow:0 4px 0 #d68aa82b,0 10px 20px #6d40541b;font-size:12px;letter-spacing:.25px}
+.bubble:after{content:"";position:absolute;left:18px;bottom:-9px;width:15px;height:15px;background:#fff0f5;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
+.bubble small{font-size:10px;line-height:1.3;color:#a47793}
+.needs{top:21%;left:12px;width:min(42%,220px);gap:7px}
+.need{padding:8px 10px;background:linear-gradient(145deg,#fffefa,#fff1f5);border:2px solid #fff;border-radius:18px;box-shadow:0 4px 0 #d18eac24,0 7px 16px #68465c14;grid-template-columns:29px 1fr auto}
+.need .ico{font-size:21px;filter:drop-shadow(0 2px 0 #c58da52b)}
+.bar{height:8px;background:#e8dce8;border:1px solid #fff}
+.care{left:50%;top:auto;bottom:258px;transform:translateX(-50%);flex-direction:row;gap:7px;z-index:5}
+.care button{width:clamp(55px,15vw,76px);height:60px;border-radius:19px;border:2px solid #fff;box-shadow:0 4px 0 #a85c8b38,0 8px 16px #57304e1a;background:linear-gradient(145deg,#ffb6d1,#ff7fb1);font-size:10px;color:#6b3155;transition:transform .16s,filter .16s}
+.care button:nth-child(2){background:linear-gradient(145deg,#b9eaff,#75c8f5);box-shadow:0 4px 0 #468ec43b,0 8px 16px #57304e1a}
+.care button:nth-child(3){background:linear-gradient(145deg,#fff0a9,#ffc957);box-shadow:0 4px 0 #c48a273b,0 8px 16px #57304e1a}
+.care button:nth-child(4){background:linear-gradient(145deg,#c7f5b9,#80d889);box-shadow:0 4px 0 #479c583b,0 8px 16px #57304e1a}
+.care button:active{transform:translateY(3px) scale(.96);filter:saturate(1.2)}
+.care .ico{font-size:25px;line-height:1.05}
+.shop{background:linear-gradient(180deg,#fff9f2,#ffeef3);border:2px solid #fff;border-bottom:0;border-radius:27px 27px 0 0;box-shadow:0 -8px 0 #e6a4c01c,0 -14px 28px #75496620;padding-top:10px}
+.tabs{gap:7px}
+.tab{border:2px solid #fff;background:linear-gradient(145deg,#f8e9f1,#f3e4f5);box-shadow:0 3px 0 #d3a4c12e;color:#967b9b}
+.tab.active{background:linear-gradient(145deg,#ffb6d1,#ff7fb1);color:#63314e;box-shadow:0 3px 0 #d76e9a}
+.item{background:linear-gradient(155deg,#fffdf8,#fff0e9);border:2px solid #fff;border-radius:18px;box-shadow:0 4px 0 #dfb5a43b,0 8px 14px #70405e10;scroll-snap-align:start}
+.item-art{background:radial-gradient(ellipse at 50% 35%,#fffdf9,#f9dfe9 78%);border:1px solid #fff;box-shadow:inset 0 -3px 0 #edc7d8}
+.item.owned{border-color:#7edb98;box-shadow:0 0 0 2px #7edb9855,0 4px 0 #8bd7a33b}
+.room-nav{background:linear-gradient(105deg,#553b6c,#76508a 55%,#895a8d);border:2px solid #a883b4;border-bottom:0;box-shadow:0 -5px 0 #fff5,0 -10px 25px #55304f2b}
+.room-nav button{border-radius:17px;font-size:9px;letter-spacing:.45px}
+.room-nav button span{font-size:24px;filter:drop-shadow(0 2px 0 #2e183c35)}
+.room-nav button.nav-active{background:linear-gradient(145deg,#ff9dc2,#ff6ea9);color:#592747;box-shadow:inset 0 2px 0 #fff9,0 3px 0 #492b5b}
+.kitten-character{transform-origin:200px 460px}
+.stage .kitten-character ellipse[fill="#4b2b50"]{fill:#57304e}
+@keyframes room-sparkle{0%,100%{opacity:.45;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(14deg)}}
+.room-sparkle{transform-box:fill-box;transform-origin:center;animation:room-sparkle 2.3s ease-in-out infinite}
+@media(max-width:700px){
+ header{height:70px;flex-basis:70px;padding:6px 8px;gap:5px}
+ .brand{gap:7px;padding:6px 9px;height:56px;border-radius:22px}
+ .paws{width:36px;height:36px;font-size:23px;border-radius:12px}
+ .brand small{font-size:8px;letter-spacing:1px}
+ .wallet,.round{height:46px}
+ .wallet{min-width:57px;padding:0 7px;font-size:14px}
+ .round{width:43px;font-size:22px}
+ #room .bubble{top:4%;left:8px;max-width:48%;padding:9px 11px;font-size:10px}
+ #room .bubble small{font-size:9px}
+ #room .needs{top:20%;left:8px;width:min(43%,165px);gap:5px}
+ #room .need{padding:5px 7px;border-radius:14px;grid-template-columns:24px 1fr auto;gap:4px}
+ #room .need .ico{font-size:18px}
+ #room .need label{font-size:9px}
+ #room .need b{font-size:9px}
+ #room .bar{height:6px}
+ #room .care{bottom:294px!important;gap:5px!important}
+ #room .care button{width:clamp(48px,12vw,60px)!important;height:51px!important;border-radius:15px!important;font-size:9px!important}
+ #room .care .ico{font-size:21px!important}
+ #room .shop{height:224px!important}
+ #room .item{flex-basis:94px;padding:6px;border-radius:15px}
+ #room .item-art{height:54px;flex-basis:54px;border-radius:12px}
+ #room .room-nav{height:68px}
+}
+@media(max-height:740px) and (min-width:701px){
+ #room .stage{bottom:272px}
+ #room .care{bottom:282px}
+ #room .shop{height:204px}
+}
+
 </style>
 </head>
 <body>
@@ -196,7 +268,31 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
      <path d="M172 443l-17 -3m17 8l-18 3m74 -8l17 -3m-17 8l18 3" stroke="#fff5e8" stroke-width="2" stroke-linecap="round"/>
     </g>
     <ellipse cx="266" cy="521" rx="25" ry="7" fill="#8f604d" opacity=".2"/><path d="M243 506h46l-7 21q-16 13 -32 0z" fill="#6cc5ed" stroke="#fff0df" stroke-width="4"/><ellipse cx="266" cy="507" rx="23" ry="7" fill="#f0d7c0"/><ellipse cx="266" cy="506" rx="17" ry="4" fill="#a66b36"/><circle cx="256" cy="505" r="3" fill="#7b4d2e"/><circle cx="270" cy="503" r="3" fill="#7b4d2e"/><circle cx="278" cy="507" r="3" fill="#7b4d2e"/>
-   </svg>
+   
+    <!-- extra illustrated details: twinkle lights, wall art, rug stitching and toy -->
+    <g opacity=".95">
+      <path d="M5 24Q95 2 174 24T396 20" fill="none" stroke="#d98eae" stroke-width="2" stroke-dasharray="2 6"/>
+      <g fill="#ffe38a" stroke="#fff5cf" stroke-width="1.5">
+       <path class="room-sparkle" d="M48 37l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/>
+       <path class="room-sparkle" d="M151 174l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+       <path class="room-sparkle" d="M250 47l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+       <path class="room-sparkle" d="M371 179l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+      </g>
+      <g transform="translate(145 245)">
+       <path d="M0 0q20 -9 40 0" fill="none" stroke="#c88ba7" stroke-width="2"/>
+       <circle cx="4" cy="0" r="3" fill="#ffe38a"/><circle cx="20" cy="-3" r="3" fill="#a7e4f5"/><circle cx="37" cy="0" r="3" fill="#ffe38a"/>
+      </g>
+    </g>
+    <!-- rug scallops and hand-stitched border -->
+    <ellipse cx="205" cy="468" rx="116" ry="62" fill="none" stroke="#f4b5d0" stroke-width="2" stroke-dasharray="4 5" opacity=".9"/>
+    <!-- collar and golden bell make the kitten feel like a cared-for character -->
+    <g class="kitten-character" pointer-events="none">
+      <path d="M166 461q31 18 64 -1" fill="none" stroke="#e95786" stroke-width="8" stroke-linecap="round"/>
+      <path d="M197 465l-1 8 8 0 1 -8z" fill="#ffc94f" stroke="#d99635" stroke-width="1.5"/>
+      <circle cx="201" cy="477" r="5" fill="#ffdb65" stroke="#d99635" stroke-width="1.5"/>
+      <circle cx="199" cy="475" r="1.5" fill="#fff5bb"/>
+    </g>
+</svg>
   </div>
   <div class="bubble" id="bubble">MY CAT HOME<small>Home is where the purr is.</small></div>
   <div class="needs">
