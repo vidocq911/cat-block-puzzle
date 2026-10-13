@@ -171,6 +171,51 @@
  .shop-shortcut{bottom:208px;width:66px;height:66px}
 }
 
+
+/* Mobile screenshot corrections: keep the play space visible and shop compact. */
+#room.screen.active{top:calc(env(safe-area-inset-top) + 77px);bottom:0;padding-bottom:0}
+#room .scene{inset:0 0 242px 0!important;bottom:242px!important;overflow:hidden!important}
+#room .scene-label{z-index:2}
+#room .pet-care{top:72px;left:10px;width:min(42%,235px);z-index:4}
+#room .pet-meters{gap:6px}
+#room .pet-meters span{grid-template-columns:27px 1fr auto;gap:5px;padding:8px 9px;border-radius:21px}
+#room .pet-meters .meter-icon{font-size:21px}
+#room .pet-meters label{font-size:10px}
+#room .pet-meters i{height:7px}
+#room #petMessage{max-width:100%;padding:7px 9px;font-size:9px}
+#room .care-actions{top:255px;left:10px;width:68px;z-index:4}
+#room .care-actions button{min-height:63px;height:63px;flex:0 0 63px;padding:6px 2px}
+#room .care-emoji{font-size:22px}
+#room .shop-shortcut{bottom:250px;right:10px;width:66px;height:66px;border-radius:20px;z-index:5}
+#room .scene-actions{height:234px!important;min-height:234px!important;bottom:0!important;padding:10px 10px calc(env(safe-area-inset-bottom) + 8px)!important;overflow:hidden!important;display:block!important;border-radius:25px 25px 0 0}
+#room .shop-tabs{height:42px!important;min-height:42px!important;max-height:42px!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px;margin:0 0 9px!important}
+#room .shop-tabs .shop-tab{height:42px!important;min-height:42px!important;max-height:42px!important;align-self:stretch;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 2px!important;border-radius:22px;font-size:clamp(8px,2.2vw,11px)!important;line-height:1.05;white-space:nowrap}
+#room .shop-cards{height:158px!important;min-height:0!important;display:flex!important;align-items:stretch;gap:8px;overflow-x:auto!important;overflow-y:hidden!important;padding:0 0 3px!important}
+#room .shop-card{height:150px!important;min-height:150px!important;max-height:150px!important;flex:0 0 100px!important;display:flex!important;flex-direction:column;justify-content:space-between;align-items:center;padding:7px 5px!important;border-radius:20px}
+#room .shop-card .shop-art{height:76px!important;min-height:76px!important;flex:0 0 76px;width:100%;display:grid;place-items:center;font-size:36px!important}
+#room .shop-card b{font-size:12px!important;line-height:1.15}
+#room .shop-card strong{font-size:12px!important;line-height:1.1}
+@media(min-width:700px){
+ #room .scene{inset:0 0 248px 0!important;bottom:248px!important}
+ #room .pet-care{left:20px;top:85px;width:230px}
+ #room .care-actions{left:20px;top:280px}
+ #room .scene-actions{height:242px!important;min-height:242px!important}
+ #room .shop-card{flex-basis:128px!important;height:158px!important;min-height:158px!important;max-height:158px!important}
+}
+@media(max-height:740px){
+ #room .scene{inset:0 0 210px 0!important;bottom:210px!important}
+ #room .pet-care{top:55px}
+ #room .care-actions{top:220px}
+ #room .care-actions button{height:53px;min-height:53px;flex-basis:53px}
+ #room .scene-actions{height:204px!important;min-height:204px!important;padding-top:7px!important}
+ #room .shop-tabs{height:35px!important;min-height:35px!important;max-height:35px!important}
+ #room .shop-tabs .shop-tab{height:35px!important;min-height:35px!important;max-height:35px!important}
+ #room .shop-cards{height:150px!important}
+ #room .shop-card{height:140px!important;min-height:140px!important;max-height:140px!important}
+ #room .shop-card .shop-art{height:68px!important;min-height:68px!important;flex-basis:68px!important}
+ #room .shop-shortcut{bottom:218px}
+}
+
 </style>
 </head>
 <body>
@@ -339,7 +384,7 @@ function buildScene(which){if(!scene)return;clearWorld();scene.background=new TH
 function updatePetUI(){
  const set=(id,v)=>{const el=$(id);if(el)el.textContent=v+'%'};const bar=(id,v)=>{const el=$(id);if(el)el.style.width=v+'%'};
  set('hungerValue',Math.round(pet.hunger));set('cleanValue',Math.round(pet.clean));set('moodValue',Math.round(pet.mood));
- bar('hungerBar',100-pet.hunger);bar('cleanBar',pet.clean);bar('moodBar',pet.mood);
+ bar('hungerBar',pet.hunger);bar('cleanBar',pet.clean);bar('moodBar',pet.mood);
  const msg=$('petMessage');if(msg){msg.textContent=pet.hunger>75?'Mochi is hungry. Please feed me! 🍲':pet.clean<35?'The room is messy. Mochi feels sad. 🥺':pet.mood<35?'Mochi needs some love and play. 💗':pet.action==='sleep'?'Mochi is taking a cozy nap. 😴':pet.action==='play'?'Mochi is having fun! ✨':'Mochi is exploring the room. 🐾';}
 }
 function petAction(action){
