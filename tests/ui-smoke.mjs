@@ -59,7 +59,16 @@ try {
   assert(Number(await page.locator('#score').innerText()) === 0, 'New Game did not reset the score');
   await page.locator('#settings').click();
   assert(await page.locator('#settingsModal').evaluate(el => getComputedStyle(el).display !== 'none'), 'Settings did not open');
+  const soundBefore = await page.locator('#soundToggle').innerText();
+  await page.locator('#soundToggle').click();
+  assert((await page.locator('#soundToggle').innerText()) !== soundBefore, 'Sound toggle did not change state');
+  await page.locator('#soundToggle').click();
   await page.locator('#closeSettings').click();
+
+  await page.evaluate(() => { localStorage.setItem('cbr2_best', '100'); localStorage.removeItem('cbr2_rescued'); });
+  await page.reload({ waitUntil: 'networkidle' });
+  assert(await page.locator('#rescued').innerText() === '1', 'Reaching the rescue milestone did not unlock Pepper');
+  assert((await page.locator('#rescueText').innerText()).includes('Pepper'), 'Rescue collection did not show the unlocked cat');
 
   assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
   console.log('PASS: welcome, mobile header, room, 4 care actions, 4 shop tabs, purchase, home navigation, puzzle placement/scoring/reset, settings; screenshots saved.');
