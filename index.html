@@ -68,7 +68,7 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
  @keyframes kitten-sad{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(4px) rotate(-3deg)}}
  @media(prefers-reduced-motion:reduce){.kitten-character,.stage.cat-happy .kitten-character,.stage.cat-sad .kitten-character{animation:none}}
 @media(max-height:740px){.stage{bottom:205px}.care{top:40%;gap:4px}.care button{height:45px;width:58px}.care .ico{font-size:17px}header{height:72px;flex-basis:72px;padding-top:5px;padding-bottom:5px}.brand{height:56px}.wallet,.round{height:47px}.round{width:47px}.shop{height:205px;padding-top:8px;gap:7px}.tabs{flex-basis:35px}.tab{font-size:8px}.item-art{height:62px;flex-basis:62px}.item{flex-basis:94px}.needs{top:20%;gap:5px}.need{padding:6px 8px}.care{top:40%;gap:4px}.care button{height:45px;width:58px}.care .ico{font-size:17px}.shop-short{bottom:214px;width:64px;height:64px}.sofa{top:45%;height:21%}.kitten{bottom:13%;transform:translateX(-50%) scale(.86)}}
-@media(max-width:430px){header{gap:6px;padding-left:9px;padding-right:9px}.brand{padding:7px 9px;gap:6px;max-width:none;flex:1 1 auto;overflow:hidden}.paws{font-size:25px}.brand strong{font-size:clamp(13px,3.5vw,16px)}.brand small{font-size:8px;letter-spacing:1px}.wallet{min-width:66px;padding:0 9px;font-size:15px;gap:4px}.home-shortcut,.round{width:43px;flex:0 0 43px;height:46px;font-size:23px}.needs{left:8px;width:min(43%,205px)}.need{grid-template-columns:25px 1fr auto;padding:7px 8px}.need .ico{font-size:20px}.care{left:8px;top:40%}.shop-short{right:8px;width:62px;height:62px;border-radius:19px}.shop{padding-left:8px;padding-right:8px}.item{flex-basis:94px}}
+@media(max-width:430px){.stage{bottom:236px}.kitten{width:132px;height:166px;transform:translateX(-50%) scale(1.03);transform-origin:bottom center}.kitten .head{width:104px;height:88px}.kitten .body{width:73px;height:83px}.sofa{left:24%;width:57%}.rug{left:21%;width:61%}.shop-short{bottom:244px}header{gap:6px;padding-left:9px;padding-right:9px}.brand{padding:7px 9px;gap:6px;max-width:none;flex:1 1 auto;overflow:hidden}.paws{font-size:25px}.brand strong{font-size:clamp(13px,3.5vw,16px)}.brand small{font-size:8px;letter-spacing:1px}.wallet{min-width:66px;padding:0 9px;font-size:15px;gap:4px}.home-shortcut,.round{width:43px;flex:0 0 43px;height:46px;font-size:23px}.needs{left:8px;width:min(43%,205px)}.need{grid-template-columns:25px 1fr auto;padding:7px 8px}.need .ico{font-size:20px}.care{left:8px;top:40%}.shop-short{right:8px;width:62px;height:62px;border-radius:19px}.shop{padding-left:8px;padding-right:8px}.item{flex-basis:94px}}
 @media(min-width:700px){#app{max-width:600px;margin:0 auto;box-shadow:0 0 50px #76506b22}body{background:#e8d3df}.shop-short{right:18px}.needs{left:16px}.care{left:16px}}
 </style>
 </head>
@@ -81,8 +81,8 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
  <button class="round" id="settings" aria-label="Settings">⚙</button>
 </header>
 <div id="main">
- <section class="screen" id="room">
-  <div class="stage" aria-label="Pink cat room">
+ <section class="screen active" id="room">
+  <div class="stage" aria-label="Cozy cat room">
    <svg class="room-art" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A sunny cat room with a pink sofa">
     <defs>
      <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f4d1db"/><stop offset="1" stop-color="#f8e0e3"/></linearGradient>
@@ -125,8 +125,8 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
   <div class="bubble" id="bubble">MY CAT HOME<small>Home is where the purr is.</small></div>
   <div class="needs">
    <div class="need"><span class="ico">🍴</span><label>HUNGRY</label><b id="hungerNum">20%</b><div class="bar"><span id="hungerBar"></span></div></div>
-   <div class="need"><span class="ico">💧</span><label>HAPPY</label><b id="happyNum">100%</b><div class="bar"><span id="happyBar"></span></div></div>
-   <div class="need"><span class="ico">😊</span><label>CLEAN</label><b id="cleanNum">100%</b><div class="bar"><span id="cleanBar"></span></div></div>
+   <div class="need"><span class="ico">😊</span><label>HAPPY</label><b id="happyNum">100%</b><div class="bar"><span id="happyBar"></span></div></div>
+   <div class="need"><span class="ico">💧</span><label>CLEAN</label><b id="cleanNum">100%</b><div class="bar"><span id="cleanBar"></span></div></div>
   </div>
   <div class="care">
    <button data-care="feed"><span class="ico">🍲</span>FEED</button><button data-care="play"><span class="ico">🧶</span>PLAY</button><button data-care="clean"><span class="ico">🧹</span>CLEAN</button><button data-care="pet"><span class="ico">💗</span>PET</button>
@@ -137,7 +137,7 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
    <div class="items" id="items"></div>
   </div>
  </section>
- <section class="screen active" id="home">
+ <section class="screen" id="home">
   <div class="stats"><div class="stat"><small>PLAYER LEVEL</small><b id="level">1</b></div><div class="stat"><small>CATS RESCUED</small><b id="rescued">0</b></div><div class="stat"><small>BEST SCORE</small><b id="best">0</b></div></div>
   <div class="home-preview" id="homePreview" aria-label="Mochi’s pink room">
 <svg viewBox="0 0 400 200" class="welcome-art" role="img" aria-label="Pink cat room">
