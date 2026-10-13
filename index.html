@@ -250,11 +250,57 @@ function buy(id){const item=Object.values(catalog).flat().find(x=>x[0]===id);if(
 function care(action){playTone(action==='pet'?'purr':'happy');document.querySelector('.stage').classList.remove('cat-happy','cat-sad');document.querySelector('.stage').classList.add('cat-happy');if(action==='feed'){pet.hunger=Math.max(0,pet.hunger-35);pet.happy=Math.min(100,pet.happy+5);modal('Yum, delicious! 🍲','Mochi’s tummy is full. Thank you for caring!')}if(action==='play'){pet.happy=Math.min(100,pet.happy+18);pet.clean=Math.max(0,pet.clean-3);pet.hunger=Math.min(100,pet.hunger+8);modal('Playtime! 🧶','Mochi is having the best time with you!')}if(action==='clean'){pet.clean=100;document.querySelector('.stage').classList.remove('messy');modal('Sparkling clean! ✨','Mochi’s room is fresh and cozy again.')}if(action==='pet'){pet.happy=Math.min(100,pet.happy+12);modal('Purr, purr... 💗','Mochi feels safe and loved with you.')}updatePet()}
 function updatePet(){localStorage.setItem('cbr2_pet',JSON.stringify(pet));const stage=document.querySelector('.stage');if(stage)stage.classList.toggle('messy',pet.clean<40);[['hunger',pet.hunger],['happy',pet.happy],['clean',pet.clean]].forEach(([key,val])=>{$(key+'Num').textContent=Math.round(val)+'%';$(key+'Bar').style.width=val+'%'})}
 function newPuzzle(){grid=Array.from({length:8},()=>Array(8).fill(0));pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0;score=0;$('score').textContent=score;renderPuzzle()}
-function renderPuzzle(){if(!grid.length){newPuzzle();return}const board=$('board');board.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','Row '+(r+1)+', column '+(c+1));el.dataset.row=r;el.dataset.col=c;el.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}place(selected,r,c)});board.appendChild(el)}const box=$('pieces');box.innerHTML='';pieces.forEach((shape,i)=>{const b=document.createElement('button');b.className='piece'+(i===selected?' selected':'');b.disabled=!shape;b.dataset.piece=i;if(shape){const maxY=Math.max(...shape.map(p=>p[0]))+1,maxX=Math.max(...shape.map(p=>p[1]))+1;const preview=document.createElement('span');preview.className='piece-shape';preview.style.gridTemplateColumns='repeat('+maxX+',clamp(10px,3.2vw,17px))';preview.style.gridTemplateRows='repeat('+maxY+',clamp(10px,3.2vw,17px))';shape.forEach(([y,x])=>{const cell=document.createElement('span');cell.className='mini';cell.style.gridRow=String(y+1);cell.style.gridColumn=String(x+1);preview.appendChild(cell)});b.appendChild(preview)}else{b.textContent='✓';b.disabled=true}b.addEventListener('pointerdown',e=>{if(!pieces[i])return;dragState={index:i,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId};b.classList.add('dragging');try{b.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()});b.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}if(!pieces[i])return;selected=i;renderPuzzle()});box.appendChild(b)});$('best2').textContent=best}
+function renderPuzzle(){if(!grid.length){newPuzzle();return}const board=$('board');board.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','Row '+(r+1)+', column '+(c+1));el.dataset.row=r;el.dataset.col=c;el.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}place(selected,r,c)});board.appendChild(el)}const box=$('pieces');box.innerHTML='';pieces.forEach((shape,i)=>{const b=document.createElement('button');b.className='piece'+(i===selected?' selected':'');b.disabled=!shape;b.dataset.piece=i;if(shape){const maxY=Math.max(...shape.map(p=>p[0]))+1,maxX=Math.max(...shape.map(p=>p[1]))+1;const preview=document.createElement('span');preview.className='piece-shape';preview.style.gridTemplateColumns='repeat('+maxX+',clamp(10px,3.2vw,17px))';preview.style.gridTemplateRows='repeat('+maxY+',clamp(10px,3.2vw,17px))';shape.forEach(([y,x])=>{const cell=document.createElement('span');cell.className='mini';cell.style.gridRow=String(y+1);cell.style.gridColumn=String(x+1);preview.appendChild(cell)});b.appendChild(preview)}else{b.textContent='✓';b.disabled=true}b.addEventListener('pointerdown',e=>beginDrag(i,e,b));b.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}if(!pieces[i])return;selected=i;renderPuzzle()});box.appendChild(b)});$('best2').textContent=best}
+function beginDrag(index,e,button){
+ if(!pieces[index])return;
+ dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId};
+ button.classList.add('dragging');
+ try{button.setPointerCapture(e.pointerId)}catch(_){}
+ e.preventDefault();
+}
 function clearDropTargets(){document.querySelectorAll('.cell.drop-target,.cell.drop-invalid').forEach(el=>el.classList.remove('drop-target','drop-invalid'))}
-function updateDropTarget(x,y){clearDropTargets();if(!dragState)return;const el=document.elementFromPoint(x,y)?.closest?.('.cell');if(!el)return;const shape=pieces[dragState.index];if(!shape)return;const r=Number(el.dataset.row),c=Number(el.dataset.col);const fits=shape.every(([dy,dx])=>r+dy<8&&c+dx<8&&!grid[r+dy]?.[c+dx]);el.classList.add(fits?'drop-target':'drop-invalid');if(fits)shape.forEach(([dy,dx])=>{const target=document.querySelector('.cell[data-row="'+(r+dy)+'"][data-col="'+(c+dx)+'"]');if(target)target.classList.add('drop-target')})}
-window.addEventListener('pointermove',e=>{if(!dragState)return;if(Math.hypot(e.clientX-dragState.startX,e.clientY-dragState.startY)>7)dragState.moved=true;if(dragState.moved)updateDropTarget(e.clientX,e.clientY)},{passive:true});
-window.addEventListener('pointerup',e=>{if(!dragState)return;const state=dragState;dragState=null;document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));clearDropTargets();if(state.moved){const cell=document.elementFromPoint(e.clientX,e.clientY)?.closest?.('.cell');if(cell){selected=state.index;suppressCellClick=true;place(state.index,Number(cell.dataset.row),Number(cell.dataset.col));setTimeout(()=>{suppressCellClick=false},0)}else{$('puzzle').querySelector('.puz-help').textContent='Drop the piece on a highlighted square inside the board.'}}else{selected=state.index;renderPuzzle()}},{passive:true});
+function cellAtPoint(x,y){
+ const hit=document.elementFromPoint(x,y)?.closest?.('.cell');
+ if(hit&&hit.closest('#board'))return hit;
+ // Pointer capture can make hit-testing inconsistent on some mobile browsers.
+ // Resolve the target using the actual cell rectangles as a fallback.
+ const cells=document.querySelectorAll('#board .cell');
+ for(const cell of cells){const r=cell.getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return cell}
+ return null;
+}
+function updateDropTarget(x,y){
+ clearDropTargets();if(!dragState)return;
+ const el=cellAtPoint(x,y);if(!el)return;
+ const shape=pieces[dragState.index];if(!shape)return;
+ const r=Number(el.dataset.row),c=Number(el.dataset.col);
+ const fits=shape.every(([dy,dx])=>r+dy<8&&c+dx<8&&!grid[r+dy]?.[c+dx]);
+ el.classList.add(fits?'drop-target':'drop-invalid');
+ if(fits)shape.forEach(([dy,dx])=>{const target=document.querySelector('.cell[data-row="'+(r+dy)+'"][data-col="'+(c+dx)+'"]');if(target)target.classList.add('drop-target')});
+}
+function finishDrag(e){
+ if(!dragState)return;
+ const state=dragState;dragState=null;
+ document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));
+ clearDropTargets();
+ if(state.moved){
+  const cell=cellAtPoint(e.clientX,e.clientY);
+  if(cell){selected=state.index;suppressCellClick=true;place(state.index,Number(cell.dataset.row),Number(cell.dataset.col));setTimeout(()=>{suppressCellClick=false},0)}
+  else{$('puzzle').querySelector('.puz-help').textContent='Drop the piece on a highlighted square inside the board.'}
+ }else{selected=state.index;renderPuzzle()}
+}
+function cancelDrag(){
+ if(!dragState)return;
+ dragState=null;
+ document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));
+ clearDropTargets();
+}
+window.addEventListener('pointermove',e=>{
+ if(!dragState)return;
+ if(Math.hypot(e.clientX-dragState.startX,e.clientY-dragState.startY)>7)dragState.moved=true;
+ if(dragState.moved)updateDropTarget(e.clientX,e.clientY);
+},{passive:true});
+window.addEventListener('pointerup',finishDrag,{passive:true});
+window.addEventListener('pointercancel',cancelDrag,{passive:true});
 function place(which,r,c){const shape=pieces[which];if(!shape)return;const fits=shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){$('puzzle').querySelector('.puz-help').textContent='That piece won’t fit there. Try another spot!';return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;pieces[which]=null;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*5;modal('Pawsome move! ✨',cleared+' line(s) cleared. You earned '+(cleared*5)+' coins!')}if(score>best){best=score;localStorage.setItem('cbr2_best',best);updateRescueProgress()}$('score').textContent=score;if(pieces.every(p=>!p)){pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0}else{selected=pieces.findIndex(p=>p!==null);if(selected<0)selected=0}save();renderPuzzle();if(!pieces.some(p=>p&&canPlaceAnywhere(p))){setTimeout(()=>modal('Time for a fresh board 🐱','The board is full. Start a new game and try again!'),150)}}
 function canPlaceAnywhere(shape){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]))return true;return false}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));drawItems()}));
