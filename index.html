@@ -108,6 +108,24 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 .cell{touch-action:none}
 @media(max-height:740px){.room-nav{height:58px}.shop{bottom:58px}.stage{bottom:263px}.shop-short{bottom:270px}}
 @media(max-width:430px){.room-nav{height:68px}.shop{bottom:68px}.stage{bottom:304px}.shop-short{bottom:312px}}
+
+/* Mobile layout repair: keep every care action visible above the shop. */
+@media(max-width:700px){
+  #room .shop{height:184px;bottom:68px;padding:8px 8px calc(env(safe-area-inset-bottom) + 4px);gap:7px}
+  #room .tabs{flex-basis:34px;gap:5px}
+  #room .tab{font-size:clamp(8px,2vw,10px)}
+  #room .item{flex-basis:94px;padding:6px}
+  #room .item-art{height:54px;flex-basis:54px;font-size:31px}
+  #room .stage{bottom:252px}
+  #room .care{left:50%;top:auto;bottom:258px;transform:translateX(-50%);flex-direction:row;gap:4px}
+  #room .care button{width:clamp(47px,13.5vw,60px);height:52px;border-radius:16px;font-size:9px;flex:0 1 auto}
+  #room .care .ico{font-size:18px}
+  #room .shop-short{display:none}
+  #room .needs{top:19%;width:min(43%,180px);gap:5px}
+  #room .need{padding:6px 8px}
+  #room .bubble{max-width:54%}
+}
+
 </style>
 </head>
 <body>
