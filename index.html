@@ -99,20 +99,120 @@
  #room .scene-actions{padding:8px}
  #room .scene-actions button{min-height:82px}
 }
+
+/* CAT BLOCK RESCUE CLUB — complete cozy pet-room layout */
+:root{--ink:#4a2850;--muted:#9a7c9c;--cream:#fff8f3;--pink:#f5a9ca}
+#ui{padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 10px);gap:9px;max-width:none;width:100%;left:0;transform:none}
+.top{position:relative;z-index:8;flex:0 0 58px;gap:10px}
+.brand{max-width:260px;flex:0 1 auto;padding:9px 15px;border-radius:28px;background:#fffaf4f5;box-shadow:0 8px 25px #65415b20}
+.brand strong{font-size:clamp(14px,3.5vw,20px);letter-spacing:.4px}
+.brand small{font-size:10px;letter-spacing:1.6px}
+.pawlogo{font-size:30px}
+#wallet{height:50px;display:flex;align-items:center;justify-content:center;min-width:84px;border-radius:26px;background:#fffaf4f5;font-size:16px;padding:0 15px}
+.settings-btn{background:#fffaf4f5;width:50px;height:50px;flex-basis:50px;color:#49254e}
+#room.screen.active{position:absolute;top:calc(env(safe-area-inset-top) + 77px);right:0;bottom:0;left:0;display:block;min-height:0;height:auto;margin:0;padding:0 0 calc(env(safe-area-inset-bottom) + 8px);overflow:hidden;background:transparent;z-index:3}
+#room .scene{position:absolute;inset:0 0 218px 0;width:100%;height:auto;min-height:0;flex:none;border-radius:0;background:transparent;overflow:visible;pointer-events:none}
+#room .scene-label{top:9px;left:10px;padding:12px 16px;border-radius:22px;background:#fffaf4f2;font-size:14px;box-shadow:0 6px 22px #79536c1c}
+#room .scene-label small{font-size:10px}
+#room .pet-care{position:absolute;top:75px;left:10px;right:auto;width:clamp(150px,27%,270px);padding:0;border:0;background:transparent;box-shadow:none}
+#room .pet-meters{display:flex;flex-direction:column;gap:8px}
+#room .pet-meters span{position:relative;display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:7px;padding:10px 11px;border-radius:23px;background:#fffaf4f2;box-shadow:0 5px 18px #76506b18;font-size:10px;font-weight:900}
+#room .pet-meters .meter-icon{grid-row:1 / span 2;font-size:24px;text-align:center}
+#room .pet-meters label{font-size:11px;color:#8d718f;letter-spacing:.35px}
+#room .pet-meters span>b:not(.meter-icon){font-size:10px}
+#room .pet-meters i{grid-column:2 / 4;display:block;height:9px;margin:0;border-radius:99px;background:#e7dce4;overflow:hidden}
+#room .pet-meters em{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#f5a0c6,#ec6fa9)}
+#room .pet-meters span:nth-child(2) em{background:linear-gradient(90deg,#70d3f5,#54bce8)}
+#room .pet-meters span:nth-child(3) em{background:linear-gradient(90deg,#93e0a8,#45bd7b)}
+#room #petMessage{display:block;position:static;width:auto;max-width:100%;margin:7px 0 0;padding:8px 11px;border-radius:16px;background:#fffaf4ed;font-size:10px;box-shadow:0 4px 14px #79536c14;transform:none}
+#room .care-actions{position:absolute;left:10px;top:245px;width:72px;display:flex;flex-direction:column;gap:7px;margin:0}
+#room .care-actions button{min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-radius:21px;background:#fffaf4f5;border:1px solid #fff;box-shadow:0 5px 16px #76506b18;font-size:10px;letter-spacing:.3px}
+.care-emoji{font-size:25px;line-height:1.15}
+#room .care-actions button:active,.shop-card:active{transform:scale(.96)}
+.shop-shortcut{position:absolute;right:12px;bottom:236px;z-index:5;width:78px;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:24px;background:#fffaf4f5;box-shadow:0 7px 22px #76506b20}
+.shop-shortcut span{font-size:29px}.shop-shortcut b{font-size:11px}
+#room .scene-actions{position:absolute;left:0;right:0;bottom:0;height:224px;display:block;overflow:hidden;padding:11px 12px calc(env(safe-area-inset-bottom) + 8px);background:linear-gradient(180deg,#fff8f0f4,#fff8f4 25%);border-radius:28px 28px 0 0;box-shadow:0 -8px 30px #79536c1c}
+.shop-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:10px}
+.shop-tab{height:42px;min-width:0;border-radius:25px;background:#f8edf3;color:#8c728f;font-size:clamp(8px,2.1vw,11px);padding:0 3px;white-space:nowrap}
+.shop-tab.active{background:#f7b8d3;color:#4a2850;box-shadow:0 4px 12px #e58fb61e}
+.shop-cards{display:flex;gap:8px;overflow-x:auto;padding:0 0 5px;scrollbar-width:none}
+.shop-cards::-webkit-scrollbar{display:none}
+.shop-card{flex:0 0 98px;min-width:0;height:132px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 5px;border:2px solid #fff;border-radius:22px;background:#fff7f3;box-shadow:0 4px 13px #79536c10}
+.shop-card .shop-art{width:100%;height:73px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#fce6ee,#f7eaf5);font-size:39px}
+.shop-card b{font-size:12px}
+.shop-card strong{font-size:13px}
+.shop-card.owned{border-color:#7dcf9a;opacity:.7}
+#room .scene-actions button:disabled{opacity:.5}
+.bottom-nav{display:none}
+#garden.screen.active{position:absolute;top:calc(env(safe-area-inset-top) + 77px);left:0;right:0;bottom:0;display:block;padding:0;overflow:hidden}
+@media(min-width:700px){
+ #ui{max-width:none;width:100%;left:0;transform:none}
+ #room .scene{inset:0 0 235px 0}
+ #room .pet-care{left:20px;top:90px;width:235px}
+ #room .care-actions{left:20px;top:265px;width:82px}
+ #room .care-actions button{min-height:76px}
+ #room .scene-actions{height:235px;padding-left:24px;padding-right:24px}
+ .shop-card{flex-basis:128px;height:145px}
+ .shop-card .shop-art{height:82px}
+ .shop-shortcut{right:22px;bottom:248px}
+}
+@media(max-height:740px){
+ #room.screen.active{top:calc(env(safe-area-inset-top) + 68px)}
+ #room .scene{bottom:192px}
+ #room .pet-care{top:60px}
+ #room .pet-meters{gap:5px}
+ #room .pet-meters span{padding:7px 9px}
+ #room .care-actions{top:218px;gap:5px}
+ #room .care-actions button{min-height:56px}
+ #room .scene-actions{height:198px;padding-top:8px}
+ .shop-tab{height:35px}
+ .shop-card{height:122px}
+ .shop-card .shop-art{height:64px}
+ .shop-shortcut{bottom:208px;width:66px;height:66px}
+}
+
 </style>
 </head>
 <body>
 <div id="world"></div>
 <div id="ui">
  <div class="top"><div class="brand"><span class="pawlogo">🐾</span><div><strong>CAT BLOCK</strong><small>RESCUE CLUB</small></div></div><div style="display:flex;gap:6px;align-items:center"><span class="pill" id="wallet" style="font-weight:900">🪙 0</span><button class="settings-btn" id="settingsOpen" aria-label="Settings" title="Settings">⚙</button></div></div>
- <section id="welcome" class="screen active">
+ <section id="welcome" class="screen">
   <div class="stats"><div class="stat"><small>PLAYER LEVEL</small><strong id="level">1</strong></div><div class="stat"><small>CATS RESCUED</small><strong id="rescued">0</strong></div><div class="stat"><small>BEST SCORE</small><strong id="best">0</strong></div></div>
   <div class="spacer"></div>
   <div class="hero"><div class="eyebrow">A LITTLE PAW-SOME ADVENTURE</div><h1>Every cat deserves<br>a home.</h1><p>Solve puzzles, rescue lonely cats, and give them a cozy place to call their own.</p></div>
   <div class="nav"><button class="play" data-go="puzzle">▶ PLAY</button><button class="home" data-go="room">⌂ MY HOME</button><button class="garden" data-go="garden">✿ GARDEN</button></div>
   <div class="panel"><div class="panelhead"><strong>YOUR RESCUE LIST</strong><small id="catcount">0 / 6 CATS</small></div><div class="cats" id="catlist"></div></div>
  </section>
- <section id="room" class="screen"><div class="scene" id="roomScene"><div class="scene-label">MY CAT HOME<small>Home is where the purr is.</small></div></div><div class="pet-care"><div class="pet-meters"><span>🍗 Hunger <b id="hungerValue">20%</b><i><em id="hungerBar"></em></i></span><span>🧼 Cleanliness <b id="cleanValue">100%</b><i><em id="cleanBar"></em></i></span><span>💗 Mood <b id="moodValue">100%</b><i><em id="moodBar"></em></i></span></div><div class="care-actions"><button id="feedCat">🍲<span>FEED</span></button><button id="cleanRoom">🧹<span>CLEAN</span></button><button id="playCat">🧶<span>PLAY</span></button></div><small id="petMessage">Mochi is exploring the room.</small></div><div class="scene-actions"><button data-decor="sofa">🛋 SOFA · 80</button><button data-decor="rug">🧸 RUG · 45</button><button data-decor="tv">📺 TV · 110</button><button data-decor="lamp">💡 LAMP · 60</button><button data-decor="shelf">📚 SHELF · 75</button><button data-decor="toy">🧶 TOY · 35</button><button data-decor="plant">🪴 PLANT · 55</button></div><button class="pill" data-go="welcome">← BACK TO HOME</button></section>
+ <section id="room" class="screen active">
+  <div class="scene" id="roomScene"><div class="scene-label">MY CAT HOME<small>Home is where the purr is.</small></div></div>
+  <div class="pet-care">
+   <div class="pet-meters">
+    <span><b class="meter-icon">🍴</b><label>HUNGRY</label><b id="hungerValue">20%</b><i><em id="hungerBar"></em></i></span>
+    <span><b class="meter-icon">💧</b><label>HAPPY</label><b id="moodValue">100%</b><i><em id="moodBar"></em></i></span>
+    <span><b class="meter-icon">😊</b><label>CLEAN</label><b id="cleanValue">100%</b><i><em id="cleanBar"></em></i></span>
+   </div>
+   <small id="petMessage">Mochi is exploring the room.</small>
+  </div>
+  <div class="care-actions">
+   <button id="feedCat"><span class="care-emoji">🍲</span><span>FEED</span></button>
+   <button id="playCat"><span class="care-emoji">🪶</span><span>PLAY</span></button>
+   <button id="cleanRoom"><span class="care-emoji">🧹</span><span>CLEAN</span></button>
+   <button id="petCat"><span class="care-emoji">💗</span><span>PET</span></button>
+  </div>
+  <button class="shop-shortcut" id="openShop" aria-label="Open shop"><span>🛍️</span><b>SHOP</b></button>
+  <div class="scene-actions">
+   <div class="shop-tabs"><button class="shop-tab active" data-shop-tab="furniture">🛋 FURNITURE</button><button class="shop-tab" data-shop-tab="decor">🪴 DECOR</button><button class="shop-tab" data-shop-tab="food">🥣 FOOD</button><button class="shop-tab" data-shop-tab="toys">🧶 TOYS</button></div>
+   <div class="shop-cards" id="shopCards">
+    <button class="shop-card" data-decor="sofa"><span class="shop-art">🛋️</span><b>Sofa</b><strong>🪙 80</strong></button>
+    <button class="shop-card" data-decor="rug"><span class="shop-art">🐾</span><b>Rug</b><strong>🪙 45</strong></button>
+    <button class="shop-card" data-decor="tv"><span class="shop-art">📺</span><b>TV</b><strong>🪙 110</strong></button>
+    <button class="shop-card" data-decor="lamp"><span class="shop-art">💡</span><b>Lamp</b><strong>🪙 60</strong></button>
+    <button class="shop-card" data-decor="shelf"><span class="shop-art">🪴</span><b>Shelf</b><strong>🪙 75</strong></button>
+    <button class="shop-card" data-decor="plant"><span class="shop-art">🌿</span><b>Plant</b><strong>🪙 55</strong></button>
+   </div>
+  </div>
+ </section>
  <section id="garden" class="screen"><div class="scene" id="gardenScene"><div class="scene-label">CAT GARDEN<small>A little paradise to grow.</small></div></div><div class="scene-actions"><button data-decor="flower">🌷 FLOWERS · 30</button><button data-decor="tree">🌳 TREE · 65</button><button data-decor="pond">💧 POND · 100</button><button data-decor="gardenbench">🪑 BENCH · 90</button></div><button class="pill" data-go="welcome">← BACK TO HOME</button></section>
  <section id="puzzle" class="screen"><div class="puzzle-top"><div class="score"><small>YOUR SCORE</small><strong id="score">0</strong></div><div class="score"><small>BEST SCORE</small><strong id="best2">0</strong></div><button class="pill" data-go="welcome">HOME</button></div><div class="board" id="board"></div><div class="panel"><div class="panelhead"><strong>CHOOSE A SHAPE</strong><small>TAP A PIECE, THEN A CELL</small></div><div class="tray" id="tray"></div></div><div class="bottomnote">FILL A ROW OR COLUMN TO CLEAR IT ✨</div></section>
 </div>
@@ -121,7 +221,7 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (()=>{'use strict';
-const $=id=>document.getElementById(id);let scene, camera, renderer, clock, catActors=[],decorations=[],screen='welcome',muted=false,effectsEnabled=true,selected=0,score=0,best=+(localStorage.getItem('cbr_best')||0),level=+(localStorage.getItem('cbr_level')||1),rescued=+(localStorage.getItem('cbr_rescued')||0),coins=+(localStorage.getItem('cbr_coins')||0),owned={sofa:false,toy:false,plant:false,flower:false,tree:false,pond:false,garden:false},gameOver=false,pet={hunger:20,clean:100,mood:100,poop:0,action:'wander',targetX:0,targetZ:-1.4,actionUntil:0,lastNeedTick:0};
+const $=id=>document.getElementById(id);let scene, camera, renderer, clock, catActors=[],decorations=[],screen='room',muted=false,effectsEnabled=true,selected=0,score=0,best=+(localStorage.getItem('cbr_best')||0),level=+(localStorage.getItem('cbr_level')||1),rescued=+(localStorage.getItem('cbr_rescued')||0),coins=+(localStorage.getItem('cbr_coins')||0),owned={sofa:false,toy:false,plant:false,flower:false,tree:false,pond:false,garden:false},gameOver=false,pet={hunger:20,clean:100,mood:100,poop:0,action:'wander',targetX:0,targetZ:-1.4,actionUntil:0,lastNeedTick:0};
 try{pet=Object.assign(pet,JSON.parse(localStorage.getItem('cbr_pet')||'{}'))}catch(e){}
 try{owned=Object.assign(owned,JSON.parse(localStorage.getItem('cbr_owned')||'{}'))}catch(e){}
 const shop={sofa:{cost:80,label:'Cozy sofa'},toy:{cost:35,label:'Yarn toy'},plant:{cost:55,label:'Potted plant'},tv:{cost:110,label:'TV'},rug:{cost:45,label:'Soft rug'},lamp:{cost:60,label:'Warm lamp'},shelf:{cost:75,label:'Book shelf'},flower:{cost:30,label:'Flower patch'},tree:{cost:65,label:'Garden tree'},pond:{cost:100,label:'Little pond'},garden:{cost:120,label:'Garden access'},gardenbench:{cost:90,label:'Garden bench'}};
@@ -136,7 +236,7 @@ function playTone(freq,duration=.12,wave='sine',volume=.055){if(muted||!effectsE
 function startMusic(){const a=audio();if(!a||musicTimer)return;musicGain=a.createGain();musicGain.gain.value=.032;musicGain.connect(a.destination);const notes=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,523.25,587.33,659.25,523.25,392,493.88,587.33,493.88];musicStep=0;musicTimer=setInterval(()=>{if(muted||!audioCtx||audioCtx.state!=='running')return;const t=audioCtx.currentTime,n=notes[musicStep++%notes.length];for(const [f,delay,dur,vol] of [[n,0,.42,.65],[n/2,.015,.58,.23],[n*1.5,.04,.18,.08]]){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,t+delay);g.gain.setValueAtTime(.0001,t+delay);g.gain.exponentialRampToValueAtTime(vol,t+delay+.025);g.gain.exponentialRampToValueAtTime(.0001,t+delay+dur);o.connect(g);g.connect(musicGain);o.start(t+delay);o.stop(t+delay+dur+.02)}},390)}
 function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}if(musicGain){try{musicGain.gain.setTargetAtTime(.0001,audioCtx.currentTime,.08);setTimeout(()=>{try{musicGain.disconnect()}catch(e){}musicGain=null},350)}catch(e){musicGain=null}}}
 function sayCat(where,message){const el=document.createElement('div');el.className='toast';el.textContent=message;$(where==='room'?'roomScene':'gardenScene').appendChild(el);el.style.display='block';el.style.top='72%';setTimeout(()=>el.remove(),2600)}
-function init3D(){try{if(!window.THREE)throw new Error('Three.js failed to load');scene=new THREE.Scene();scene.background=new THREE.Color('#f8e6e8');scene.fog=new THREE.Fog('#f8e6e8',12,30);camera=new THREE.PerspectiveCamera(34,innerWidth/innerHeight,.1,100);camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;$('world').appendChild(renderer.domElement);clock=new THREE.Clock();scene.add(new THREE.HemisphereLight(0xfff1f4,0x9b8b9b,2));const sun=new THREE.DirectionalLight(0xffedcf,3.1);sun.position.set(-4,9,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);buildScene('welcome');animate();window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});}catch(err){console.error('3D scene failed:',err);document.body.classList.add('no-3d');$('world').style.display='none';}}
+function init3D(){try{if(!window.THREE)throw new Error('Three.js failed to load');scene=new THREE.Scene();scene.background=new THREE.Color('#f8e6e8');scene.fog=new THREE.Fog('#f8e6e8',12,30);camera=new THREE.PerspectiveCamera(34,innerWidth/innerHeight,.1,100);camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;$('world').appendChild(renderer.domElement);clock=new THREE.Clock();scene.add(new THREE.HemisphereLight(0xfff1f4,0x9b8b9b,2));const sun=new THREE.DirectionalLight(0xffedcf,3.1);sun.position.set(-4,9,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);buildScene('room');animate();window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});}catch(err){console.error('3D scene failed:',err);document.body.classList.add('no-3d');$('world').style.display='none';}}
 function mat(color,rough=.72,metal=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal})}
 function mesh(geo,material,x,y,z,group){const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;(group||scene).add(m);return m}
 function box(group,x,y,z,w,h,d,color,round=false){let geo;if(round)geo=new THREE.BoxGeometry(w,h,d,3,3,3);else geo=new THREE.BoxGeometry(w,h,d);return mesh(geo,mat(color),x,y,z,group)}
@@ -242,7 +342,7 @@ function animate(){
  }
  renderer.render(scene,camera)
 }
-function switchScreen(id){if(id==='garden'&&!owned.garden){if(!buy('garden')){toast('Garden unlock costs 120 coins. Play puzzles to earn coins.');id='welcome'}else id='garden'}screen=id;document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===id));if(id==='welcome'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('welcome');updateStats()}if(id==='room'){camera.position.set(0,5.8,13.8);camera.lookAt(0,1.05,-.35);buildScene('room');updatePetUI()}if(id==='garden'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('garden')}if(id==='puzzle'){buildScene('welcome');renderBoard()} }
+function switchScreen(id){if(id==='garden'&&!owned.garden){if(!buy('garden')){toast('Garden unlock costs 120 coins. Play puzzles to earn coins.');id='welcome'}else id='garden'}screen=id;document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===id));if(id==='welcome'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('room');updateStats()}if(id==='room'){camera.position.set(0,5.1,11.7);camera.lookAt(0,1.05,-.4);buildScene('room');updatePetUI()}if(id==='garden'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('garden')}if(id==='puzzle'){buildScene('welcome');renderBoard()} }
 function updateStats(){updateWallet();$('level').textContent=level;$('rescued').textContent=rescued;$('best').textContent=best;$('best2').textContent=best;$('catcount').textContent=Math.min(rescued,cats.length)+' / '+cats.length+' CATS';$('catlist').innerHTML='';cats.forEach(c=>{const open=cats.indexOf(c)<rescued;const el=document.createElement('div');el.className='catcard '+(open?'':'locked');el.innerHTML='<div class="catthumb">'+(open?'🐈':'🔒')+'</div><b>'+(open?c.name:'LEVEL '+c.need)+'</b><small>'+(open?c.kind:'Still waiting for a home')+'</small>';el.addEventListener('click',()=>{if(open){switchScreen('room');}else toast('Reach level '+c.need+' to rescue '+c.name+'!')});$('catlist').appendChild(el)})}
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);t.style.display='block';setTimeout(()=>t.remove(),1800)}
 function renderBoard(){const b=$('board');b.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','row '+(r+1)+' column '+(c+1));el.addEventListener('click',()=>{if(tray[selected])placePiece(selected,r,c)});b.appendChild(el)}renderTray();if(tray&&tray.some(Boolean)&&!tray.some(s=>s&&canFit(s)))endRun()}
@@ -257,6 +357,23 @@ function placePiece(i,r,c){const s=tray[i];if(!s)return false;if(s.some(([a,b])=
 function showRescue(c){$('modalTitle').textContent=c.name+' is home!';$('modalText').textContent='You rescued '+c.name+', '+c.kind.toLowerCase()+'. Visit your home to see your new friend.';$('modal').style.display='flex';$('modalButton').onclick=()=>{$('modal').style.display='none';updateStats();switchScreen('room')}}
 function endRun(){if(gameOver)return;gameOver=true;$('modalTitle').textContent='Paws for a moment';$('modalText').textContent='Score: '+score+'. Your next run could rescue another cat!';$('modalButton').textContent='TRY AGAIN';$('modal').style.display='flex';$('modalButton').onclick=()=>{$('modal').style.display='none';newGame()}}
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.go==='puzzle')newGame();switchScreen(b.dataset.go)}));
+$('petCat')?.addEventListener('click',()=>{pet.mood=Math.min(100,pet.mood+12);pet.action='play';pet.actionUntil=performance.now()/1000+3;save();updatePetUI();sayCat('room','Purr purr! Mochi loves you 💗');playTone(820,.1);});
+$('openShop')?.addEventListener('click',()=>{$('shopCards')?.scrollTo({left:0,behavior:'smooth'});document.querySelector('.shop-tabs')?.scrollIntoView({block:'nearest',behavior:'smooth'});});
+document.querySelectorAll('[data-shop-tab]').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('[data-shop-tab]').forEach(x=>x.classList.toggle('active',x===b));
+ const type=b.dataset.shopTab;
+ const items={
+  furniture:[['sofa','🛋️','Sofa',80],['rug','🐾','Rug',45],['tv','📺','TV',110],['lamp','💡','Lamp',60],['shelf','🪴','Shelf',75],['plant','🌿','Plant',55]],
+  decor:[['plant','🌿','Plant',55],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['flower','🌷','Flowers',30],['tree','🌳','Tree',65]],
+  food:[['food','🥣','Food bowl',20],['treat','🐟','Fish treat',35],['can','🥫','Tuna',40]],
+  toys:[['toy','🧶','Yarn toy',35],['ball','🟣','Ball',25],['laser','🔴','Laser',50]]
+ };
+ const cards=$('shopCards');if(!cards)return;
+ cards.innerHTML=(items[type]||items.furniture).map(([key,emoji,label,cost])=>'<button class="shop-card" data-decor="'+key+'"><span class="shop-art">'+emoji+'</span><b>'+label+'</b><strong>🪙 '+cost+'</strong></button>').join('');
+ cards.querySelectorAll('[data-decor]').forEach(x=>x.addEventListener('click',()=>{if(!shop[x.dataset.decor]){toast(labelForShop(x.dataset.decor)+' coming soon 🐾');return}buy(x.dataset.decor)}));
+}));
+function labelForShop(key){return ({food:'Food',treat:'Treats',can:'Canned food',ball:'Ball',laser:'Laser'})[key]||key;}
+
 $('feedCat').addEventListener('click',()=>petAction('feed'));$('cleanRoom').addEventListener('click',()=>petAction('clean'));$('playCat').addEventListener('click',()=>petAction('play'));document.querySelectorAll('[data-decor]').forEach(b=>b.addEventListener('click',()=>{const d=b.dataset.decor;if(owned[d]){toast('Already unlocked — your cat loves it!');return}buy(d)}));
 function openSettings(){ $('musicToggle').checked=!muted; $('effectsToggle').checked=effectsEnabled; $('settingsModal').style.display='flex'; }
 function closeSettings(){ $('settingsModal').style.display='none'; }
