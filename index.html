@@ -271,7 +271,12 @@ function newPuzzle(){grid=Array.from({length:8},()=>Array(8).fill(0));pieces=[0,
 function renderPuzzle(){if(!grid.length){newPuzzle();return}const board=$('board');board.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','Row '+(r+1)+', column '+(c+1));el.dataset.row=r;el.dataset.col=c;el.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}place(selected,r,c)});board.appendChild(el)}const box=$('pieces');box.innerHTML='';pieces.forEach((shape,i)=>{const b=document.createElement('button');b.className='piece'+(i===selected?' selected':'');b.disabled=!shape;b.dataset.piece=i;if(shape){const maxY=Math.max(...shape.map(p=>p[0]))+1,maxX=Math.max(...shape.map(p=>p[1]))+1;const preview=document.createElement('span');preview.className='piece-shape';preview.style.gridTemplateColumns='repeat('+maxX+',clamp(10px,3.2vw,17px))';preview.style.gridTemplateRows='repeat('+maxY+',clamp(10px,3.2vw,17px))';shape.forEach(([y,x])=>{const cell=document.createElement('span');cell.className='mini';cell.style.gridRow=String(y+1);cell.style.gridColumn=String(x+1);preview.appendChild(cell)});b.appendChild(preview)}else{b.textContent='✓';b.disabled=true}b.addEventListener('pointerdown',e=>beginDrag(i,e,b));b.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}if(!pieces[i])return;selected=i;renderPuzzle()});box.appendChild(b)});$('best2').textContent=best}
 function beginDrag(index,e,button){
  if(!pieces[index])return;
- dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId};
+ // Remember which mini-block the finger grabbed so the piece lands under
+ // that same block, rather than jumping its top-left corner to the finger.
+ const mini=e.target?.closest?.('.mini');
+ const grabY=mini?Math.max(0,Number.parseInt(mini.style.gridRow||'1',10)-1):0;
+ const grabX=mini?Math.max(0,Number.parseInt(mini.style.gridColumn||'1',10)-1):0;
+ dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId,grabY,grabX};
  button.classList.add('dragging');
  // Do not capture the pointer: letting hit-testing follow the finger makes
  // elementFromPoint and cell-rectangle fallback reliable on mobile browsers.
@@ -291,10 +296,13 @@ function updateDropTarget(x,y){
  clearDropTargets();if(!dragState)return;
  const el=cellAtPoint(x,y);if(!el)return;
  const shape=pieces[dragState.index];if(!shape)return;
- const r=Number(el.dataset.row),c=Number(el.dataset.col);
- const fits=shape.every(([dy,dx])=>r+dy<8&&c+dx<8&&!grid[r+dy]?.[c+dx]);
- el.classList.add(fits?'drop-target':'drop-invalid');
- if(fits)shape.forEach(([dy,dx])=>{const target=document.querySelector('.cell[data-row="'+(r+dy)+'"][data-col="'+(c+dx)+'"]');if(target)target.classList.add('drop-target')});
+ // Convert the cell under the finger to the piece's top-left origin.
+ const r=Number(el.dataset.row)-(dragState.grabY||0),c=Number(el.dataset.col)-(dragState.grabX||0);
+ const fits=shape.every(([dy,dx])=>r+dy>=0&&c+dx>=0&&r+dy<8&&c+dx<8&&!grid[r+dy]?.[c+dx]);
+ shape.forEach(([dy,dx])=>{
+  const target=document.querySelector('.cell[data-row="'+(r+dy)+'"][data-col="'+(c+dx)+'"]');
+  if(target)target.classList.add(fits?'drop-target':'drop-invalid');
+ });
 }
 function finishDrag(e){
  if(!dragState)return;
@@ -303,7 +311,7 @@ function finishDrag(e){
  clearDropTargets();
  if(state.moved){
   const cell=cellAtPoint(e.clientX,e.clientY);
-  if(cell){selected=state.index;suppressCellClick=true;place(state.index,Number(cell.dataset.row),Number(cell.dataset.col));setTimeout(()=>{suppressCellClick=false},0)}
+  if(cell){selected=state.index;suppressCellClick=true;place(state.index,Number(cell.dataset.row)-(state.grabY||0),Number(cell.dataset.col)-(state.grabX||0));setTimeout(()=>{suppressCellClick=false},0)}
   else{$('puzzle').querySelector('.puz-help').textContent='Drop the piece on a highlighted square inside the board.'}
  }else{selected=state.index;renderPuzzle()}
 }
@@ -320,7 +328,7 @@ window.addEventListener('pointermove',e=>{
 },{passive:true});
 window.addEventListener('pointerup',finishDrag,{passive:true});
 window.addEventListener('pointercancel',cancelDrag,{passive:true});
-function place(which,r,c){const shape=pieces[which];if(!shape)return;const fits=shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){$('puzzle').querySelector('.puz-help').textContent='That piece won’t fit there. Try another spot!';return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;pieces[which]=null;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*5;modal('Pawsome move! ✨',cleared+' line(s) cleared. You earned '+(cleared*5)+' coins!')}if(score>best){best=score;localStorage.setItem('cbr2_best',best);updateRescueProgress()}$('score').textContent=score;if(pieces.every(p=>!p)){pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0}else{selected=pieces.findIndex(p=>p!==null);if(selected<0)selected=0}save();renderPuzzle();if(!pieces.some(p=>p&&canPlaceAnywhere(p))){setTimeout(()=>modal('Time for a fresh board 🐱','The board is full. Start a new game and try again!'),150)}}
+function place(which,r,c){const shape=pieces[which];if(!shape)return;const fits=shape.every(([y,x])=>r+y>=0&&c+x>=0&&r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){$('puzzle').querySelector('.puz-help').textContent='That piece won’t fit there. Try another spot!';return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;pieces[which]=null;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*5;modal('Pawsome move! ✨',cleared+' line(s) cleared. You earned '+(cleared*5)+' coins!')}if(score>best){best=score;localStorage.setItem('cbr2_best',best);updateRescueProgress()}$('score').textContent=score;if(pieces.every(p=>!p)){pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0}else{selected=pieces.findIndex(p=>p!==null);if(selected<0)selected=0}save();renderPuzzle();if(!pieces.some(p=>p&&canPlaceAnywhere(p))){setTimeout(()=>modal('Time for a fresh board 🐱','The board is full. Start a new game and try again!'),150)}}
 function canPlaceAnywhere(shape){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]))return true;return false}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));drawItems()}));
 document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.care==='play'){go('puzzle');return}care(b.dataset.care)}));
