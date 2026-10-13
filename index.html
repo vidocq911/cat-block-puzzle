@@ -66,7 +66,7 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 .shop-short{position:absolute;right:12px;bottom:312px;width:76px;height:76px;border-radius:24px;background:#fff9f4;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:1000;font-size:11px;z-index:4}.shop-short span{font-size:28px}
 .shop{position:absolute;bottom:68px;left:0;right:0;height:236px;background:#fff9f4f7;border-radius:27px 27px 0 0;padding:10px 10px calc(env(safe-area-inset-bottom) + 6px);box-shadow:0 -7px 24px #76506b17;z-index:6;display:flex;flex-direction:column;gap:9px}
 .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;flex:0 0 42px}.tab{min-width:0;border-radius:24px;background:#f7eaf1;color:#8e7592;font-size:clamp(8px,2.15vw,11px);font-weight:1000;white-space:nowrap;padding:0 2px}.tab.active{background:#f7b7d2;color:#4b2b50}
-.items{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;min-height:0;flex:1;padding:0 0 3px;scrollbar-width:none}.items::-webkit-scrollbar{display:none}
+.items{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;min-height:0;flex:1;padding:0 0 3px;scrollbar-width:none;scroll-snap-type:x proximity}.items::-webkit-scrollbar{display:none}
 .item{flex:0 0 105px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:7px 6px 8px;border-radius:21px;background:#fff4f3;border:2px solid #fff;box-shadow:0 3px 10px #76506b0b}.item-art{height:76px;width:100%;flex:0 0 76px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#fbe6ee,#f3e8f6);font-size:38px}.item b{font-size:12px;line-height:1.15}.item strong{font-size:12px}.item.owned{border-color:#92d7a7}
 #home,#puzzle{padding:12px;overflow:auto;flex-direction:column;gap:12px}#home{padding-bottom:8px}.home-preview{height:clamp(150px,22vh,190px);flex:0 0 auto;border-radius:24px;overflow:hidden;position:relative;box-shadow:var(--shadow);border:4px solid #fff8f4}.home-preview .welcome-art{width:100%;height:100%;display:block}.bottom-nav{position:sticky;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;margin:0 -12px -8px;padding:9px 7px calc(8px + env(safe-area-inset-bottom));background:linear-gradient(110deg,#80638f,#a17da7);border-radius:25px 25px 0 0;box-shadow:0 -5px 20px #76506b18}.bottom-nav button{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;color:#fff7ff;font-size:9px;font-weight:900;padding:4px 0;border-radius:14px}.bottom-nav button span{font-size:21px;line-height:1.1}.bottom-nav button.nav-active{background:#5f4676}.hero{padding:13px 16px}.hero h1{font-size:clamp(23px,5.8vw,32px);margin:7px 0}.hero p{margin:8px 0;font-size:12px}#home .card p{margin:7px 0}#home .card .puz-help{font-size:10px;margin-bottom:0}
 .card{padding:16px;background:#fff9f4;border-radius:23px;box-shadow:var(--shadow)}
@@ -120,7 +120,7 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
   #room .care{left:50%;top:auto;bottom:258px;transform:translateX(-50%);flex-direction:row;gap:4px}
   #room .care button{width:clamp(47px,13.5vw,60px);height:52px;border-radius:16px;font-size:9px;flex:0 1 auto}
   #room .care .ico{font-size:18px}
-  #room .shop-short{display:none}
+  #room .shop-short{display:none!important}
   #room .needs{top:19%;width:min(43%,180px);gap:5px}
   #room .need{padding:6px 8px}
   #room .bubble{max-width:54%}
@@ -291,8 +291,16 @@ function cellAtPoint(x,y){
  // Pointer capture can make hit-testing inconsistent on some mobile browsers.
  // Resolve the target using the actual cell rectangles as a fallback.
  const cells=document.querySelectorAll('#board .cell');
- for(const cell of cells){const r=cell.getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return cell}
- return null;
+ let nearest=null,nearestDistance=Infinity;
+ for(const cell of cells){
+  const r=cell.getBoundingClientRect();
+  if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return cell;
+  const dx=Math.max(r.left-x,0,x-r.right),dy=Math.max(r.top-y,0,y-r.bottom);
+  const distance=Math.hypot(dx,dy);
+  if(distance<nearestDistance){nearestDistance=distance;nearest=cell}
+ }
+ // Small grid gutters should still resolve to the closest cell under a finger.
+ return nearestDistance<=10?nearest:null;
 }
 function updateDropTarget(x,y){
  clearDropTargets();if(!dragState)return;
