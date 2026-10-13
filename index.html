@@ -1,463 +1,98 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#f4d5e1">
-<link rel="icon" href="data:,">
-<title>Cat Block Rescue Club</title>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#ff9abf"><title>Cat Block Rescue Club</title>
 <style>
-:root{--ink:#4b2b50;--muted:#927795;--pink:#f5a9ca;--paper:#fff9f4;--lilac:#e7dafa;--green:#8ed7a7;--shadow:0 5px 18px #75496618}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Nunito,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:#f5dce5}button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:active{transform:scale(.97)}#app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(160deg,#f8dfe9,#f5d5dc 50%,#f7e5d9);padding-top:env(safe-area-inset-top)}
-header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding:10px 16px;position:relative;z-index:5}
-.brand{height:66px;flex:1;min-width:0;max-width:330px;display:flex;align-items:center;gap:11px;padding:8px 15px;border-radius:30px;background:var(--paper);box-shadow:var(--shadow)}
-.paws{font-size:31px;line-height:1}.brand strong{display:block;font-size:clamp(15px,4vw,23px);font-weight:1000;line-height:1.05;white-space:nowrap}.brand small{display:block;color:#a48aa6;font-size:10px;letter-spacing:1.8px;font-weight:1000;margin-top:4px;white-space:nowrap}
-.wallet,.round{height:54px;background:var(--paper);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;border-radius:30px;flex:0 0 auto}.wallet{min-width:86px;padding:0 14px;font-weight:1000;font-size:18px;gap:7px}.round{width:54px;font-size:27px}.home-shortcut{font-size:25px;background:#f7b7d2;color:#4b2b50}
-#main{flex:1;min-height:0;position:relative;overflow:hidden}
-.screen{position:absolute;inset:0;display:none;min-height:0}.screen.active{display:flex}
-#room{flex-direction:column}
-.stage{position:absolute;inset:0 0 236px;background:linear-gradient(180deg,#edcbd5 0%,#f6dfe1 55%,#dcae8b 55%,#d5a17c 100%);overflow:hidden}
-/* Richer lighting and dimensional finish for the room scene */
-.stage{isolation:isolate;background:linear-gradient(180deg,#f7d7e2 0%,#ffe8e8 52%,#eec49c 52%,#d99f75 100%)}
-.stage:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 12% 12%,#fff8d980 0,transparent 36%),linear-gradient(118deg,#fff5d21c 0%,transparent 34%,#8d52601c 100%);mix-blend-mode:soft-light}
-.room-art{position:relative;z-index:0;filter:saturate(1.12) contrast(1.025)}
-/* Main scene now uses the dedicated rendered 3D room artwork */
-/* Use the original hand-drawn 2D SVG room; never cover it with rendered 3D art. */
-.stage{background-image:none!important;background-color:#f6d9e3}
-
-
-
-.room-art [filter="url(#shadow)"]{filter:drop-shadow(0 8px 7px #75465a30)}
-.stage .kitten-character{filter:drop-shadow(0 10px 8px #70445130)}
-.stage .kitten-character path,.stage .kitten-character ellipse{stroke-linejoin:round}
-.stage .kitten-character ellipse[fill="#4b2b50"]{filter:drop-shadow(0 1px 1px #fff7)}
-
-.room-art{width:100%;height:100%;display:block}.stage.messy:after{content:'🐾  🧶  ✨  🐟  🐾';position:absolute;left:8%;right:8%;bottom:20%;font-size:clamp(19px,5vw,30px);letter-spacing:9px;opacity:.9;filter:drop-shadow(0 2px 1px #76506b33);pointer-events:none;animation:messyPop .5s ease-out}.stage.messy .rug{filter:sepia(.15) saturate(.8)}@keyframes messyPop{from{opacity:0;transform:translateY(10px)}to{opacity:.9;transform:translateY(0)}}.wall-trim{position:absolute;left:0;right:0;top:43%;height:9px;background:#fff2e6;border-top:3px solid #fff9f2;border-bottom:2px solid #dfc5c0}
-.window{position:absolute;left:3%;top:11%;width:28%;height:30%;border:8px solid #fff0dd;border-radius:6px;background:linear-gradient(#9ee0f5 0 55%,#b4dba1 56%);box-shadow:inset 0 0 0 3px #e9bca9}
-.window:before,.window:after{content:"";position:absolute;background:#fff3e5}.window:before{width:6px;top:0;bottom:0;left:48%}.window:after{height:6px;left:0;right:0;top:48%}
-.curtain{position:absolute;top:9%;height:34%;width:5%;background:#e6a8c0;border-radius:0 0 18px 18px}.curtain.l{left:0}.curtain.r{left:30%}
-.picture{position:absolute;top:13%;left:43%;width:14%;height:17%;background:#dba77f;border:6px solid #e6b68e;box-shadow:var(--shadow);display:grid;place-items:center;font-size:clamp(20px,5vw,38px)}
-.shelf{position:absolute;right:4%;top:19%;width:22%;height:7px;background:#bd8868;border-radius:4px}.shelf:before{content:"📚  🪴";position:absolute;bottom:4px;left:8px;font-size:clamp(17px,4vw,28px)}
-.plant{position:absolute;right:5%;top:30%;font-size:clamp(36px,9vw,68px);filter:drop-shadow(0 5px 2px #76514a20)}
-.floorboard{position:absolute;inset:55% 0 0;background:repeating-linear-gradient(0deg,transparent 0 39px,#9e705225 40px 42px),repeating-linear-gradient(90deg,transparent 0 85px,#9e705225 86px 88px),linear-gradient(#e9c19b,#d9a77e)}
-.rug{position:absolute;left:25%;bottom:5%;width:53%;height:28%;border-radius:50%;background:#f7d6e2;border:5px solid #ffe8ec;box-shadow:0 5px 0 #d6a4b6;transform:rotate(-5deg)}
-.rug:after{content:"🐾";position:absolute;left:42%;top:30%;font-size:clamp(35px,8vw,60px);opacity:.2}
-.sofa{position:absolute;z-index:1;left:25%;top:43%;width:52%;height:24%;background:#ed91b6;border-radius:20px 20px 14px 14px;box-shadow:0 12px 0 #d97da4}
-.sofa:before{content:"";position:absolute;left:-7%;right:-7%;top:5%;height:78%;border-radius:23px;background:#f3a4c3;border:5px solid #e68caf}
-.sofa:after{content:"";position:absolute;left:6%;right:6%;bottom:4%;height:48%;border-radius:15px;background:linear-gradient(90deg,#ee9aba 0 49%,#f5aec9 50%);border:3px solid #e58caf}
-.pillow{position:absolute;z-index:2;top:48%;left:31%;font-size:clamp(24px,6vw,42px);transform:rotate(-10deg)}
-.pillow.p2{left:62%;transform:rotate(9deg)}
-.tv{position:absolute;right:-2%;top:39%;width:17%;height:15%;background:#403449;border:6px solid #67536d;border-radius:4px;z-index:2}.tv:after{content:"";position:absolute;inset:6px;background:#a4dbe1}.tvstand{position:absolute;right:0;top:53%;width:21%;height:7%;background:#b77f5b;border-radius:4px}
-.lamp{position:absolute;right:23%;top:34%;font-size:clamp(45px,9vw,70px);z-index:2}
-.tower{position:absolute;left:5%;top:37%;width:17%;height:20%;z-index:2}.tower:before{content:"";position:absolute;left:43%;top:8%;width:17%;height:70%;background:repeating-linear-gradient(0deg,#caa07c 0 5px,#e1c09a 6px 10px);border-radius:10px}.tower:after{content:"";position:absolute;left:8%;top:0;width:85%;height:16%;border-radius:14px;background:#f3c6b4;box-shadow:0 65px #efc4b6,0 130px #efc4b6}
-.foodbowl{position:absolute;z-index:3;left:49%;bottom:11%;font-size:clamp(30px,7vw,48px)}
-.kitten{position:absolute;z-index:3;left:44%;bottom:15%;width:116px;height:150px;transform:translateX(-50%);filter:drop-shadow(0 8px 4px #75496622);animation:bob 3s ease-in-out infinite}
-.kitten .body{position:absolute;bottom:0;left:24px;width:68px;height:78px;border-radius:48% 48% 40% 40%;background:#f2c27e;border:2px solid #e4ad68}
-.kitten .belly{position:absolute;bottom:8px;left:40px;width:38px;height:43px;border-radius:50%;background:#fff0dc}
-.kitten .head{position:absolute;top:8px;left:10px;width:96px;height:83px;border-radius:48% 48% 45% 45%;background:#f6cc8b;border:2px solid #e4ad68}
-.ear{position:absolute;top:-12px;width:31px;height:37px;background:#f6cc8b;border:2px solid #e4ad68;border-radius:7px 22px 4px 22px;transform:rotate(-16deg)}.ear:after{content:"";position:absolute;inset:7px 6px 6px;background:#e89ab2;border-radius:8px 15px 4px 13px}.ear.e1{left:7px}.ear.e2{right:7px;transform:scaleX(-1) rotate(-16deg)}
-.eye{position:absolute;top:30px;width:16px;height:22px;border-radius:50%;background:#4b2d50;box-shadow:inset 3px 2px 0 #fff}.eye.e1{left:20px}.eye.e2{right:20px}
-.muzzle{position:absolute;top:49px;left:26px;width:44px;height:24px;border-radius:50%;background:#fff4e6}.nose{position:absolute;top:50px;left:43px;width:10px;height:7px;background:#df86a1;border-radius:50% 50% 60% 60%}.smile{position:absolute;top:58px;left:44px;font-size:15px}
-.tail{position:absolute;right:-3px;bottom:21px;width:37px;height:20px;border:10px solid #f2c27e;border-left:0;border-radius:0 24px 24px 0;transform:rotate(-28deg)}
-.bubble{position:absolute;top:5%;left:10px;max-width:48%;padding:11px 14px;background:#fff9f4;border-radius:22px;box-shadow:var(--shadow);font-size:12px;font-weight:900}.bubble small{display:block;color:var(--muted);font-weight:700;margin-top:4px}
-.needs{position:absolute;top:22%;left:10px;width:min(42%,235px);display:flex;flex-direction:column;gap:8px;z-index:4}
-.need{display:grid;grid-template-columns:31px 1fr auto;align-items:center;gap:5px;padding:9px 10px;background:#fff9f4;border-radius:24px;box-shadow:var(--shadow);font-size:10px;font-weight:1000}.need .ico{font-size:23px;grid-row:1 / span 2}.need label{color:#927795;font-size:clamp(9px,2.3vw,12px);letter-spacing:.2px}.need b{font-size:10px}.bar{grid-column:2/4;height:8px;border-radius:20px;background:#e6dbe4;overflow:hidden}.bar span{display:block;height:100%;width:20%;background:linear-gradient(90deg,#f7a6c8,#e96eaa);border-radius:20px}.need:nth-child(2) .bar span{background:linear-gradient(90deg,#7ad7f4,#50bde5)}.need:nth-child(3) .bar span{background:linear-gradient(90deg,#92dfa9,#48bf7d)}
-.care{position:absolute;left:10px;top:34%;display:flex;flex-direction:column;gap:6px;z-index:4}.care button{width:64px;height:52px;border-radius:22px;background:#fff9f4;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:1000}.care .ico{font-size:20px;line-height:1.05}
-.shop-short{position:absolute;right:12px;bottom:312px;width:76px;height:76px;border-radius:24px;background:#fff9f4;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:1000;font-size:11px;z-index:4}.shop-short span{font-size:28px}
-.shop{position:absolute;bottom:68px;left:0;right:0;height:236px;background:#fff9f4f7;border-radius:27px 27px 0 0;padding:10px 10px calc(env(safe-area-inset-bottom) + 6px);box-shadow:0 -7px 24px #76506b17;z-index:6;display:flex;flex-direction:column;gap:9px}
-.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;flex:0 0 42px}.tab{min-width:0;border-radius:24px;background:#f7eaf1;color:#8e7592;font-size:clamp(8px,2.15vw,11px);font-weight:1000;white-space:nowrap;padding:0 2px}.tab.active{background:#f7b7d2;color:#4b2b50}
-.items{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;min-height:0;flex:1;padding:0 0 3px;scrollbar-width:none;scroll-snap-type:x proximity}.items::-webkit-scrollbar{display:none}
-.item{flex:0 0 105px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:7px 6px 8px;border-radius:21px;background:#fff4f3;border:2px solid #fff;box-shadow:0 3px 10px #76506b0b}.item-art{height:76px;width:100%;flex:0 0 76px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#fbe6ee,#f3e8f6);font-size:38px}.item b{font-size:12px;line-height:1.15}.item strong{font-size:12px}.item.owned{border-color:#92d7a7}
-#home,#puzzle{padding:12px;overflow:auto;flex-direction:column;gap:12px}#home{padding-bottom:8px}.home-preview{height:clamp(150px,22vh,190px);flex:0 0 auto;border-radius:24px;overflow:hidden;position:relative;box-shadow:var(--shadow);border:4px solid #fff8f4}.home-preview .welcome-art{width:100%;height:100%;display:block}.bottom-nav{position:sticky;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;margin:0 -12px -8px;padding:9px 7px calc(8px + env(safe-area-inset-bottom));background:linear-gradient(110deg,#80638f,#a17da7);border-radius:25px 25px 0 0;box-shadow:0 -5px 20px #76506b18}.bottom-nav button{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;color:#fff7ff;font-size:9px;font-weight:900;padding:4px 0;border-radius:14px}.bottom-nav button span{font-size:21px;line-height:1.1}.bottom-nav button.nav-active{background:#5f4676}.hero{padding:13px 16px}.hero h1{font-size:clamp(23px,5.8vw,32px);margin:7px 0}.hero p{margin:8px 0;font-size:12px}#home .card p{margin:7px 0}#home .card .puz-help{font-size:10px;margin-bottom:0}
-.card{padding:16px;background:#fff9f4;border-radius:23px;box-shadow:var(--shadow)}
-.hero{background:linear-gradient(135deg,#f5b7d0,#ffe6d6 65%,#d9d1fa);padding:22px;border-radius:25px}.hero h1{font-size:clamp(27px,7vw,38px);line-height:1;margin:8px 0}.hero p{font-size:13px;line-height:1.5}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.actions button{border-radius:18px;padding:15px 2px;background:#bde9cb;font-size:12px;font-weight:1000}.actions button:nth-child(2){background:#f3b8d0}.actions button:nth-child(3){background:#d7cbfa}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;padding:11px 4px;background:#fff9f4;border-radius:17px}.stat small{display:block;font-size:9px;color:var(--muted);font-weight:900}.stat b{font-size:22px}
-#puzzle{align-items:center}#puzzle .puz-head{width:100%;display:flex;align-items:center;justify-content:space-between}.board{width:min(100%,430px,46vh);aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:8px;border-radius:22px;background:#fff9f4;box-shadow:var(--shadow)}.cell{background:#f2e5ed;border-radius:7px;min-width:0;min-height:0}.cell.filled{background:linear-gradient(145deg,#ffe7a0,#f6b84e);box-shadow:inset 0 2px 0 #fff9,0 2px 0 #d99e4c}.cell.hint{outline:3px solid #91d8a8}.cell.drop-target{outline:3px solid #54bd82;background:#b9f0cb;box-shadow:0 0 0 3px #54bd8240}.cell.drop-invalid{outline:3px solid #e47cab;background:#f8c5d9}.piece{touch-action:none;user-select:none;-webkit-user-select:none}.piece.dragging{opacity:.42;transform:scale(.96)}.drag-ghost{position:fixed;z-index:100;pointer-events:none;display:grid;gap:4px;padding:5px;border-radius:12px;background:#fff9f4d9;box-shadow:0 8px 24px #65415c35;opacity:.96;transform:translateZ(0)}.drag-ghost .mini{width:18px;height:18px;border-radius:5px;background:linear-gradient(145deg,#ffe8a0,#f4b448);box-shadow:inset 0 1px 0 #fff9,0 2px 0 #d99e4c}.board{touch-action:none;user-select:none;-webkit-user-select:none}.puz-help{min-height:18px}.pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}.piece{min-height:75px;display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;padding:9px;border-radius:17px;background:#fff3f8;border:2px solid transparent}.piece.selected{border-color:#e47cab;background:#fce0ec}.mini{width:clamp(10px,3.2vw,17px);height:clamp(10px,3.2vw,17px);border-radius:4px;background:linear-gradient(145deg,#ffe8a0,#f4b448);box-shadow:inset 0 1px 0 #fff8,0 1px 0 #d99e4c}.piece-shape{display:grid;gap:3px;align-content:center;justify-content:center;min-height:40px;max-width:100%}.piece{overflow:hidden}.puz-help{font-size:11px;color:var(--muted);text-align:center}
-.overlay{position:fixed;inset:0;z-index:20;background:#39253e88;display:none;align-items:center;justify-content:center;padding:22px}.modal{width:min(100%,350px);padding:23px;border-radius:26px;background:#fff9f4;text-align:center;box-shadow:0 15px 55px #38233e45}.modal h2{margin:0 0 8px}.modal p{font-size:13px;color:var(--muted)}.modal button{width:100%;padding:14px;border-radius:15px;background:#bde9cb;font-weight:1000}
-@keyframes bob{50%{transform:translate(-50%,-5px)}}
- .kitten-character{transform-box:fill-box;transform-origin:center;animation:kitten-idle 2.8s ease-in-out infinite;transition:filter .25s}
- .stage.cat-happy .kitten-character{animation:kitten-celebrate .55s ease-in-out 2;filter:drop-shadow(0 0 7px #ffb5d2)}
- .stage.cat-sad .kitten-character{animation:kitten-sad .65s ease-in-out 2;filter:drop-shadow(0 0 5px #a9c9e8)}
- @keyframes kitten-idle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(1deg)}}
- @keyframes kitten-celebrate{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(-12px) scale(1.04)}}
- @keyframes kitten-sad{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(4px) rotate(-3deg)}}
- @media(prefers-reduced-motion:reduce){.kitten-character,.stage.cat-happy .kitten-character,.stage.cat-sad .kitten-character{animation:none}}
-@media(max-height:740px){.stage{bottom:263px}.care{top:40%;gap:4px}.care button{height:45px;width:58px}.care .ico{font-size:17px}header{height:72px;flex-basis:72px;padding-top:5px;padding-bottom:5px}.brand{height:56px}.wallet,.round{height:47px}.round{width:47px}.shop{bottom:58px;height:205px;padding-top:8px;gap:7px}.tabs{flex-basis:35px}.tab{font-size:8px}.item-art{height:62px;flex-basis:62px}.item{flex-basis:94px}.needs{top:20%;gap:5px}.need{padding:6px 8px}.care{top:40%;gap:4px}.care button{height:45px;width:58px}.care .ico{font-size:17px}.shop-short{bottom:270px;width:64px;height:64px}.sofa{top:45%;height:21%}.kitten{bottom:13%;transform:translateX(-50%) scale(.86)}}
-@media(max-width:430px){.stage{bottom:304px}.kitten{width:132px;height:166px;transform:translateX(-50%) scale(1.03);transform-origin:bottom center}.kitten .head{width:104px;height:88px}.kitten .body{width:73px;height:83px}.sofa{left:24%;width:57%}.rug{left:21%;width:61%}.shop-short{bottom:312px}.shop{bottom:68px}header{gap:6px;padding-left:9px;padding-right:9px}.brand{padding:7px 9px;gap:6px;max-width:none;flex:1 1 auto;overflow:hidden}.paws{font-size:25px}.brand strong{font-size:clamp(13px,3.5vw,16px)}.brand small{font-size:8px;letter-spacing:1px}.wallet{min-width:66px;padding:0 9px;font-size:15px;gap:4px}.home-shortcut,.round{width:43px;flex:0 0 43px;height:46px;font-size:23px}.needs{left:8px;width:min(43%,205px)}.need{grid-template-columns:25px 1fr auto;padding:7px 8px}.need .ico{font-size:20px}.care{left:8px;top:40%}.shop-short{right:8px;width:62px;height:62px;border-radius:19px}.shop{padding-left:8px;padding-right:8px}.item{flex-basis:94px}}
-@media(min-width:700px){#app{max-width:600px;margin:0 auto;box-shadow:0 0 50px #76506b22}body{background:#e8d3df}.shop-short{right:18px}.needs{left:16px}.care{left:16px}}
-
-/* Reference-matched 2D room HUD and navigation */
-.room-nav{position:absolute;z-index:8;left:0;right:0;bottom:0;height:68px;padding:5px 8px calc(5px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:linear-gradient(110deg,#80608f,#9b78a6);border-radius:25px 25px 0 0;box-shadow:0 -4px 18px #684b721b}
-.room-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-radius:18px;background:transparent;color:#fff9ff;font-size:10px;font-weight:900;min-width:0}
-.room-nav button span{font-size:22px;line-height:1.15}
-.room-nav button.nav-active{background:#654b77;box-shadow:inset 0 1px 0 #ffffff20}
-.shop{background:linear-gradient(145deg,#fffaf5f7,#fff1f5f7);border:1px solid #fff;box-shadow:0 -5px 22px #75496618}
-.tab{border:1px solid #f5e5ed;box-shadow:0 2px 5px #76506b0b}
-.item{flex-basis:clamp(86px,18vw,112px);border:2px solid #fff;transition:transform .16s,border-color .16s,box-shadow .16s}
-.item:active{transform:scale(.96)}
-.item-art{background:linear-gradient(145deg,#fff0f3,#f1e8f8);font-size:clamp(32px,7vw,43px)}
-.item.owned{border-color:#8ed7a7;box-shadow:0 0 0 2px #8ed7a733}
-.cat-tears{display:none}
-.stage.cat-sad .cat-tears{display:block;animation:tearDrop .9s ease-in-out infinite alternate}
-.stage.cat-sad .kitten-character{transform-origin:200px 440px;animation:kitten-sad .8s ease-in-out infinite}
-.stage.cat-happy .kitten-character{transform-origin:200px 440px;animation:kitten-celebrate .55s ease-in-out 2}
-@keyframes tearDrop{from{transform:translateY(-1px);opacity:.55}to{transform:translateY(6px);opacity:1}}
-@keyframes kitten-sad{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(3px) rotate(-2deg)}}
-@keyframes kitten-celebrate{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(2deg)}}
-.piece{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.cell{touch-action:none}
-@media(max-height:740px){.room-nav{height:58px}.shop{bottom:58px}.stage{bottom:263px}.shop-short{bottom:270px}}
-@media(max-width:430px){.room-nav{height:68px}.shop{bottom:68px}.stage{bottom:304px}.shop-short{bottom:312px}}
-
-/* Mobile layout repair: keep every care action visible above the shop. */
-@media(max-width:700px){
-  #room .shop{height:184px;bottom:68px;padding:8px 8px calc(env(safe-area-inset-bottom) + 4px);gap:7px}
-  #room .tabs{flex-basis:34px;gap:5px}
-  #room .tab{font-size:clamp(8px,2vw,10px)}
-  #room .item{flex-basis:94px;padding:6px}
-  #room .item-art{height:54px;flex-basis:54px;font-size:31px}
-  #room .stage{bottom:252px}
-  #room .care{left:50%;top:auto;bottom:258px;transform:translateX(-50%);flex-direction:row;gap:4px}
-  #room .care button{width:clamp(47px,13.5vw,60px);height:52px;border-radius:16px;font-size:9px;flex:0 1 auto}
-  #room .care .ico{font-size:18px}
-  #room .shop-short{display:none!important}
-  #room .needs{top:19%;width:min(43%,180px);gap:5px}
-  #room .need{padding:6px 8px}
-  #room .bubble{max-width:54%}
-}
-
-
-/* Mobile room layout: keep cat, care actions, shop and navigation in separate zones. */
-@media(max-width:700px){
- #room .stage{bottom:292px!important}
- #room .shop{bottom:68px!important;height:224px!important;padding:8px 8px calc(env(safe-area-inset-bottom) + 4px)!important;gap:7px!important}
- #room .tabs{flex-basis:34px!important;gap:5px!important}
- #room .tab{font-size:clamp(8px,2vw,10px)!important}
- #room .item{flex-basis:94px!important;padding:6px!important}
- #room .item-art{height:54px!important;flex-basis:54px!important;font-size:31px!important}
- #room .care{left:50%!important;top:auto!important;bottom:294px!important;transform:translateX(-50%)!important;flex-direction:row!important;gap:5px!important}
- #room .care button{width:clamp(46px,12.5vw,58px)!important;height:48px!important;border-radius:15px!important;font-size:9px!important;flex:0 1 auto!important}
- #room .care .ico{font-size:17px!important}
- #room .shop-short{display:none!important;visibility:hidden!important;pointer-events:none!important}
- #room #shopJump{display:none!important;visibility:hidden!important;pointer-events:none!important}
- #shopJump{display:none!important;visibility:hidden!important;pointer-events:none!important}
- #room .needs{top:17%!important;width:min(42%,175px)!important;gap:4px!important}
- #room .need{padding:5px 7px!important}
- #room .bubble{max-width:54%!important}
-}
-
-
-/* VISUAL REBUILD v18 — playful hand-illustrated 2D game finish */
-:root{--ink:#57304e;--muted:#9d7c98;--pink:#ff78ae;--paper:#fffaf3;--lilac:#bda3ec;--green:#8fe0a0;--shadow:0 7px 0 #8f54751c,0 12px 25px #70405e20}
-body,#app{background:#f7d8e5}
-header{padding:8px 12px;gap:7px;height:78px;flex-basis:78px}
-.brand{background:linear-gradient(145deg,#fffdf8,#ffeaf2);border:2px solid #fff;box-shadow:0 4px 0 #d69ab81c,0 8px 20px #8e54701c}
-.paws{display:grid;place-items:center;width:43px;height:43px;border-radius:15px;background:linear-gradient(145deg,#ffdf6c,#ffad57);border:2px solid #fff;box-shadow:inset 0 -3px 0 #d88a42;font-size:27px}
-.wallet,.round{border:2px solid #fff;box-shadow:0 4px 0 #d69ab81c,0 8px 20px #8e54701c}
-.wallet{background:linear-gradient(145deg,#fff8d6,#ffedab);min-width:76px;padding:0 10px}
-.round{background:linear-gradient(145deg,#fff,#f5e9ff)}
-.stage{background:#f8dce5}
-.stage:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(180deg,#fff4 0%,transparent 20%,transparent 76%,#9c5b4b10 100%)}
-.room-art{filter:saturate(1.16) contrast(1.035)}
-.bubble{top:4%;left:12px;max-width:48%;padding:12px 15px 11px 17px;border:2px solid #fff;background:linear-gradient(145deg,#fffefb,#fff0f5);border-radius:20px 22px 22px 8px;box-shadow:0 4px 0 #d68aa82b,0 10px 20px #6d40541b;font-size:12px;letter-spacing:.25px}
-.bubble:after{content:"";position:absolute;left:18px;bottom:-9px;width:15px;height:15px;background:#fff0f5;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
-.bubble small{font-size:10px;line-height:1.3;color:#a47793}
-.needs{top:21%;left:12px;width:min(42%,220px);gap:7px}
-.need{padding:8px 10px;background:linear-gradient(145deg,#fffefa,#fff1f5);border:2px solid #fff;border-radius:18px;box-shadow:0 4px 0 #d18eac24,0 7px 16px #68465c14;grid-template-columns:29px 1fr auto}
-.need .ico{font-size:21px;filter:drop-shadow(0 2px 0 #c58da52b)}
-.bar{height:8px;background:#e8dce8;border:1px solid #fff}
-.care{left:50%;top:auto;bottom:258px;transform:translateX(-50%);flex-direction:row;gap:7px;z-index:5}
-.care button{width:clamp(55px,15vw,76px);height:60px;border-radius:19px;border:2px solid #fff;box-shadow:0 4px 0 #a85c8b38,0 8px 16px #57304e1a;background:linear-gradient(145deg,#ffb6d1,#ff7fb1);font-size:10px;color:#6b3155;transition:transform .16s,filter .16s}
-.care button:nth-child(2){background:linear-gradient(145deg,#b9eaff,#75c8f5);box-shadow:0 4px 0 #468ec43b,0 8px 16px #57304e1a}
-.care button:nth-child(3){background:linear-gradient(145deg,#fff0a9,#ffc957);box-shadow:0 4px 0 #c48a273b,0 8px 16px #57304e1a}
-.care button:nth-child(4){background:linear-gradient(145deg,#c7f5b9,#80d889);box-shadow:0 4px 0 #479c583b,0 8px 16px #57304e1a}
-.care button:active{transform:translateY(3px) scale(.96);filter:saturate(1.2)}
-.care .ico{font-size:25px;line-height:1.05}
-.shop{background:linear-gradient(180deg,#fff9f2,#ffeef3);border:2px solid #fff;border-bottom:0;border-radius:27px 27px 0 0;box-shadow:0 -8px 0 #e6a4c01c,0 -14px 28px #75496620;padding-top:10px}
-.tabs{gap:7px}
-.tab{border:2px solid #fff;background:linear-gradient(145deg,#f8e9f1,#f3e4f5);box-shadow:0 3px 0 #d3a4c12e;color:#967b9b}
-.tab.active{background:linear-gradient(145deg,#ffb6d1,#ff7fb1);color:#63314e;box-shadow:0 3px 0 #d76e9a}
-.item{background:linear-gradient(155deg,#fffdf8,#fff0e9);border:2px solid #fff;border-radius:18px;box-shadow:0 4px 0 #dfb5a43b,0 8px 14px #70405e10;scroll-snap-align:start}
-.item-art{background:radial-gradient(ellipse at 50% 35%,#fffdf9,#f9dfe9 78%);border:1px solid #fff;box-shadow:inset 0 -3px 0 #edc7d8}
-.item.owned{border-color:#7edb98;box-shadow:0 0 0 2px #7edb9855,0 4px 0 #8bd7a33b}
-.room-nav{background:linear-gradient(105deg,#553b6c,#76508a 55%,#895a8d);border:2px solid #a883b4;border-bottom:0;box-shadow:0 -5px 0 #fff5,0 -10px 25px #55304f2b}
-.room-nav button{border-radius:17px;font-size:9px;letter-spacing:.45px}
-.room-nav button span{font-size:24px;filter:drop-shadow(0 2px 0 #2e183c35)}
-.room-nav button.nav-active{background:linear-gradient(145deg,#ff9dc2,#ff6ea9);color:#592747;box-shadow:inset 0 2px 0 #fff9,0 3px 0 #492b5b}
-.kitten-character{transform-origin:200px 460px}
-.stage .kitten-character ellipse[fill="#4b2b50"]{fill:#57304e}
-@keyframes room-sparkle{0%,100%{opacity:.45;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(14deg)}}
-.room-sparkle{transform-box:fill-box;transform-origin:center;animation:room-sparkle 2.3s ease-in-out infinite}
-@media(max-width:700px){
- header{height:70px;flex-basis:70px;padding:6px 8px;gap:5px}
- .brand{gap:7px;padding:6px 9px;height:56px;border-radius:22px}
- .paws{width:36px;height:36px;font-size:23px;border-radius:12px}
- .brand small{font-size:8px;letter-spacing:1px}
- .wallet,.round{height:46px}
- .wallet{min-width:57px;padding:0 7px;font-size:14px}
- .round{width:43px;font-size:22px}
- #room .bubble{top:4%;left:8px;max-width:48%;padding:9px 11px;font-size:10px}
- #room .bubble small{font-size:9px}
- #room .needs{top:20%;left:8px;width:min(43%,165px);gap:5px}
- #room .need{padding:5px 7px;border-radius:14px;grid-template-columns:24px 1fr auto;gap:4px}
- #room .need .ico{font-size:18px}
- #room .need label{font-size:9px}
- #room .need b{font-size:9px}
- #room .bar{height:6px}
- #room .care{bottom:294px!important;gap:5px!important}
- #room .care button{width:clamp(48px,12vw,60px)!important;height:51px!important;border-radius:15px!important;font-size:9px!important}
- #room .care .ico{font-size:21px!important}
- #room .shop{height:224px!important}
- #room .item{flex-basis:94px;padding:6px;border-radius:15px}
- #room .item-art{height:54px;flex-basis:54px;border-radius:12px}
- #room .room-nav{height:68px}
-}
-@media(max-height:740px) and (min-width:701px){
- #room .stage{bottom:272px}
- #room .care{bottom:282px}
- #room .shop{height:204px}
-}
-
-</style>
-</head>
-<body>
-<div id="app">
-<header>
- <div class="brand"><span class="paws">🐾</span><div><strong>CAT BLOCK</strong><small>RESCUE CLUB</small></div></div>
- <button class="round home-shortcut" id="homeButton" aria-label="Home">⌂</button>
- <div class="wallet"><span>🪙</span><b id="coins">42</b></div>
- <button class="round" id="settings" aria-label="Settings">⚙</button>
-</header>
+:root{--ink:#492b50;--muted:#9c7a9b;--pink:#ff78ad;--cream:#fff8ee;--panel:#fffaf4;--purple:#553d69;--blue:#66c9f4;--green:#67d987;--gold:#ffd35b;--shadow:0 5px 0 #8c52741c,0 12px 26px #58314c24}
+*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:#f5dbe8}button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation}button:active{transform:translateY(2px) scale(.98)}#app{height:100dvh;max-width:620px;margin:auto;background:#ffebef;display:flex;flex-direction:column;overflow:hidden;position:relative}
+header{height:70px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:7px 10px;background:linear-gradient(120deg,#f7c4d8,#fff0dc);z-index:5}
+.logo{display:flex;align-items:center;gap:7px;flex:1;min-width:0}.pawlogo{font-size:31px;background:linear-gradient(#ffe77b,#ffb94e);border:2px solid #fff;border-radius:14px;padding:4px;box-shadow:0 3px 0 #d58e45}.logotype{font-weight:1000;line-height:.95;font-size:clamp(13px,3.8vw,20px);letter-spacing:-.5px;text-shadow:0 1px #fff}.logotype small{display:block;font-size:10px;letter-spacing:1px;color:#e35b8e;margin-top:4px}.currency,.iconbtn{height:43px;border:2px solid white;border-radius:18px;background:linear-gradient(#fffef9,#ffe8ef);box-shadow:0 3px 0 #d89bb9;font-weight:1000;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 10px;white-space:nowrap}.iconbtn{width:43px;font-size:22px;padding:0}
+#main{position:relative;flex:1;min-height:0;overflow:hidden}.screen{display:none;position:absolute;inset:0;overflow:auto;padding:10px 10px 14px;scrollbar-width:thin}.screen.active{display:flex;flex-direction:column;gap:10px}
+.bottomnav{height:70px;flex-shrink:0;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:5px 7px calc(5px + env(safe-area-inset-bottom));background:linear-gradient(110deg,#4c345f,#755080);border-radius:22px 22px 0 0;z-index:10;box-shadow:0 -6px 20px #603d6424}.bottomnav button{border-radius:15px;background:transparent;color:#fff7ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:9px;font-weight:900}.bottomnav button span{font-size:24px;line-height:1}.bottomnav button.active{background:linear-gradient(#ff9fc3,#ff6fa8);color:#572947;box-shadow:inset 0 2px #fff9,0 3px 0 #3e294e}
+.panel{background:linear-gradient(145deg,#fffdf8,#fff0f4);border:2px solid white;border-radius:22px;box-shadow:var(--shadow);padding:12px}.sectiontitle{display:flex;align-items:center;justify-content:space-between;font-weight:1000;font-size:17px}.pill{border-radius:99px;padding:5px 10px;background:#f8dfec;font-size:11px;font-weight:900}
+.room{padding:0!important;gap:0!important;background:#f7d8e4}.scene{position:relative;flex:1;min-height:280px;overflow:hidden;background:linear-gradient(#87d9f4 0%,#c7eff6 43%,#f9d7a3 43%,#d99469 100%)}.roomsvg{position:absolute;width:100%;height:100%;inset:0;display:block}.scenehud{position:absolute;left:9px;top:9px;width:43%;display:flex;flex-direction:column;gap:5px;z-index:2}.speech{background:#fffaf4ed;border:2px solid #fff;border-radius:17px 17px 17px 5px;padding:8px 10px;box-shadow:var(--shadow);font-weight:1000;font-size:12px}.speech small{display:block;color:#a37d9c;font-size:9px;margin-top:2px}.need{background:#fffaf4ed;border:2px solid white;border-radius:15px;box-shadow:0 3px 0 #bb8ba21c;padding:6px 8px;display:grid;grid-template-columns:23px 1fr auto;gap:3px;align-items:center;font-size:9px;font-weight:1000}.need .ico{font-size:19px;grid-row:span 2}.need b{font-size:10px}.bar{grid-column:2/4;background:#eadce8;height:7px;border-radius:10px;overflow:hidden}.bar i{height:100%;display:block;width:80%;background:linear-gradient(90deg,#ff4f9b,#ff94b9);border-radius:10px}.need:nth-child(3) .bar i{background:linear-gradient(90deg,#45bfed,#80ddff)}.need:nth-child(4) .bar i{background:linear-gradient(90deg,#52cc75,#a4e99c)}
+.sceneactions{position:absolute;left:8px;right:8px;bottom:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;z-index:4}.action{height:61px;border-radius:18px;border:2px solid white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-size:10px;font-weight:1000;box-shadow:0 4px 0 #703b622e,0 8px 12px #57304e20;text-shadow:0 1px #fff9}.action span{font-size:26px;line-height:1.1}.feed{background:linear-gradient(#ffb3cf,#ff6fa5)}.play{background:linear-gradient(#b7eaff,#5bbdf2)}.bath{background:linear-gradient(#fff0a4,#ffc642)}.shopbtn{background:linear-gradient(#a4f6a0,#4edb7c)}
+.roomtools{display:flex;gap:6px;padding:7px 9px;background:#ffedf2;overflow-x:auto}.roomtools button{white-space:nowrap;border-radius:13px;padding:8px 10px;background:white;box-shadow:0 3px 0 #e3bdce;font-size:10px;font-weight:900}
+.shoparea{background:linear-gradient(#fff9f0,#ffeef4);border-top:2px solid white;padding:8px 8px 10px;display:flex;flex-direction:column;gap:7px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.tab{border-radius:13px;background:#f8e5ef;border:1px solid white;padding:8px 2px;font-size:10px;font-weight:1000}.tab.active{background:linear-gradient(#ffb1d0,#ff6fa5);color:#5d2949}.items{display:flex;gap:8px;overflow-x:auto;padding:3px 1px 7px;scroll-snap-type:x proximity}.item{flex:0 0 98px;background:linear-gradient(#fffdf9,#fff0e8);border:2px solid white;border-radius:15px;box-shadow:0 3px 0 #dfb6a8;padding:6px;display:flex;flex-direction:column;align-items:center;gap:3px;scroll-snap-align:start}.itemart{height:62px;width:100%;border-radius:11px;background:radial-gradient(#fff,#f8dfeb);display:grid;place-items:center;font-size:39px}.item b{font-size:11px}.item strong{font-size:11px}.item.owned{border-color:#70d990}
+#garden{background:linear-gradient(#9ee7fb 0%,#d9f6fa 43%,#b9e7a4 43%,#70bd70 100%)}.gardenhero{height:230px;flex-shrink:0;position:relative;border:3px solid white;border-radius:23px;overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(#7dd6f8 0 47%,#9de2a0 47% 100%)}.gardenhero svg{width:100%;height:100%}.gardenlabel{position:absolute;top:10px;left:10px;background:#fffaf2ed;padding:9px 13px;border-radius:16px;font-weight:1000;box-shadow:var(--shadow)}.plotgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.plot{aspect-ratio:1.1;border:3px solid #fff;border-radius:18px;background:linear-gradient(#c6eea6,#8fce78);box-shadow:0 4px 0 #6da866;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:1000}.plot span{font-size:35px}.plot.locked{background:linear-gradient(#e5dce8,#c5b8d0);color:#77627f}
+#cats .catgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.catcard{background:linear-gradient(#fffdf8,#ffeaf2);border:3px solid white;border-radius:20px;padding:8px;text-align:center;box-shadow:var(--shadow)}.catportrait{height:112px;border-radius:14px;background:linear-gradient(#ffe6f0,#e7f5ff);display:grid;place-items:center;overflow:hidden}.catportrait svg{width:100%;height:100%}.catcard b{display:block;margin:6px 0 2px}.heartbar{height:8px;background:#eadde8;border-radius:10px;overflow:hidden}.heartbar i{display:block;height:100%;background:linear-gradient(90deg,#ff4d91,#ff9fc3);width:80%}.catcard small{color:var(--muted);font-weight:900}
+#tasks{background:linear-gradient(#88d9f5,#d4f3fb 38%,#c2e7a4 38%,#e6d5a7)}.mapart{height:260px;border:3px solid white;border-radius:23px;overflow:hidden;position:relative;background:linear-gradient(#75d2f6,#d2f4ff 55%,#94d88e 55%,#56b87b);box-shadow:var(--shadow)}.mapart svg{width:100%;height:100%}.levelnodes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.levelnode{aspect-ratio:1;border-radius:50%;background:linear-gradient(#fff9c8,#ffb948);border:3px solid white;box-shadow:0 4px 0 #c78a40;font-size:19px;font-weight:1000}.levelnode.done{background:linear-gradient(#b9f5be,#54d77e)}.levelnode.locked{background:linear-gradient(#ded8e5,#a99ab7);color:#fff}
+#puzzle{background:linear-gradient(#9de6f5,#e8f6fc 42%,#f6d7e6)}.puzhead{display:flex;align-items:center;justify-content:space-between}.boardwrap{background:linear-gradient(#a86c47,#754a37);border:4px solid #f8d1a0;border-radius:20px;padding:6px;box-shadow:0 7px 0 #7b4e4d;max-width:440px;width:100%;margin:0 auto}.board{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;aspect-ratio:1}.cell{min-width:0;min-height:0;border-radius:5px;background:linear-gradient(#3f5574,#2b3d58);box-shadow:inset 0 2px #ffffff10}.cell.filled{background:linear-gradient(145deg,#83d8ff,#4498e8);box-shadow:inset 0 2px #fff8,0 2px #2b6fc1}.cell.drop-target{background:#a7edaa!important}.pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.piece{min-height:83px;border:3px solid white;border-radius:16px;background:linear-gradient(#fffdf7,#f8e4f3);display:grid;place-items:center;touch-action:none}.piece.selected{border-color:#ff70a8;box-shadow:0 0 0 3px #ffb4d1}.piece-shape{display:grid;gap:3px;touch-action:none}.mini{width:clamp(12px,4vw,21px);height:clamp(12px,4vw,21px);border-radius:4px;background:linear-gradient(145deg,#ffb5d2,#f36fa9);box-shadow:inset 0 2px #fff8}.piece:nth-child(2) .mini{background:linear-gradient(145deg,#b3eaff,#5cbcf1)}.piece:nth-child(3) .mini{background:linear-gradient(145deg,#ffe991,#ffbd47)}.puzactions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.puzactions button{padding:12px 4px;border-radius:15px;background:linear-gradient(#e6d5ff,#bca3ef);border:2px solid white;font-weight:1000;font-size:11px}
+#settings .setting{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #efdce6;font-weight:900}.switch{background:#69d98a;color:white;border-radius:20px;padding:5px 11px;font-weight:1000}
+.overlay{position:absolute;inset:0;background:#3d244b85;z-index:50;display:none;align-items:center;justify-content:center;padding:24px}.modal{width:min(100%,340px);background:linear-gradient(#fffdf8,#ffe9f2);border:4px solid white;border-radius:27px;padding:20px;text-align:center;box-shadow:0 10px 0 #5d36513d,0 20px 45px #2c183d44}.modal h2{margin:0 0 8px;font-size:23px}.modal p{margin:0 0 16px;color:#876b8a}.primary{border-radius:15px;padding:12px 24px;background:linear-gradient(#a6f2a5,#55d97d);border:2px solid white;box-shadow:0 4px 0 #42a963;font-weight:1000;width:100%}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}.kitten{transform-origin:center;animation:bounce 2.7s ease-in-out infinite}.kitten.happy{animation:bounce .45s ease-in-out 3}.tear{opacity:0}.kitten.sad .tear{opacity:1}
+@media(min-width:560px){#app{border-left:1px solid #fff9;border-right:1px solid #fff9}.scene{min-height:400px}.room{padding:0!important}.sceneactions{left:18px;right:18px}.scenehud{left:18px;top:18px;width:36%}.shoparea{padding:10px 14px}.item{flex-basis:112px}.gardenhero{height:280px}}
+@media(max-height:740px){header{height:62px}.bottomnav{height:62px}.sceneactions .action{height:51px}.scene{min-height:250px}.roomtools{padding:5px}.shoparea{padding:6px}.itemart{height:48px}.item{flex-basis:86px}}
+</style></head><body><div id="app">
+<header><div class="logo"><div class="pawlogo">🐾</div><div class="logotype">CAT BLOCK<small>RESCUE CLUB</small></div></div><button class="currency" id="coinDisplay">🪙 <span id="coins">62</span></button><button class="iconbtn" data-nav="settings" aria-label="Settings">⚙️</button></header>
 <div id="main">
- <section class="screen active" id="room">
-  <div class="stage" aria-label="Cozy cat room">
-   <svg class="room-art" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A sunny cat room with a pink sofa">
-    <defs>
-     <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f4d1db"/><stop offset="1" stop-color="#f8e0e3"/></linearGradient>
-     <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#efcda8"/><stop offset="1" stop-color="#d99f75"/></linearGradient>
-     <linearGradient id="sofa" x2="0" y2="1"><stop stop-color="#f8a9c7"/><stop offset="1" stop-color="#df79a4"/></linearGradient>
-     <linearGradient id="fur" x2=".2" y2="1"><stop stop-color="#ffe0a0"/><stop offset="1" stop-color="#e9a64f"/></linearGradient>
-     <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#80536a" flood-opacity=".22"/></filter>
-    </defs>
-    <rect width="400" height="600" fill="url(#wall)"/>
-    <rect x="0" y="330" width="400" height="270" fill="url(#floor)"/>
-    <path d="M0 352H400M0 410H400M0 470H400M0 530H400M80 330V600M180 330V600M280 330V600" stroke="#b77d5b" stroke-opacity=".25" stroke-width="2"/>
-    <rect x="15" y="54" width="117" height="172" rx="4" fill="#dca5b7"/><rect x="22" y="61" width="103" height="158" fill="#fff0d9"/><rect x="29" y="68" width="89" height="144" fill="#9fdef4"/><path d="M29 155Q55 125 77 151T118 145V212H29Z" fill="#a7dba0"/><path d="M73 68V212M29 140H118" stroke="#fff4e5" stroke-width="8"/>
-    <path d="M0 35Q18 42 20 66V224Q5 231 0 212ZM130 40Q145 55 146 77V224L132 224Z" fill="#e8a3c0"/>
-    <rect x="163" y="66" width="63" height="86" rx="3" fill="#c28d68" filter="url(#shadow)"/><rect x="169" y="72" width="51" height="74" fill="#f8e6d3"/><rect x="175" y="78" width="39" height="62" fill="#f2c2d2"/><path d="M185 104l8 -11 8 11v17h-16z" fill="#f4bd65"/><circle cx="193" cy="101" r="10" fill="#f4bd65"/><path d="M185 102l-4 -8 9 3m9 5l5 -8 -10 3" fill="#e8a54e"/>
-    <rect x="285" y="100" width="95" height="8" rx="4" fill="#bd8868"/><rect x="296" y="72" width="22" height="27" rx="2" fill="#e9c7d6"/><path d="M297 77h19m-19 7h19m-19 7h19" stroke="#ad8fa7" stroke-width="2"/><path d="M331 96q-18 -18 -7 -25q12 -4 13 12q8 -22 18 -12q9 14 -12 25z" fill="#69b878"/><path d="M343 96v-20" stroke="#4c9d68" stroke-width="3"/>
-    <g filter="url(#shadow)">
-     <ellipse cx="304" cy="270" rx="70" ry="18" fill="#9e5d80" opacity=".25"/>
-     <rect x="217" y="207" width="155" height="104" rx="23" fill="url(#sofa)"/><rect x="204" y="191" width="177" height="96" rx="24" fill="#f5a2c2" stroke="#e986ad" stroke-width="4"/><rect x="216" y="215" width="70" height="60" rx="14" fill="#f7b4ce"/><rect x="294" y="215" width="72" height="60" rx="14" fill="#f7b4ce"/><rect x="208" y="276" width="170" height="30" rx="12" fill="#ec8eb2"/><path d="M229 307v17m128 -17v17" stroke="#b77860" stroke-width="8" stroke-linecap="round"/>
-     <rect x="232" y="225" width="35" height="30" rx="7" fill="#fff0df" transform="rotate(-10 249 240)"/><rect x="310" y="226" width="35" height="30" rx="7" fill="#fff0df" transform="rotate(8 327 241)"/>
-    </g>
-    <g filter="url(#shadow)">
-     <ellipse cx="60" cy="350" rx="45" ry="12" fill="#8d674f" opacity=".22"/><path d="M52 329V244" stroke="#c69b75" stroke-width="10" stroke-linecap="round"/><rect x="12" y="234" width="82" height="13" rx="6" fill="#efc5b5"/><rect x="20" y="278" width="66" height="12" rx="6" fill="#efc5b5"/><rect x="18" y="324" width="70" height="12" rx="6" fill="#efc5b5"/><rect x="17" y="328" width="72" height="10" rx="5" fill="#d9ae8b"/>
-    </g>
-    <g><path d="M378 314v-51" stroke="#b17b58" stroke-width="7"/><path d="M350 267q-4 -33 21 -28q15 10 7 31q23 -28 32 -6q3 24 -29 31q-25 0 -31 -28z" fill="#68b77b"/><path d="M379 264l-2 51" stroke="#3c9159" stroke-width="3"/><path d="M355 315h43l-7 29h-29z" fill="#d99c76"/></g>
-    <ellipse cx="205" cy="468" rx="124" ry="70" fill="#f7d6e5" stroke="#ffeaf1" stroke-width="8" filter="url(#shadow)"/><ellipse cx="205" cy="468" rx="107" ry="56" fill="#f8dce9"/>
-    <g class="kitten-character" filter="url(#shadow)">
-     <path d="M234 484q43 18 39 -9q-4 -13 -20 -7" fill="none" stroke="#e8ad61" stroke-width="18" stroke-linecap="round"/>
-     <ellipse cx="199" cy="459" rx="48" ry="55" fill="url(#fur)" stroke="#d99547" stroke-width="2"/><ellipse cx="199" cy="474" rx="25" ry="32" fill="#fff0d9"/>
-     <ellipse cx="169" cy="505" rx="17" ry="12" fill="#fff1de"/><ellipse cx="226" cy="505" rx="17" ry="12" fill="#fff1de"/>
-     <path d="M165 423l-8 -33q-2 -14 11 -9l22 23m26 0l20 -23q12 -7 11 8l-7 34" fill="url(#fur)" stroke="#d99547" stroke-width="3"/><path d="M166 414l-2 -21 16 17m43 0l16 -17 -2 22" fill="#e88da7"/>
-     <ellipse cx="199" cy="421" rx="54" ry="45" fill="url(#fur)" stroke="#d99547" stroke-width="2"/>
-     <path d="M181 385l-4 15m22 -20l-2 17m20 -12l-4 15" stroke="#d88d3f" stroke-width="6" stroke-linecap="round"/>
-     <ellipse cx="180" cy="420" rx="9" ry="13" fill="#4b2b50"/><ellipse cx="218" cy="420" rx="9" ry="13" fill="#4b2b50"/><circle cx="183" cy="416" r="3" fill="#fff"/><circle cx="221" cy="416" r="3" fill="#fff"/>
-     <ellipse cx="169" cy="433" rx="13" ry="9" fill="#fff3e3"/><ellipse cx="229" cy="433" rx="13" ry="9" fill="#fff3e3"/><path d="M195 431q4 -7 9 0q-4 7 -9 0" fill="#d77b98"/><path d="M199 438q-5 8 -11 0m11 0q5 8 11 0" fill="none" stroke="#7b4b5d" stroke-width="2" stroke-linecap="round"/>
-     <path d="M172 443l-17 -3m17 8l-18 3m74 -8l17 -3m-17 8l18 3" stroke="#fff5e8" stroke-width="2" stroke-linecap="round"/>
-    </g>
-    <ellipse cx="266" cy="521" rx="25" ry="7" fill="#8f604d" opacity=".2"/><path d="M243 506h46l-7 21q-16 13 -32 0z" fill="#6cc5ed" stroke="#fff0df" stroke-width="4"/><ellipse cx="266" cy="507" rx="23" ry="7" fill="#f0d7c0"/><ellipse cx="266" cy="506" rx="17" ry="4" fill="#a66b36"/><circle cx="256" cy="505" r="3" fill="#7b4d2e"/><circle cx="270" cy="503" r="3" fill="#7b4d2e"/><circle cx="278" cy="507" r="3" fill="#7b4d2e"/>
-   
-    <!-- extra illustrated details: twinkle lights, wall art, rug stitching and toy -->
-    <g opacity=".95">
-      <path d="M5 24Q95 2 174 24T396 20" fill="none" stroke="#d98eae" stroke-width="2" stroke-dasharray="2 6"/>
-      <g fill="#ffe38a" stroke="#fff5cf" stroke-width="1.5">
-       <path class="room-sparkle" d="M48 37l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/>
-       <path class="room-sparkle" d="M151 174l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
-       <path class="room-sparkle" d="M250 47l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
-       <path class="room-sparkle" d="M371 179l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
-      </g>
-      <g transform="translate(145 245)">
-       <path d="M0 0q20 -9 40 0" fill="none" stroke="#c88ba7" stroke-width="2"/>
-       <circle cx="4" cy="0" r="3" fill="#ffe38a"/><circle cx="20" cy="-3" r="3" fill="#a7e4f5"/><circle cx="37" cy="0" r="3" fill="#ffe38a"/>
-      </g>
-    </g>
-    <!-- rug scallops and hand-stitched border -->
-    <ellipse cx="205" cy="468" rx="116" ry="62" fill="none" stroke="#f4b5d0" stroke-width="2" stroke-dasharray="4 5" opacity=".9"/>
-    <!-- collar and golden bell make the kitten feel like a cared-for character -->
-    <g class="kitten-character" pointer-events="none">
-      <path d="M166 461q31 18 64 -1" fill="none" stroke="#e95786" stroke-width="8" stroke-linecap="round"/>
-      <path d="M197 465l-1 8 8 0 1 -8z" fill="#ffc94f" stroke="#d99635" stroke-width="1.5"/>
-      <circle cx="201" cy="477" r="5" fill="#ffdb65" stroke="#d99635" stroke-width="1.5"/>
-      <circle cx="199" cy="475" r="1.5" fill="#fff5bb"/>
-    </g>
+<section class="screen room active" id="room">
+<div class="scene">
+<svg class="roomsvg" viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice" aria-label="Illustrated cozy cat home">
+<defs><linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f5c1d6"/><stop offset="1" stop-color="#fff0df"/></linearGradient><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#e9b37c"/><stop offset="1" stop-color="#ba744b"/></linearGradient><linearGradient id="sofa" x2="0" y2="1"><stop stop-color="#ffb4cf"/><stop offset="1" stop-color="#e96c9f"/></linearGradient><linearGradient id="fur" x2=".2" y2="1"><stop stop-color="#ffda7a"/><stop offset="1" stop-color="#ef9b39"/></linearGradient><filter id="soft"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#603b4c" flood-opacity=".2"/></filter></defs>
+<rect width="420" height="600" fill="url(#wall)"/><rect y="348" width="420" height="252" fill="url(#wood)"/><path d="M0 370H420M0 430H420M0 492H420M0 552H420M70 348V600M175 348V600M280 348V600M375 348V600" stroke="#965c40" stroke-opacity=".25" stroke-width="3"/>
+<!-- sunny window and curtains --><rect x="18" y="38" width="150" height="220" rx="7" fill="#bd7f7c"/><rect x="26" y="46" width="134" height="204" fill="#fff4df"/><rect x="34" y="54" width="118" height="188" fill="#71d2f5"/><circle cx="124" cy="88" r="25" fill="#fff0a4"/><path d="M34 170Q66 131 90 169T152 159V242H34Z" fill="#71c98d"/><path d="M94 54V242M34 145H152" stroke="#fff9e8" stroke-width="8"/><path d="M0 20Q30 35 25 73V260Q7 266 0 245ZM164 25Q188 42 184 79V260H165Z" fill="#ef94bb"/>
+<!-- wall shelf and pictures --><rect x="235" y="90" width="108" height="9" rx="4" fill="#c18761"/><rect x="248" y="34" width="54" height="56" rx="4" fill="#a66c4c" filter="url(#soft)"/><rect x="253" y="39" width="44" height="46" fill="#fff0dd"/><rect x="258" y="44" width="34" height="36" fill="#bfeaf7"/><path d="M264 70q8 -20 17 -4q-8 4 -17 4" fill="#ff9dbd"/><rect x="318" y="35" width="63" height="57" rx="4" fill="#a66c4c"/><rect x="323" y="40" width="53" height="47" fill="#fff2df"/><path d="M335 74l10 -19 10 19z" fill="#ffbf57"/><circle cx="345" cy="56" r="9" fill="#ffca62"/>
+<!-- plant --><path d="M386 171V117" stroke="#478b53" stroke-width="6"/><path d="M385 150Q350 134 358 111Q381 112 385 143Q391 102 415 113Q423 139 385 150" fill="#55b979" stroke="#3e995d" stroke-width="2"/><path d="M366 170h42l-5 38h-32z" fill="#e8a3bc" stroke="#fff2e8" stroke-width="4"/>
+<!-- sofa --><g filter="url(#soft)"><rect x="204" y="220" width="192" height="115" rx="22" fill="url(#sofa)"/><rect x="194" y="197" width="210" height="103" rx="24" fill="#f69bbc" stroke="#fff0f4" stroke-width="4"/><rect x="208" y="211" width="84" height="72" rx="16" fill="#ffc2d8"/><rect x="300" y="211" width="88" height="72" rx="16" fill="#ffc2d8"/><path d="M207 300v24m180 -24v24" stroke="#9d5e53" stroke-width="9" stroke-linecap="round"/><rect x="219" y="218" width="37" height="34" rx="8" fill="#fff1db" transform="rotate(-9 237 235)"/><rect x="330" y="218" width="37" height="34" rx="8" fill="#fff1db" transform="rotate(8 348 235)"/></g>
+<!-- cat tree --><g filter="url(#soft)"><path d="M43 348V210" stroke="#d1a070" stroke-width="13" stroke-linecap="round"/><rect x="7" y="203" width="76" height="13" rx="6" fill="#ffcadb"/><rect x="13" y="252" width="65" height="12" rx="6" fill="#ffcadb"/><rect x="9" y="316" width="72" height="12" rx="6" fill="#ffcadb"/><rect x="7" y="335" width="77" height="12" rx="5" fill="#b9815c"/></g>
+<!-- rug and cat bowl --><ellipse cx="210" cy="474" rx="130" ry="70" fill="#f7bcd6" stroke="#fff0f6" stroke-width="10"/><ellipse cx="210" cy="474" rx="111" ry="56" fill="#ffddea"/><ellipse cx="210" cy="474" rx="102" ry="48" fill="none" stroke="#f4a6c7" stroke-width="2" stroke-dasharray="4 5"/>
+<!-- cat body --><g id="catCharacter" class="kitten" filter="url(#soft)"><path d="M240 460q47 19 37 -12q-4 -13 -20 -6" fill="none" stroke="#edab4f" stroke-width="18" stroke-linecap="round"/><ellipse cx="207" cy="453" rx="51" ry="61" fill="url(#fur)" stroke="#d88736" stroke-width="3"/><ellipse cx="207" cy="473" rx="28" ry="34" fill="#fff1dc"/><ellipse cx="177" cy="501" rx="18" ry="13" fill="#fff0de"/><ellipse cx="236" cy="501" rx="18" ry="13" fill="#fff0de"/><path d="M169 406l-9 -39q-3 -15 12 -9l29 31m28 0l28 -31q15 -8 12 10l-9 39" fill="url(#fur)" stroke="#d88736" stroke-width="3"/><path d="M169 395l-2 -25 20 21m41 0l20 -21 -2 25" fill="#f58eaa"/><ellipse cx="207" cy="411" rx="59" ry="49" fill="url(#fur)" stroke="#d88736" stroke-width="3"/><path d="M186 375l-4 18m24 -22l-2 19m23 -13l-4 17" stroke="#d88736" stroke-width="7" stroke-linecap="round"/><ellipse cx="187" cy="410" rx="11" ry="15" fill="#492b50"/><ellipse cx="228" cy="410" rx="11" ry="15" fill="#492b50"/><circle cx="190" cy="405" r="4" fill="#fff"/><circle cx="231" cy="405" r="4" fill="#fff"/><ellipse cx="175" cy="430" rx="14" ry="9" fill="#ffb0bd"/><ellipse cx="240" cy="430" rx="14" ry="9" fill="#ffb0bd"/><path d="M202 425q5 -7 10 0q-5 7 -10 0" fill="#ce6583"/><path d="M207 432q-7 8 -13 0m13 0q7 8 13 0" fill="none" stroke="#71445b" stroke-width="2.5" stroke-linecap="round"/><path d="M179 438l-19 -3m19 9l-19 3m76 -9l19 -3m-19 9l19 3" stroke="#fff8eb" stroke-width="2" stroke-linecap="round"/><path class="tear" d="M181 427q-7 15 0 18q7 -3 0 -18m52 0q-7 15 0 18q7 -3 0 -18" fill="#6dd4fa"/></g>
+<g id="ownedDecor"></g><ellipse cx="322" cy="526" rx="28" ry="7" fill="#8e604c" opacity=".25"/><path d="M293 505h58l-8 31q-20 13 -42 0z" fill="#e95d92" stroke="#fff0f2" stroke-width="4"/><ellipse cx="322" cy="506" rx="29" ry="8" fill="#ffe5bb"/><ellipse cx="322" cy="506" rx="22" ry="5" fill="#a66a35"/>
+<!-- yarn and fish toy --><circle cx="90" cy="516" r="22" fill="#f34f9a" stroke="#fff0f5" stroke-width="4"/><path d="M73 516q17 -29 34 0q-17 29 -34 0m-12 15q-18 20 -30 1" fill="none" stroke="#ffb5d0" stroke-width="5" stroke-linecap="round"/><path d="M145 523q18 -21 38 0l-10 10h-20z" fill="#4fbaf2" stroke="#fff" stroke-width="3"/><path d="M180 523l13 -10v20z" fill="#4fbaf2" stroke="#fff" stroke-width="3"/><circle cx="155" cy="521" r="2" fill="#4b2b50"/>
 </svg>
-  </div>
-  <div class="bubble" id="bubble">MY CAT HOME<small>Home is where the purr is.</small></div>
-  <div class="needs">
-   <div class="need"><span class="ico">🍴</span><label>HUNGRY</label><b id="hungerNum">20%</b><div class="bar"><span id="hungerBar"></span></div></div>
-   <div class="need"><span class="ico">😊</span><label>HAPPY</label><b id="happyNum">100%</b><div class="bar"><span id="happyBar"></span></div></div>
-   <div class="need"><span class="ico">💧</span><label>CLEAN</label><b id="cleanNum">100%</b><div class="bar"><span id="cleanBar"></span></div></div>
-  </div>
-  <div class="care">
-   <button data-care="feed"><span class="ico">🍲</span>FEED</button><button data-care="play"><span class="ico">🧶</span>PLAY</button><button data-care="clean"><span class="ico">🧹</span>CLEAN</button><button data-care="pet"><span class="ico">💗</span>PET</button>
-  </div>
-  <button class="shop-short" id="shopJump"><span>🛍️</span>SHOP</button>
-  <nav class="room-nav" aria-label="Room navigation">
-   <button class="nav-active" data-room-go="room"><span>⌂</span>ROOM</button>
-   <button data-room-go="cats"><span>🐱</span>CATS</button>
-   <button data-room-go="tasks"><span>♡</span>TASKS</button>
-   <button id="roomNavShop"><span>🛍️</span>SHOP</button>
-   <button id="roomNavSettings"><span>⚙</span>SETTINGS</button>
-  </nav>
-  <div class="shop">
-   <div class="tabs"><button class="tab active" data-tab="furniture">🛋 FURNITURE</button><button class="tab" data-tab="decor">🪴 DECOR</button><button class="tab" data-tab="food">🥣 FOOD</button><button class="tab" data-tab="toys">🧶 TOYS</button></div>
-   <div class="items" id="items"></div>
-  </div>
- </section>
- <section class="screen" id="home">
-  <div class="stats"><div class="stat"><small>PLAYER LEVEL</small><b id="level">1</b></div><div class="stat"><small>CATS RESCUED</small><b id="rescued">0</b></div><div class="stat"><small>BEST SCORE</small><b id="best">0</b></div></div>
-  <div class="home-preview" id="homePreview" aria-label="Mochi’s pink room">
-<svg viewBox="0 0 400 200" class="welcome-art" role="img" aria-label="Pink cat room">
-<defs><linearGradient id="welcome-wall" x2="0" y2="1"><stop stop-color="#f4cbd9"/><stop offset="1" stop-color="#f9e3e5"/></linearGradient><linearGradient id="welcome-floor" x2="0" y2="1"><stop stop-color="#f1c99e"/><stop offset="1" stop-color="#dca77d"/></linearGradient></defs>
-<rect width="400" height="200" fill="url(#welcome-wall)"/><rect y="138" width="400" height="62" fill="url(#welcome-floor)"/><path d="M0 153H400M0 177H400M75 138V200M175 138V200M275 138V200" stroke="#bd8968" stroke-opacity=".3" stroke-width="2"/>
-<rect x="18" y="20" width="95" height="100" rx="4" fill="#e5a6bd" stroke="#fff0dd" stroke-width="7"/><rect x="25" y="27" width="81" height="86" fill="#9fe0f5"/><path d="M25 77q23 -15 42 0t39 -2v38H25z" fill="#a6dca2"/><path d="M65 27V113M25 70H106" stroke="#fff6e8" stroke-width="5"/>
-<ellipse cx="244" cy="163" rx="112" ry="25" fill="#f7d7e4" stroke="#ffeaf0" stroke-width="5"/>
-<rect x="144" y="73" width="170" height="65" rx="18" fill="#ed8eb4"/><rect x="133" y="57" width="192" height="65" rx="18" fill="#f6a4c3" stroke="#e785ac" stroke-width="4"/><rect x="146" y="70" width="76" height="40" rx="11" fill="#f9b9d0"/><rect x="235" y="70" width="76" height="40" rx="11" fill="#f9b9d0"/><rect x="146" y="120" width="164" height="16" rx="8" fill="#e989af"/><path d="M159 136v10m140 -10v10" stroke="#b67c5d" stroke-width="6" stroke-linecap="round"/>
-<path d="M350 132V78" stroke="#b9845c" stroke-width="7"/><path d="M350 90q-23 -30 -9 -39q16 -4 15 21q19 -27 31 -12q8 19 -23 32z" fill="#6aba7a"/><path d="M350 95l1 -39" stroke="#478e5b" stroke-width="3"/><path d="M333 131h36l-5 22h-26z" fill="#d9a079"/>
-<path d="M215 144q33 16 35 -3q-2 -11 -16 -8" fill="none" stroke="#e9ad61" stroke-width="12" stroke-linecap="round"/><ellipse cx="198" cy="142" rx="30" ry="33" fill="#f4c47e" stroke="#df9d4d" stroke-width="2"/><ellipse cx="198" cy="150" rx="16" ry="19" fill="#fff0d9"/><ellipse cx="179" cy="166" rx="11" ry="7" fill="#fff0dd"/><ellipse cx="216" cy="166" rx="11" ry="7" fill="#fff0dd"/>
-<path d="M174 115l-5 -20q-1 -8 8 -5l15 15m22 0l15 -15q9 -4 7 7l-5 18" fill="#f4c47e" stroke="#df9d4d" stroke-width="2"/><path d="M176 109l-1 -12 11 10m32 0l11 -10 -1 13" fill="#e996b0"/><ellipse cx="198" cy="119" rx="37" ry="31" fill="#ffd58d" stroke="#df9d4d" stroke-width="2"/><path d="M183 92l-3 11m18 -14l-1 11m17 -6l-3 10" stroke="#db9140" stroke-width="4" stroke-linecap="round"/><ellipse cx="185" cy="119" rx="6" ry="9" fill="#4c2c50"/><ellipse cx="211" cy="119" rx="6" ry="9" fill="#4c2c50"/><circle cx="187" cy="116" r="2" fill="#fff"/><circle cx="213" cy="116" r="2" fill="#fff"/><ellipse cx="177" cy="130" rx="9" ry="6" fill="#fff2df"/><ellipse cx="219" cy="130" rx="9" ry="6" fill="#fff2df"/><path d="M196 129q3 -5 6 0q-3 5 -6 0m3 5q-4 5 -8 0m8 0q4 5 8 0" fill="none" stroke="#88515f" stroke-width="1.5"/>
-<path d="M281 175h30l-5 14h-20z" fill="#67c6ed" stroke="#fff0dd" stroke-width="3"/><ellipse cx="296" cy="175" rx="15" ry="5" fill="#aa6d37"/><circle cx="290" cy="174" r="2" fill="#6c4529"/><circle cx="299" cy="172" r="2" fill="#6c4529"/>
-</svg></div><div class="hero"><small>A LITTLE PAW-SOME ADVENTURE</small><h1>Every cat deserves a home.</h1><p>Solve puzzles, rescue lonely cats, and give them a cozy place to call their own.</p></div>
-  <div class="actions"><button data-go="puzzle">▶ PLAY</button><button data-go="room">⌂ MY HOME</button><button data-go="room">✿ GARDEN</button></div>
-  <div class="card"><b>YOUR RESCUE LIST</b><p id="rescueText">🐱 Mochi · The Dreamer</p><p class="puz-help">Play the block puzzle to earn coins and unlock new items.</p></div>
-  <nav class="bottom-nav" aria-label="Main navigation"><button class="nav-active" data-go="home"><span>⌂</span>Home</button><button data-go="room"><span>🐱</span>Cats</button><button data-go="puzzle"><span>♡</span>Tasks</button><button id="navShop"><span>▦</span>Shop</button><button id="navSettings"><span>⚙</span>Settings</button></nav>
- </section>
- <section class="screen" id="puzzle">
-  <div class="puz-head"><div class="card"><small>YOUR SCORE</small><br><b id="score">0</b></div><div class="card"><small>BEST SCORE</small><br><b id="best2">0</b></div><button class="round" data-go="room">⌂</button></div>
-  <div class="board" id="board"></div><div class="pieces" id="pieces"></div><div class="puz-help">Drag a piece onto the board, or tap a piece and then a starting cell.</div><button class="card" id="newGame">↻ NEW GAME</button>
- </section>
+<div class="scenehud"><div class="speech">🏡 MY CAT HOME<small>Home is where the purr is!</small></div><div class="need"><span class="ico">🍴</span><span>HUNGRY</span><b id="hungerNum">72%</b><div class="bar"><i id="hungerBar" style="width:72%"></i></div></div><div class="need"><span class="ico">😊</span><span>HAPPY</span><b id="happyNum">100%</b><div class="bar"><i id="happyBar" style="width:100%"></i></div></div><div class="need"><span class="ico">💧</span><span>CLEAN</span><b id="cleanNum">88%</b><div class="bar"><i id="cleanBar" style="width:88%"></i></div></div></div>
+<div class="sceneactions"><button class="action feed" data-care="feed"><span>🥣</span>FEED</button><button class="action play" data-care="play"><span>🧶</span>PLAY</button><button class="action bath" data-care="bath"><span>🫧</span>BATH</button><button class="action shopbtn" data-nav="shop"><span>🛍️</span>SHOP</button></div>
 </div>
+<div class="roomtools"><button data-nav="garden">🌴 GARDEN</button><button data-nav="cats">🐱 MY CATS</button><button data-nav="tasks">🗺️ RESCUE MAP</button><button data-care="clean">🧽 CLEAN ROOM</button><button data-care="pet">💗 PET MOCHI</button></div>
+<div class="shoparea"><div class="sectiontitle">Make home cozy <span class="pill">🪙 <span id="shopCoins">62</span></span></div><div class="tabs"><button class="tab active" data-tab="furniture">🛋 FURNITURE</button><button class="tab" data-tab="decor">🪴 DECOR</button><button class="tab" data-tab="food">🐟 FOOD</button><button class="tab" data-tab="toys">🧶 TOYS</button></div><div class="items" id="roomItems"></div></div>
+</section>
+<section class="screen" id="garden"><div class="sectiontitle">🌴 My Garden <span class="pill">🌱 <span id="gardenLevel">LEVEL 1</span></span></div><div class="gardenhero"><svg viewBox="0 0 400 230" preserveAspectRatio="xMidYMid slice"><rect width="400" height="230" fill="#7ad6f5"/><circle cx="325" cy="35" r="24" fill="#fff1a0"/><path d="M0 125Q90 72 170 127T400 112V230H0Z" fill="#7ecb78"/><path d="M0 155Q100 128 190 164T400 147V230H0Z" fill="#54ae64"/><path d="M0 196Q90 174 180 199T400 193" fill="none" stroke="#d4b878" stroke-width="34"/><g fill="#329d61"><path d="M42 104Q5 58 25 37Q57 46 54 87Q73 34 101 49Q107 83 54 106" /><path d="M351 104Q315 58 333 37Q365 46 363 87Q382 34 410 49Q416 83 363 106"/></g><path d="M53 103v65m310 -65v65" stroke="#98643f" stroke-width="11"/><g transform="translate(145 105)"><rect x="0" y="0" width="110" height="82" rx="7" fill="#e6a36c" stroke="#fff0d2" stroke-width="5"/><path d="M-12 10L55 -35 122 10Z" fill="#f47c7d" stroke="#fff0d2" stroke-width="5"/><rect x="41" y="39" width="28" height="43" rx="12" fill="#925640"/><rect x="12" y="21" width="22" height="23" fill="#aeeaff"/><rect x="77" y="21" width="22" height="23" fill="#aeeaff"/></g><g fill="#ff8eb8"><circle cx="110" cy="151" r="8"/><circle cx="122" cy="158" r="8"/><circle cx="105" cy="164" r="8"/><circle cx="287" cy="159" r="8"/><circle cx="299" cy="166" r="8"/><circle cx="282" cy="172" r="8"/></g></svg><div class="gardenlabel">YOUR LITTLE GARDEN 🌼<small style="display:block;font-size:10px">Grow, decorate and explore!</small></div></div><div class="panel"><div class="sectiontitle">Garden plots <span class="pill">Tap to plant</span></div><p style="font-size:12px;color:var(--muted)">This is your outdoor garden, separate from Mochi’s living room.</p><div class="plotgrid" id="plots"><button class="plot" data-plot="0"><span>🌱</span>Herb patch</button><button class="plot" data-plot="1"><span>🌷</span>Flower bed</button><button class="plot" data-plot="2"><span>🍓</span>Berry patch</button><button class="plot" data-plot="3"><span>🌻</span>Sunflowers</button><button class="plot locked"><span>🔒</span>Level 3</button><button class="plot locked"><span>🔒</span>Level 5</button></div></div></section>
+<section class="screen" id="cats"><div class="sectiontitle">🐱 My Rescue Cats <span class="pill" id="catCount">1 / 6</span></div><div class="panel"><p style="margin:0;color:var(--muted);font-size:12px">Every puzzle helps a new cat find a safe home. Give them love to fill their hearts!</p></div><div class="catgrid" id="catGrid"></div></section>
+<section class="screen" id="tasks"><div class="sectiontitle">🗺️ Rescue Adventure <span class="pill">Chapter 1</span></div><div class="mapart"><svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice"><rect width="400" height="260" fill="#83d9f5"/><path d="M0 50Q90 14 150 62T400 34V130Q330 165 235 128T0 150Z" fill="#a9e8f8"/><path d="M0 146Q75 112 130 151T260 145T400 137V260H0Z" fill="#94d58b"/><path d="M-10 225Q70 185 130 211T270 212T420 181" fill="none" stroke="#e8cb8a" stroke-width="34" stroke-linecap="round"/><path d="M-10 225Q70 185 130 211T270 212T420 181" fill="none" stroke="#fff0c9" stroke-width="3" stroke-dasharray="6 10"/><g transform="translate(28 44)"><rect width="76" height="54" rx="6" fill="#f2a66c" stroke="#fff0df" stroke-width="4"/><path d="M-8 8L38 -22 84 8Z" fill="#ff7f87" stroke="#fff0df" stroke-width="4"/><rect x="28" y="24" width="20" height="30" fill="#925640"/></g><g transform="translate(277 35)"><rect width="74" height="54" rx="6" fill="#f4ba78" stroke="#fff0df" stroke-width="4"/><path d="M-8 8L37 -22 82 8Z" fill="#df7fa7" stroke="#fff0df" stroke-width="4"/><rect x="28" y="24" width="20" height="30" fill="#925640"/></g><g fill="#ff9bbd"><circle cx="60" cy="160" r="8"/><circle cx="72" cy="168" r="8"/><circle cx="58" cy="174" r="8"/><circle cx="340" cy="154" r="8"/><circle cx="352" cy="161" r="8"/><circle cx="338" cy="168" r="8"/></g></svg></div><div class="panel"><div class="sectiontitle">Beach House <span class="pill">⭐ 1–5</span></div><div class="levelnodes" id="levels"></div></div><div class="panel"><div class="sectiontitle">Daily missions 🎁</div><div id="missionList"></div></div></section>
+<section class="screen" id="puzzle"><div class="puzhead"><button class="iconbtn" data-nav="room">⌂</button><div style="text-align:center"><b>PUZZLE RESCUE</b><div style="font-size:11px;color:var(--muted)">LEVEL <span id="levelNo">1</span> · SCORE <span id="score">0</span></div></div><button class="iconbtn" id="restart">↻</button></div><div class="boardwrap"><div class="board" id="board"></div></div><div class="pieces" id="pieces"></div><div class="puzactions"><button id="hint">💡 HINT<br><small>Free</small></button><button id="shuffle">🔀 SHUFFLE</button><button id="newgame">🐾 NEW GAME</button></div><div class="panel" style="font-size:12px;text-align:center">Drag a piece onto the board, or tap a piece and then a square. Fill rows to rescue cats! 🐾</div></section>
+<section class="screen" id="shop"><div class="sectiontitle">🛍️ Cat Boutique <span class="pill">🪙 <span id="shopCoins2">62</span></span></div><div class="panel"><div class="tabs"><button class="tab active" data-tab="furniture">🛋 FURNITURE</button><button class="tab" data-tab="decor">🪴 DECOR</button><button class="tab" data-tab="food">🐟 FOOD</button><button class="tab" data-tab="toys">🧶 TOYS</button></div><div class="items" id="shopItems" style="flex-wrap:wrap;overflow:visible"></div></div><div class="panel"><b>✨ Your collection</b><p id="ownedCount" style="margin:6px 0 0;color:var(--muted);font-size:12px">0 items owned</p></div></section>
+<section class="screen" id="settings"><div class="sectiontitle">⚙️ Settings</div><div class="panel"><div class="setting">🎵 Music <button class="switch" data-setting="sound">ON</button></div><div class="setting">🔔 Game sounds <button class="switch" data-setting="effects">ON</button></div><div class="setting">🌸 Cozy animations <button class="switch" data-setting="motion">ON</button></div><div class="setting">🧹 Reset local progress <button class="switch" id="reset">RESET</button></div></div><div class="panel"><b>Cat Block Rescue Club</b><p style="font-size:12px;color:var(--muted)">A little home, a lot of love. Rescue every cat! 🐾</p></div></section>
 </div>
-<div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle">Mochi is happy! 💗</h2><p id="modalText"></p><button id="modalOk">OK</button></div></div>
-<div class="overlay" id="settingsModal"><div class="modal"><h2>Settings</h2><p>Cat Block Rescue Club</p><button id="soundToggle" style="margin-bottom:8px;background:#d7cbfa">🔊 Sound: ON</button><button id="reset">Reset game</button><button id="closeSettings" style="margin-top:8px;background:#f5dce8">Close</button></div></div>
+<nav class="bottomnav"><button class="active" data-nav="room"><span>🏠</span>ROOM</button><button data-nav="cats"><span>🐱</span>CATS</button><button data-nav="puzzle"><span>🧩</span>PUZZLE</button><button data-nav="shop"><span>🛍️</span>SHOP</button><button data-nav="settings"><span>⚙️</span>SETTINGS</button></nav>
+<div class="overlay" id="overlay"><div class="modal"><div style="font-size:40px" id="modalIcon">💗</div><h2 id="modalTitle">Purrfect!</h2><p id="modalText"></p><button class="primary" id="modalClose">OK, THANK YOU!</button></div></div>
+</div>
 <script>
-(()=>{
-'use strict';
 const $=id=>document.getElementById(id);
-let dragState=null, suppressCellClick=false;let coins=Number(localStorage.getItem('cbr2_coins')||42),pet=JSON.parse(localStorage.getItem('cbr2_pet')||'null')||{hunger:20,happy:100,clean:100},tab='furniture',selected=0,score=0,best=Number(localStorage.getItem('cbr2_best')||0),grid=[],pieces=[],owned=JSON.parse(localStorage.getItem('cbr2_owned')||'{}'),rescuedCats=JSON.parse(localStorage.getItem('cbr2_rescued')||'["Mochi"]');
- const rescueMilestones=[{name:'Pepper',score:100,role:'The Brave Little Explorer',story:'Pepper was hiding under a porch. You gave this brave little cat a safe place to dream.'},{name:'Luna',score:250,role:'The Moonlight Dreamer',story:'Luna finally has a warm bed and someone who cares. Your kindness changed her world.'},{name:'Milo',score:500,role:'The Gentle Heart',story:'Milo’s long wait is over. He has found his forever home with your rescue family.'}];
- function updateRescueProgress(){for(const cat of rescueMilestones){if(best>=cat.score&&!rescuedCats.includes(cat.name)){rescuedCats.push(cat.name);localStorage.setItem('cbr2_rescued',JSON.stringify(rescuedCats));setTimeout(()=>modal('A new friend is home! 🏡💗',cat.story),80);}}$('rescued').textContent=rescuedCats.length-1;$('rescueText').textContent='🐱 '+['Mochi · The Dreamer',...rescueMilestones.filter(c=>rescuedCats.includes(c.name)).map(c=>c.name+' · '+c.role)].join('  •  ');}
-const catalog={
- furniture:[['sofa','🛋️','Sofa',80],['rug','🐾','Rug',45],['tv','📺','TV',110],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['plant','🪴','Plant',55],['tower','🐈‍⬛','Cat tree',95],['table','🪵','Table',70]],
- decor:[['plant','🪴','Plant',55],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['flower','🌷','Flowers',30],['tree','🌳','Tree',65],['rug','🐾','Paw rug',45]],
- food:[['bowl','🥣','Food bowl',20],['treat','🐟','Fish treat',35],['can','🥫','Tuna',40],['milk','🥛','Milk',25]],
- toys:[['toy','🧶','Yarn toy',35],['ball','🟣','Ball',25],['feather','🪶','Feather',20],['laser','🔴','Laser',50]]
-};
-const shapes=[[[0,0],[0,1],[1,0],[1,1]],[[0,0],[1,0],[2,0]],[[0,0],[0,1],[0,2]],[[0,0],[1,0],[1,1]],[[0,0],[0,1],[1,1]],[[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,0],[1,1],[1,2]],[[0,0],[1,0],[2,0],[2,1],[2,2]],[[0,0],[0,1],[0,2],[1,1]],[[0,0]]];
-let soundOn=localStorage.getItem('cbr2_sound')!=='off';
- function playTone(kind='tap'){if(!soundOn)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();const now=c.currentTime;const tones=kind==='happy'?[660,880,1046]:kind==='sad'?[330,260]:kind==='purr'?[190,230,205]:[520];o.type=kind==='purr'?'sine':'triangle';o.frequency.setValueAtTime(tones[0],now);tones.slice(1).forEach((hz,i)=>o.frequency.setValueAtTime(hz,now+.09*(i+1)));g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.07,now+.025);g.gain.exponentialRampToValueAtTime(.0001,now+.34);o.connect(g);g.connect(c.destination);o.start(now);o.stop(now+.36);o.onended=()=>c.close()}catch(e){}}
- function save(){localStorage.setItem('cbr2_coins',coins);localStorage.setItem('cbr2_owned',JSON.stringify(owned));localStorage.setItem('cbr2_best',best);$('coins').textContent=coins;$('best').textContent=best;$('best2').textContent=best}
-function modal(title,msg){const sad=/sad|full|won.t fit|time for a fresh board/i.test(title+' '+msg);playTone(sad?'sad':'happy');const stage=document.querySelector('.stage');if(stage){stage.classList.remove('cat-happy','cat-sad');stage.classList.add(sad?'cat-sad':'cat-happy');}$('modalTitle').textContent=title;$('modalText').textContent=msg;$('overlay').style.display='flex'}
-function go(id){document.querySelectorAll('.bottom-nav button[data-go]').forEach(b=>b.classList.toggle('nav-active',b.dataset.go===id));document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));if(id==='puzzle')renderPuzzle();if(id==='home'){ $('level').textContent=Math.max(1,Math.floor(best/100)+1);$('rescued').textContent=rescuedCats.length-1;updateRescueProgress();}if(id==='room')updatePet();}
-function drawItems(){const list=catalog[tab];$('items').innerHTML=list.map(([id,emoji,label,cost])=>'<button class="item '+(owned[id]?'owned':'')+'" data-buy="'+id+'"><span class="item-art">'+emoji+'</span><b>'+label+'</b><strong>'+(owned[id]?'✓ OWNED':'🪙 '+cost)+'</strong></button>').join('');$('items').querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>buy(b.dataset.buy)))}
-function applyRoomDecor(){const svg=document.querySelector('.room-art');if(!svg)return;const old=svg.querySelector('#owned-decor-layer');if(old)old.remove();const layer=document.createElementNS('http://www.w3.org/2000/svg','g');layer.id='owned-decor-layer';layer.setAttribute('pointer-events','none');const add=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));layer.appendChild(n);return n};if(owned.sofa){add('rect',{x:211,y:202,width:170,height:105,rx:24,fill:'#ffb1d0',stroke:'#fff0f6','stroke-width':4,opacity:.2})}if(owned.plant||owned.flower||owned.tree){add('ellipse',{cx:350,cy:342,rx:23,ry:8,fill:'#7a4e5c',opacity:.12});add('path',{d:'M350 335 Q321 315 330 296 Q350 296 350 323 Q356 291 378 296 Q383 318 350 335',fill:owned.tree?'#5dbd7b':'#79c985',stroke:'#4b9b68','stroke-width':2});add('path',{d:'M350 335v-32',stroke:'#5b9c66','stroke-width':3});add('path',{d:'M333 337h35l-5 23h-25z',fill:'#e8a4bd',stroke:'#fff1f6','stroke-width':3})}if(owned.lamp){add('path',{d:'M365 270v-35',stroke:'#b67d58','stroke-width':5});add('path',{d:'M345 238l12 -26h18l12 26z',fill:'#ffe38d',stroke:'#fff4cf','stroke-width':3});add('ellipse',{cx:366,cy:239,rx:21,ry:4,fill:'#e8b35b'})}if(owned.rug){add('ellipse',{cx:205,cy:468,rx:120,ry:66,fill:'none',stroke:'#ff9dc7','stroke-width':4,'stroke-dasharray':'5 5',opacity:.9})}if(owned.toy||owned.ball||owned.feather){add('circle',{cx:120,cy:503,r:13,fill:'#ff75ae',stroke:'#fff1f7','stroke-width':3});add('path',{d:'M112 503q8 -17 16 0q-8 17 -16 0',fill:'#f9b7d1'})}svg.appendChild(layer)}
-function buy(id){const item=Object.values(catalog).flat().find(x=>x[0]===id);if(!item)return;if(owned[id]){modal('Already yours! 💗',item[2]+' is already in your home.');return}if(coins<item[3]){modal('A few more coins 🪙','You need '+(item[3]-coins)+' more coins for '+item[2]+'. Play a puzzle to earn some!');return}coins-=item[3];owned[id]=true;save();drawItems();applyRoomDecor();playTone('happy');modal('New item! ✨',item[2]+' has been added to your home! Look around the room to see your new decoration.');}
-function care(action){playTone(action==='pet'?'purr':'happy');document.querySelector('.stage').classList.remove('cat-happy','cat-sad');document.querySelector('.stage').classList.add('cat-happy');if(action==='feed'){pet.hunger=Math.max(0,pet.hunger-35);pet.happy=Math.min(100,pet.happy+5);modal('Yum, delicious! 🍲','Mochi’s tummy is full. Thank you for caring!')}if(action==='play'){pet.happy=Math.min(100,pet.happy+18);pet.clean=Math.max(0,pet.clean-3);pet.hunger=Math.min(100,pet.hunger+8);modal('Playtime! 🧶','Mochi is having the best time with you!')}if(action==='clean'){pet.clean=100;document.querySelector('.stage').classList.remove('messy');modal('Sparkling clean! ✨','Mochi’s room is fresh and cozy again.')}if(action==='pet'){pet.happy=Math.min(100,pet.happy+12);modal('Purr, purr... 💗','Mochi feels safe and loved with you.')}updatePet()}
-function updatePet(){localStorage.setItem('cbr2_pet',JSON.stringify(pet));const stage=document.querySelector('.stage');if(stage)stage.classList.toggle('messy',pet.clean<40);[['hunger',pet.hunger],['happy',pet.happy],['clean',pet.clean]].forEach(([key,val])=>{$(key+'Num').textContent=Math.round(val)+'%';$(key+'Bar').style.width=val+'%'})}
-function newPuzzle(){grid=Array.from({length:8},()=>Array(8).fill(0));pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0;score=0;$('score').textContent=score;renderPuzzle()}
-function renderPuzzle(){if(!grid.length){newPuzzle();return}const board=$('board');board.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','Row '+(r+1)+', column '+(c+1));el.dataset.row=r;el.dataset.col=c;el.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}place(selected,r,c)});board.appendChild(el)}const box=$('pieces');box.innerHTML='';pieces.forEach((shape,i)=>{const b=document.createElement('button');b.className='piece'+(i===selected?' selected':'');b.disabled=!shape;b.dataset.piece=i;if(shape){const maxY=Math.max(...shape.map(p=>p[0]))+1,maxX=Math.max(...shape.map(p=>p[1]))+1;const preview=document.createElement('span');preview.className='piece-shape';preview.style.gridTemplateColumns='repeat('+maxX+',clamp(10px,3.2vw,17px))';preview.style.gridTemplateRows='repeat('+maxY+',clamp(10px,3.2vw,17px))';shape.forEach(([y,x])=>{const cell=document.createElement('span');cell.className='mini';cell.style.gridRow=String(y+1);cell.style.gridColumn=String(x+1);preview.appendChild(cell)});b.appendChild(preview)}else{b.textContent='✓';b.disabled=true}b.addEventListener('pointerdown',e=>beginDrag(i,e,b));b.addEventListener('click',()=>{if(suppressCellClick){suppressCellClick=false;return}if(!pieces[i])return;selected=i;renderPuzzle()});box.appendChild(b)});$('best2').textContent=best}
-function beginDrag(index,e,button){
- if(!pieces[index])return;
- // Remember which mini-block the finger grabbed so the piece lands under
- // that same block, rather than jumping its top-left corner to the finger.
- const mini=e.target?.closest?.('.mini');
- const grabY=mini?Math.max(0,Number.parseInt(mini.style.gridRow||'1',10)-1):0;
- const grabX=mini?Math.max(0,Number.parseInt(mini.style.gridColumn||'1',10)-1):0;
- const shape=pieces[index],maxY=Math.max(...shape.map(p=>p[0]))+1,maxX=Math.max(...shape.map(p=>p[1]))+1;
- const ghost=document.createElement('div');ghost.className='drag-ghost';
- ghost.style.gridTemplateColumns='repeat('+maxX+',18px)';ghost.style.gridTemplateRows='repeat('+maxY+',18px)';
- shape.forEach(([y,x])=>{const block=document.createElement('span');block.className='mini';block.style.gridRow=String(y+1);block.style.gridColumn=String(x+1);ghost.appendChild(block)});
- document.body.appendChild(ghost);
- dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId,grabY,grabX,ghost};
- moveDragGhost(e.clientX,e.clientY);
- button.classList.add('dragging');
- // Do not capture the pointer: letting hit-testing follow the finger makes
- // elementFromPoint and cell-rectangle fallback reliable on mobile browsers.
- e.preventDefault();
-}
-function moveDragGhost(x,y){
- if(!dragState?.ghost)return;
- dragState.ghost.style.left=(x-(dragState.grabX||0)*22-14)+'px';
- dragState.ghost.style.top=(y-(dragState.grabY||0)*22-14)+'px';
-}
-function clearDropTargets(){document.querySelectorAll('.cell.drop-target,.cell.drop-invalid').forEach(el=>el.classList.remove('drop-target','drop-invalid'))}
-function cellAtPoint(x,y){
- const hit=document.elementFromPoint(x,y)?.closest?.('.cell');
- if(hit&&hit.closest('#board'))return hit;
- // Pointer capture can make hit-testing inconsistent on some mobile browsers.
- // Resolve the target using the actual cell rectangles as a fallback.
- const cells=document.querySelectorAll('#board .cell');
- let nearest=null,nearestDistance=Infinity;
- for(const cell of cells){
-  const r=cell.getBoundingClientRect();
-  if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return cell;
-  const dx=Math.max(r.left-x,0,x-r.right),dy=Math.max(r.top-y,0,y-r.bottom);
-  const distance=Math.hypot(dx,dy);
-  if(distance<nearestDistance){nearestDistance=distance;nearest=cell}
- }
- // Small grid gutters should still resolve to the closest cell under a finger.
- return nearestDistance<=10?nearest:null;
-}
-function updateDropTarget(x,y){
- clearDropTargets();if(!dragState)return;
- moveDragGhost(x,y);
- const el=cellAtPoint(x,y);if(!el)return;
- const shape=pieces[dragState.index];if(!shape)return;
- // Convert the cell under the finger to the piece's top-left origin.
- const r=Number(el.dataset.row)-(dragState.grabY||0),c=Number(el.dataset.col)-(dragState.grabX||0);
- const fits=shape.every(([dy,dx])=>r+dy>=0&&c+dx>=0&&r+dy<8&&c+dx<8&&!grid[r+dy]?.[c+dx]);
- shape.forEach(([dy,dx])=>{
-  const target=document.querySelector('.cell[data-row="'+(r+dy)+'"][data-col="'+(c+dx)+'"]');
-  if(target)target.classList.add(fits?'drop-target':'drop-invalid');
- });
-}
-function finishDrag(e){
- if(!dragState)return;
- const state=dragState;dragState=null;
- state.ghost?.remove();
- document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));
- clearDropTargets();
- if(state.moved){
-  const cell=cellAtPoint(e.clientX,e.clientY);
-  if(cell){selected=state.index;suppressCellClick=true;place(state.index,Number(cell.dataset.row)-(state.grabY||0),Number(cell.dataset.col)-(state.grabX||0));setTimeout(()=>{suppressCellClick=false},0)}
-  else{$('puzzle').querySelector('.puz-help').textContent='Drop the piece on a highlighted square inside the board.'}
- }else{selected=state.index;renderPuzzle()}
-}
-function cancelDrag(){
- if(!dragState)return;
- const state=dragState;dragState=null;state.ghost?.remove();
- document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));
- clearDropTargets();
-}
-window.addEventListener('pointermove',e=>{
- if(!dragState)return;
- if(Math.hypot(e.clientX-dragState.startX,e.clientY-dragState.startY)>7)dragState.moved=true;
- if(dragState.moved)updateDropTarget(e.clientX,e.clientY);
-},{passive:true});
-window.addEventListener('pointerup',finishDrag,{passive:true});
-window.addEventListener('pointercancel',cancelDrag,{passive:true});
-function place(which,r,c){const shape=pieces[which];if(!shape)return;const fits=shape.every(([y,x])=>r+y>=0&&c+x>=0&&r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){$('puzzle').querySelector('.puz-help').textContent='That piece won’t fit there. Try another spot!';return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;pieces[which]=null;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*5;modal('Pawsome move! ✨',cleared+' line(s) cleared. You earned '+(cleared*5)+' coins!')}if(score>best){best=score;localStorage.setItem('cbr2_best',best);updateRescueProgress()}$('score').textContent=score;if(pieces.every(p=>!p)){pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0}else{selected=pieces.findIndex(p=>p!==null);if(selected<0)selected=0}save();renderPuzzle();if(!pieces.some(p=>p&&canPlaceAnywhere(p))){setTimeout(()=>modal('Time for a fresh board 🐱','The board is full. Start a new game and try again!'),150)}}
-function canPlaceAnywhere(shape){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]))return true;return false}
-document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));drawItems()}));
-document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.care==='play'){go('puzzle');return}care(b.dataset.care)}));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{const dest=b.dataset.go;if(dest==='puzzle'){go('puzzle');return}go(dest)}));$('homeButton').addEventListener('click',()=>go('home'));
-document.querySelectorAll('[data-room-go]').forEach(b=>b.addEventListener('click',()=>{const dest=b.dataset.roomGo;if(dest==='cats'){modal('Your rescue family 🐱',rescuedCats.join(' • ')+' are safe with you. Keep caring to unlock more cats!');return}if(dest==='tasks'){go('puzzle');return}go(dest);document.querySelectorAll('[data-room-go]').forEach(x=>x.classList.toggle('nav-active',x===b))}));$('roomNavShop').addEventListener('click',()=>{tab='furniture';document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));drawItems()});$('roomNavSettings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('shopJump').addEventListener('click',()=>{go('room');drawItems()});$('navShop').addEventListener('click',()=>{go('room');tab='furniture';document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));drawItems()});$('navSettings').addEventListener('click',()=>$('settingsModal').style.display='flex');
-$('soundToggle').addEventListener('click',()=>{soundOn=!soundOn;localStorage.setItem('cbr2_sound',soundOn?'on':'off');$('soundToggle').textContent=soundOn?'🔊 Sound: ON':'🔇 Sound: OFF';if(soundOn)playTone('happy')});$('newGame').addEventListener('click',()=>{playTone('tap');newPuzzle()});$('settings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('closeSettings').addEventListener('click',()=>$('settingsModal').style.display='none');$('reset').addEventListener('click',()=>{coins=42;owned={};rescuedCats=['Mochi'];localStorage.removeItem('cbr2_rescued');pet={hunger:20,happy:100,clean:100};save();updatePet();drawItems();$('settingsModal').style.display='none';modal('All reset','A fresh start is ready for you!')});$('modalOk').addEventListener('click',()=>$('overlay').style.display='none');$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))$('overlay').style.display='none'});$('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))$('settingsModal').style.display='none'});
-$('soundToggle').textContent=soundOn?'🔊 Sound: ON':'🔇 Sound: OFF';document.querySelectorAll('button').forEach(b=>{if(!b.dataset.noSound)b.addEventListener('pointerdown',()=>{if(!['settings','homeButton','navSettings','closeSettings','modalOk'].includes(b.id))playTone('tap')},{passive:true})});drawItems();updatePet();applyRoomDecor();save();updateRescueProgress();newPuzzle();
-setInterval(()=>{if(document.visibilityState==='hidden')return;pet.hunger=Math.min(100,pet.hunger+.7);pet.happy=Math.max(0,pet.happy-(pet.hunger>70?1.1:.25));pet.clean=Math.max(0,pet.clean-.35);updatePet();if(pet.happy<25){document.querySelector('.stage').classList.add('cat-sad');$('bubble').innerHTML='MOCHI NEEDS A HUG<small>A little love could help. 💧</small>'}else if(pet.hunger>75){$('bubble').innerHTML='MOCHI IS HUNGRY<small>Could you bring some yummy food?</small>'}},12000);
-})();
-</script>
-</body>
-</html>
+const store={get(k,d){try{const x=localStorage.getItem('cbr3_'+k);return x===null?d:JSON.parse(x)}catch{return d}},set(k,v){localStorage.setItem('cbr3_'+k,JSON.stringify(v))}};
+let coins=store.get('coins',62),pet=store.get('pet',{hunger:72,happy:100,clean:88}),owned=store.get('owned',{}),planted=store.get('planted',{}),rescued=store.get('rescued',['Mochi']),best=store.get('best',0),tab='furniture',score=0,grid=[],pieces=[],selected=0,level=store.get('level',1),missions=store.get('missions',{feed:0,play:0,lines:0}),drag=null;
+const catalog={furniture:[['sofa','🛋️','Sofa',80],['rug','🐾','Paw Rug',60],['tower','🗼','Cat Tree',120],['plant','🪴','Plant',40],['lamp','💡','Lamp',70],['curtain','🪟','Curtains',50],['tv','📺','TV',140],['shelf','🪵','Shelf',75]],decor:[['plant','🪴','Plant',40],['flowers','💐','Flowers',30],['lamp','💡','Lamp',70],['curtain','🪟','Curtains',50],['rug','🐾','Paw Rug',60],['picture','🖼️','Cat Picture',45]],food:[['dryfood','🥣','Dry Food',10],['fish','🐟','Fish',15],['chicken','🍗','Chicken',20],['treat','🍪','Treats',12]],toys:[['yarn','🧶','Yarn',15],['ball','🟡','Ball',12],['feather','🪶','Feather',10],['mouse','🐭','Toy Mouse',18]]};
+const shapes=[[[0,0],[0,1],[1,0],[1,1]],[[0,0],[1,0],[2,0]],[[0,0],[0,1],[0,2]],[[0,0],[1,0],[1,1]],[[0,0],[0,1],[1,1]],[[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,0],[1,1],[1,2]],[[0,0],[0,1],[0,2],[1,1]],[[0,0],[1,0],[1,1],[2,1]],[[0,0]]];
+const catInfo=[{name:'Mochi',desc:'Your first rescued friend',color:'#f8b84c',accent:'#fff1d9',threshold:0},{name:'Luna',desc:'A shy moonlight dreamer',color:'#9c9bb9',accent:'#fff4ff',threshold:100},{name:'Milo',desc:'A brave little explorer',color:'#ef9e45',accent:'#fff0dc',threshold:250},{name:'Bella',desc:'Loves ribbons and cuddles',color:'#fff0e6',accent:'#ffabc9',threshold:450},{name:'Choco',desc:'A tiny chocolate shadow',color:'#916b58',accent:'#ffe1c5',threshold:700},{name:'Pepper',desc:'The playful midnight cat',color:'#4e4d68',accent:'#dedcf5',threshold:1000}];
+function persist(){store.set('coins',coins);store.set('pet',pet);store.set('owned',owned);store.set('planted',planted);store.set('rescued',rescued);store.set('best',best);store.set('level',level);store.set('missions',missions);renderStats()}
+function renderStats(){['coins','shopCoins','shopCoins2'].forEach(id=>$(id).textContent=coins);$('catCount').textContent=rescued.length+' / '+catInfo.length;$('ownedCount').textContent=Object.keys(owned).length+' items owned';$('gardenLevel').textContent='LEVEL '+level;$('levelNo').textContent=level}
+function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.bottomnav [data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));if(id==='cats')renderCats();if(id==='tasks')renderTasks();if(id==='puzzle')renderPuzzle();if(id==='shop'){renderShop();}if(id==='room'){renderItems();renderStats()}}
+document.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.nav)));
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderItems();renderShop()}));
+function modal(title,msg,icon='💗'){ $('modalTitle').textContent=title;$('modalText').textContent=msg;$('modalIcon').textContent=icon;$('overlay').style.display='flex';}
+$('modalClose').onclick=()=>{$('overlay').style.display='none'};
+function care(action){const cat=$('catCharacter');cat.classList.remove('happy','sad');void cat.offsetWidth;cat.classList.add('happy');if(action==='feed'){pet.hunger=Math.max(0,pet.hunger-35);pet.happy=Math.min(100,pet.happy+6);missions.feed++;modal('Yum, delicious! 🍲','Mochi’s tummy is full. +6 happiness!','🥣')}
+else if(action==='play'){pet.happy=Math.min(100,pet.happy+18);pet.clean=Math.max(0,pet.clean-5);pet.hunger=Math.min(100,pet.hunger+8);missions.play++;nav('puzzle');}
+else if(action==='bath'||action==='clean'){pet.clean=100;modal('Sparkly clean! 🫧','Mochi is fresh, fluffy and ready for cuddles!','🛁')}
+else if(action==='pet'){pet.happy=Math.min(100,pet.happy+12);modal('Prrrrr! 💗','Mochi feels safe and loved.','💗')}
+updatePet();persist();renderTasks()}
+document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>care(b.dataset.care)));
+function updatePet(){[['hunger',pet.hunger],['happy',pet.happy],['clean',pet.clean]].forEach(([k,v])=>{$(k+'Num').textContent=Math.round(v)+'%';$(k+'Bar').style.width=v+'%'});const cat=$('catCharacter');cat.classList.toggle('sad',pet.hunger>90||pet.happy<25);if(pet.hunger>90||pet.happy<25)cat.classList.remove('happy');}
+function drawOwnedDecor(){const g=$('ownedDecor');g.innerHTML='';const ns='http://www.w3.org/2000/svg';const add=(tag,a)=>{const n=document.createElementNS(ns,tag);Object.entries(a).forEach(([k,v])=>n.setAttribute(k,v));g.appendChild(n)};if(owned.flowers){add('path',{d:'M283 190h22l-3 22h-16z',fill:'#e8a3bc',stroke:'#fff','stroke-width':3});for(let i=0;i<5;i++){const x=294+Math.cos(i*1.256)*9,y=178+Math.sin(i*1.256)*8;add('circle',{cx:x,cy:y,r:5,fill:'#ff80b5'})}add('circle',{cx:294,cy:178,r:4,fill:'#ffd75e'})}if(owned.lamp){add('path',{d:'M350 199v-36',stroke:'#b77c58','stroke-width':5});add('path',{d:'M331 165l9 -21h20l9 21z',fill:'#ffda78',stroke:'#fff2d2','stroke-width':3})}if(owned.plant){add('path',{d:'M365 198Q339 178 350 161Q370 164 365 190Q377 151 398 165Q404 188 365 198',fill:'#65c67c'});add('path',{d:'M365 198v-34',stroke:'#398c53','stroke-width':3});add('path',{d:'M348 201h35l-4 21h-27z',fill:'#e7a3bc',stroke:'#fff','stroke-width':3})}if(owned.rug){add('ellipse',{cx:210,cy:474,rx:120,ry:63,fill:'none',stroke:'#ff8cbd','stroke-width':4,'stroke-dasharray':'5 5'})}if(owned.yarn||owned.ball||owned.feather){add('circle',{cx:90,cy:516,r:24,fill:'#ff69ad',stroke:'#fff','stroke-width':4});add('path',{d:'M72 516q18 -27 36 0q-18 27 -36 0',fill:'none',stroke:'#ffd1e3','stroke-width':4})}}
+function renderItems(){const list=catalog[tab];$('roomItems').innerHTML=list.map(([id,emoji,name,cost])=>'<button class="item '+(owned[id]?'owned':'')+'" data-buy="'+id+'"><span class="itemart">'+emoji+'</span><b>'+name+'</b><strong>'+(owned[id]?'✓ OWNED':'🪙 '+cost)+'</strong></button>').join('');$('roomItems').querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy))}
+function renderShop(){const list=catalog[tab];$('shopItems').innerHTML=list.map(([id,emoji,name,cost])=>'<button class="item '+(owned[id]?'owned':'')+'" data-buy="'+id+'"><span class="itemart">'+emoji+'</span><b>'+name+'</b><strong>'+(owned[id]?'✓ OWNED':'🪙 '+cost)+'</strong></button>').join('');$('shopItems').querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy));}
+function buy(id){const item=Object.values(catalog).flat().find(x=>x[0]===id);if(!item)return;if(owned[id]){modal('Already yours! 💗',item[2]+' is already in your collection.');return}if(coins<item[3]){modal('Need more coins 🪙','Play a puzzle level to earn '+(item[3]-coins)+' more coins.','🪙');return}coins-=item[3];owned[id]=true;drawOwnedDecor();persist();renderItems();renderShop();modal('New decoration! ✨',item[2]+' is yours! Your home has been updated.','🎁')}
+function renderCats(){const unlocked=catInfo.filter(c=>rescued.includes(c.name)||best>=c.threshold);$('catGrid').innerHTML=catInfo.map(c=>{const ok=rescued.includes(c.name)||best>=c.threshold;return '<div class="catcard"><div class="catportrait">'+catSvg(c,ok)+'</div><b>'+ (ok?c.name:'🔒 Mystery Cat')+'</b><small>'+ (ok?c.desc:'Rescue score '+c.threshold)+'</small><div class="heartbar" style="margin-top:8px"><i style="width:'+(ok?pet.happy:0)+'%"></i></div><small>'+(ok?'♥ '+pet.happy+'% bond':'Complete puzzles to rescue')+'</small></div>'}).join('');$('catCount').textContent=unlocked.length+' / '+catInfo.length}
+function catSvg(c,ok){return '<svg viewBox="0 0 140 120" aria-label="Cartoon cat"><defs><linearGradient id="cg'+c.name+'" x2="0" y2="1"><stop stop-color="'+c.color+'"/><stop offset="1" stop-color="'+c.accent+'"/></linearGradient></defs><ellipse cx="70" cy="113" rx="43" ry="5" fill="#bd8aa5" opacity=".25"/><g '+(ok?'':'opacity=".3"')+'><ellipse cx="70" cy="83" rx="37" ry="33" fill="url(#cg'+c.name+')"/><path d="M37 52L32 17Q31 8 42 17L59 33M81 33L99 17Q110 8 108 19L103 52" fill="url(#cg'+c.name+')" stroke="#fff8f2" stroke-width="2"/><ellipse cx="70" cy="53" rx="43" ry="37" fill="url(#cg'+c.name+')" stroke="#fff8f2" stroke-width="2"/><path d="M48 30l-4 -14 15 15m31 0l15 -15 -4 15" fill="#ff9fbf"/><ellipse cx="55" cy="52" rx="7" ry="10" fill="#4b2b50"/><ellipse cx="85" cy="52" rx="7" ry="10" fill="#4b2b50"/><circle cx="57" cy="49" r="2.5" fill="#fff"/><circle cx="87" cy="49" r="2.5" fill="#fff"/><ellipse cx="44" cy="65" rx="10" ry="6" fill="#ff9cba"/><ellipse cx="96" cy="65" rx="10" ry="6" fill="#ff9cba"/><path d="M66 64q4 -6 8 0q-4 6 -8 0M70 69q-7 7 -12 0m12 0q7 7 12 0" fill="none" stroke="#6e435a" stroke-width="2" stroke-linecap="round"/></g></svg>'}
+function renderTasks(){const levels=$('levels');levels.innerHTML='';for(let i=1;i<=12;i++){const b=document.createElement('button');b.className='levelnode '+(i<level?'done':i>level?'locked':'');b.textContent=i<level?'✓':i>level?'🔒':i;b.onclick=()=>{if(i>level){modal('Keep rescuing! 🐾','Finish the current level to unlock this adventure.','🔒');return}nav('puzzle')};levels.appendChild(b)}const list=[['feed','Feed Mochi 5 times',missions.feed,5,20],['play','Play a puzzle',missions.play,1,25],['lines','Clear 3 lines',missions.lines,3,50]];$('missionList').innerHTML=list.map(([id,name,n,total,reward])=>'<div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #f0dbe6"><span style="font-size:23px">'+(id==='feed'?'🥣':id==='play'?'🧩':'✨')+'</span><div style="flex:1"><b style="font-size:12px">'+name+'</b><div class="bar" style="margin-top:5px"><i style="width:'+Math.min(100,n/total*100)+'%;background:#63d78c"></i></div></div><span style="font-size:11px;font-weight:1000">🪙 '+reward+'</span></div>').join('')}
+function newGame(){grid=Array.from({length:8},()=>Array(8).fill(0));pieces=Array.from({length:3},()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0;score=0;$('score').textContent=score;renderPuzzle()}
+function renderPuzzle(){if(!grid.length){newGame();return}const board=$('board');board.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const b=document.createElement('button');b.className='cell'+(grid[r][c]?' filled':'');b.dataset.row=r;b.dataset.col=c;b.setAttribute('aria-label','Row '+(r+1)+', column '+(c+1));b.onclick=()=>{if(selected>=0&&pieces[selected])place(selected,r,c)};board.appendChild(b)}const holder=$('pieces');holder.innerHTML='';pieces.forEach((shape,i)=>{const b=document.createElement('button');b.className='piece'+(i===selected?' selected':'');if(!shape){b.textContent='✓';holder.appendChild(b);return}const h=Math.max(...shape.map(p=>p[0]))+1,w=Math.max(...shape.map(p=>p[1]))+1;const preview=document.createElement('span');preview.className='piece-shape';preview.style.gridTemplateColumns='repeat('+w+',clamp(12px,4vw,21px))';preview.style.gridTemplateRows='repeat('+h+',clamp(12px,4vw,21px))';shape.forEach(([y,x])=>{const m=document.createElement('span');m.className='mini';m.style.gridRow=y+1;m.style.gridColumn=x+1;preview.appendChild(m)});b.appendChild(preview);b.onpointerdown=e=>beginDrag(i,e,b);b.onclick=()=>{selected=i;renderPuzzle()};holder.appendChild(b)})}
+function beginDrag(i,e,b){if(!pieces[i])return;drag={i,x:e.clientX,y:e.clientY,moved:false};b.setPointerCapture?.(e.pointerId);e.preventDefault()}
+window.addEventListener('pointermove',e=>{if(drag&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>8)drag.moved=true},{passive:true});
+window.addEventListener('pointerup',e=>{if(!drag)return;const d=drag;drag=null;if(!d.moved)return;const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.cell');if(target){place(d.i,Number(target.dataset.row),Number(target.dataset.col))}},{passive:true});
+function place(i,r,c){const shape=pieces[i];if(!shape)return;const fits=shape.every(([y,x])=>r+y>=0&&c+x>=0&&r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){modal('Almost! 🐾','That piece will not fit there. Try another spot.','🧩');return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*10;missions.lines+=cleared;modal('Pawsome! ✨','You cleared '+cleared+' line(s) and earned '+cleared*10+' coins!','🎉')}pieces[i]=null;if(score>best){best=score;const cat=catInfo.find(c=>best>=c.threshold&&!rescued.includes(c.name));if(cat){rescued.push(cat.name);modal('A new friend is rescued! 🏡',cat.name+' has a safe, loving home now!','🐱')}}$('score').textContent=score;if(pieces.every(p=>!p)){level++;newGame()}else{selected=pieces.findIndex(p=>p);if(selected<0)selected=0;renderPuzzle()}persist();renderTasks()}
+$('restart').onclick=newGame;$('newgame').onclick=newGame;$('shuffle').onclick=()=>{pieces=pieces.map(()=>shapes[Math.floor(Math.random()*shapes.length)]);renderPuzzle()};$('hint').onclick=()=>modal('Little hint 💡','Try placing the longest piece along an empty edge.','💡');
+document.querySelectorAll('[data-plot]').forEach(b=>b.onclick=()=>{const i=b.dataset.plot;if(!planted[i]){planted[i]=true;b.innerHTML='<span>'+(i==='0'?'🌿':i==='1'?'🌷':i==='2'?'🍓':'🌻')+'</span>'+['Herb patch','Flower bed','Berry patch','Sunflowers'][i]+' ✓';store.set('planted',planted);modal('Garden is growing! 🌱','You planted something lovely in your garden.','🌱')}else modal('Lovely garden! 🌼','Your garden is growing beautifully.','🌼')});
+document.querySelectorAll('[data-setting]').forEach(b=>b.onclick=()=>{b.textContent=b.textContent==='ON'?'OFF':'ON';b.style.background=b.textContent==='ON'?'#69d98a':'#ad9db5'});
+$('reset').onclick=()=>modal('Reset progress? 🧹','To start fresh, clear site data in your browser settings.','⚠️');
+function init(){renderStats();renderItems();renderShop();renderCats();renderTasks();updatePet();drawOwnedDecor();newGame();Object.entries(planted).forEach(([i,v])=>{if(v){const b=document.querySelector('[data-plot="'+i+'"]');if(b)b.innerHTML='<span>🌱</span>'+b.textContent+' ✓'}})}
+init();
+</script></body></html>
