@@ -72,7 +72,7 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 .card{padding:16px;background:#fff9f4;border-radius:23px;box-shadow:var(--shadow)}
 .hero{background:linear-gradient(135deg,#f5b7d0,#ffe6d6 65%,#d9d1fa);padding:22px;border-radius:25px}.hero h1{font-size:clamp(27px,7vw,38px);line-height:1;margin:8px 0}.hero p{font-size:13px;line-height:1.5}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.actions button{border-radius:18px;padding:15px 2px;background:#bde9cb;font-size:12px;font-weight:1000}.actions button:nth-child(2){background:#f3b8d0}.actions button:nth-child(3){background:#d7cbfa}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;padding:11px 4px;background:#fff9f4;border-radius:17px}.stat small{display:block;font-size:9px;color:var(--muted);font-weight:900}.stat b{font-size:22px}
-#puzzle{align-items:center}#puzzle .puz-head{width:100%;display:flex;align-items:center;justify-content:space-between}.board{width:min(100%,430px,46vh);aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:8px;border-radius:22px;background:#fff9f4;box-shadow:var(--shadow)}.cell{background:#f2e5ed;border-radius:7px;min-width:0;min-height:0}.cell.filled{background:linear-gradient(145deg,#ffe7a0,#f6b84e);box-shadow:inset 0 2px 0 #fff9,0 2px 0 #d99e4c}.cell.hint{outline:3px solid #91d8a8}.cell.drop-target{outline:3px solid #54bd82;background:#b9f0cb;box-shadow:0 0 0 3px #54bd8240}.cell.drop-invalid{outline:3px solid #e47cab;background:#f8c5d9}.piece{touch-action:none;user-select:none;-webkit-user-select:none}.piece.dragging{opacity:.55;transform:scale(.96)}.board{touch-action:none;user-select:none;-webkit-user-select:none}.puz-help{min-height:18px}.pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}.piece{min-height:75px;display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;padding:9px;border-radius:17px;background:#fff3f8;border:2px solid transparent}.piece.selected{border-color:#e47cab;background:#fce0ec}.mini{width:clamp(10px,3.2vw,17px);height:clamp(10px,3.2vw,17px);border-radius:4px;background:linear-gradient(145deg,#ffe8a0,#f4b448);box-shadow:inset 0 1px 0 #fff8,0 1px 0 #d99e4c}.piece-shape{display:grid;gap:3px;align-content:center;justify-content:center;min-height:40px;max-width:100%}.piece{overflow:hidden}.puz-help{font-size:11px;color:var(--muted);text-align:center}
+#puzzle{align-items:center}#puzzle .puz-head{width:100%;display:flex;align-items:center;justify-content:space-between}.board{width:min(100%,430px,46vh);aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:8px;border-radius:22px;background:#fff9f4;box-shadow:var(--shadow)}.cell{background:#f2e5ed;border-radius:7px;min-width:0;min-height:0}.cell.filled{background:linear-gradient(145deg,#ffe7a0,#f6b84e);box-shadow:inset 0 2px 0 #fff9,0 2px 0 #d99e4c}.cell.hint{outline:3px solid #91d8a8}.cell.drop-target{outline:3px solid #54bd82;background:#b9f0cb;box-shadow:0 0 0 3px #54bd8240}.cell.drop-invalid{outline:3px solid #e47cab;background:#f8c5d9}.piece{touch-action:none;user-select:none;-webkit-user-select:none}.piece.dragging{opacity:.42;transform:scale(.96)}.drag-ghost{position:fixed;z-index:100;pointer-events:none;display:grid;gap:4px;padding:5px;border-radius:12px;background:#fff9f4d9;box-shadow:0 8px 24px #65415c35;opacity:.96;transform:translateZ(0)}.drag-ghost .mini{width:18px;height:18px;border-radius:5px;background:linear-gradient(145deg,#ffe8a0,#f4b448);box-shadow:inset 0 1px 0 #fff9,0 2px 0 #d99e4c}.board{touch-action:none;user-select:none;-webkit-user-select:none}.puz-help{min-height:18px}.pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}.piece{min-height:75px;display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;padding:9px;border-radius:17px;background:#fff3f8;border:2px solid transparent}.piece.selected{border-color:#e47cab;background:#fce0ec}.mini{width:clamp(10px,3.2vw,17px);height:clamp(10px,3.2vw,17px);border-radius:4px;background:linear-gradient(145deg,#ffe8a0,#f4b448);box-shadow:inset 0 1px 0 #fff8,0 1px 0 #d99e4c}.piece-shape{display:grid;gap:3px;align-content:center;justify-content:center;min-height:40px;max-width:100%}.piece{overflow:hidden}.puz-help{font-size:11px;color:var(--muted);text-align:center}
 .overlay{position:fixed;inset:0;z-index:20;background:#39253e88;display:none;align-items:center;justify-content:center;padding:22px}.modal{width:min(100%,350px);padding:23px;border-radius:26px;background:#fff9f4;text-align:center;box-shadow:0 15px 55px #38233e45}.modal h2{margin:0 0 8px}.modal p{font-size:13px;color:var(--muted)}.modal button{width:100%;padding:14px;border-radius:15px;background:#bde9cb;font-weight:1000}
 @keyframes bob{50%{transform:translate(-50%,-5px)}}
  .kitten-character{transform-box:fill-box;transform-origin:center;animation:kitten-idle 2.8s ease-in-out infinite;transition:filter .25s}
@@ -278,11 +278,22 @@ function beginDrag(index,e,button){
  const mini=e.target?.closest?.('.mini');
  const grabY=mini?Math.max(0,Number.parseInt(mini.style.gridRow||'1',10)-1):0;
  const grabX=mini?Math.max(0,Number.parseInt(mini.style.gridColumn||'1',10)-1):0;
- dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId,grabY,grabX};
+ const shape=pieces[index],maxY=Math.max(...shape.map(p=>p[0]))+1,maxX=Math.max(...shape.map(p=>p[1]))+1;
+ const ghost=document.createElement('div');ghost.className='drag-ghost';
+ ghost.style.gridTemplateColumns='repeat('+maxX+',18px)';ghost.style.gridTemplateRows='repeat('+maxY+',18px)';
+ shape.forEach(([y,x])=>{const block=document.createElement('span');block.className='mini';block.style.gridRow=String(y+1);block.style.gridColumn=String(x+1);ghost.appendChild(block)});
+ document.body.appendChild(ghost);
+ dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId,grabY,grabX,ghost};
+ moveDragGhost(e.clientX,e.clientY);
  button.classList.add('dragging');
  // Do not capture the pointer: letting hit-testing follow the finger makes
  // elementFromPoint and cell-rectangle fallback reliable on mobile browsers.
  e.preventDefault();
+}
+function moveDragGhost(x,y){
+ if(!dragState?.ghost)return;
+ dragState.ghost.style.left=(x-(dragState.grabX||0)*22-14)+'px';
+ dragState.ghost.style.top=(y-(dragState.grabY||0)*22-14)+'px';
 }
 function clearDropTargets(){document.querySelectorAll('.cell.drop-target,.cell.drop-invalid').forEach(el=>el.classList.remove('drop-target','drop-invalid'))}
 function cellAtPoint(x,y){
@@ -304,6 +315,7 @@ function cellAtPoint(x,y){
 }
 function updateDropTarget(x,y){
  clearDropTargets();if(!dragState)return;
+ moveDragGhost(x,y);
  const el=cellAtPoint(x,y);if(!el)return;
  const shape=pieces[dragState.index];if(!shape)return;
  // Convert the cell under the finger to the piece's top-left origin.
@@ -317,6 +329,7 @@ function updateDropTarget(x,y){
 function finishDrag(e){
  if(!dragState)return;
  const state=dragState;dragState=null;
+ state.ghost?.remove();
  document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));
  clearDropTargets();
  if(state.moved){
@@ -327,7 +340,7 @@ function finishDrag(e){
 }
 function cancelDrag(){
  if(!dragState)return;
- dragState=null;
+ const state=dragState;dragState=null;state.ghost?.remove();
  document.querySelectorAll('.piece.dragging').forEach(el=>el.classList.remove('dragging'));
  clearDropTargets();
 }
