@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#f4d5e1">
 <link rel="icon" href="data:,">
-<title>Cat Block Rescue Club — Kedi Kurtarma Kulübü</title>
+<title>Cat Block Rescue Club</title>
 <style>
 :root{--ink:#4b2b50;--muted:#927795;--pink:#f5a9ca;--paper:#fff9f4;--lilac:#e7dafa;--green:#8ed7a7;--shadow:0 5px 18px #75496618}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Nunito,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:#f5dce5}button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:active{transform:scale(.97)}#app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(160deg,#f8dfe9,#f5d5dc 50%,#f7e5d9);padding-top:env(safe-area-inset-top)}
@@ -122,23 +122,23 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
     <ellipse cx="266" cy="521" rx="25" ry="7" fill="#8f604d" opacity=".2"/><path d="M243 506h46l-7 21q-16 13 -32 0z" fill="#6cc5ed" stroke="#fff0df" stroke-width="4"/><ellipse cx="266" cy="507" rx="23" ry="7" fill="#f0d7c0"/><ellipse cx="266" cy="506" rx="17" ry="4" fill="#a66b36"/><circle cx="256" cy="505" r="3" fill="#7b4d2e"/><circle cx="270" cy="503" r="3" fill="#7b4d2e"/><circle cx="278" cy="507" r="3" fill="#7b4d2e"/>
    </svg>
   </div>
-  <div class="bubble" id="bubble">KEDİ EVİM<small>Mırıldamanın olduğu yer evdir.</small></div>
+  <div class="bubble" id="bubble">MY CAT HOME<small>Home is where the purr is.</small></div>
   <div class="needs">
-   <div class="need"><span class="ico">🍴</span><label>AÇLIK</label><b id="hungerNum">20%</b><div class="bar"><span id="hungerBar"></span></div></div>
-   <div class="need"><span class="ico">💧</span><label>MUTLULUK</label><b id="happyNum">100%</b><div class="bar"><span id="happyBar"></span></div></div>
-   <div class="need"><span class="ico">😊</span><label>TEMİZLİK</label><b id="cleanNum">100%</b><div class="bar"><span id="cleanBar"></span></div></div>
+   <div class="need"><span class="ico">🍴</span><label>HUNGRY</label><b id="hungerNum">20%</b><div class="bar"><span id="hungerBar"></span></div></div>
+   <div class="need"><span class="ico">💧</span><label>HAPPY</label><b id="happyNum">100%</b><div class="bar"><span id="happyBar"></span></div></div>
+   <div class="need"><span class="ico">😊</span><label>CLEAN</label><b id="cleanNum">100%</b><div class="bar"><span id="cleanBar"></span></div></div>
   </div>
   <div class="care">
-   <button data-care="feed"><span class="ico">🍲</span>YEMEK</button><button data-care="play"><span class="ico">🪶</span>OYNA</button><button data-care="clean"><span class="ico">🧹</span>TEMİZLİK</button><button data-care="pet"><span class="ico">💗</span>BAKIM</button>
+   <button data-care="feed"><span class="ico">🍲</span>FEED</button><button data-care="play"><span class="ico">🪶</span>OYNA</button><button data-care="clean"><span class="ico">🧹</span>CLEAN</button><button data-care="pet"><span class="ico">💗</span>PET</button>
   </div>
   <button class="shop-short" id="shopJump"><span>🛍️</span>SHOP</button>
   <div class="shop">
-   <div class="tabs"><button class="tab active" data-tab="furniture">🛋 MOBİLYA</button><button class="tab" data-tab="decor">🪴 DEKOR</button><button class="tab" data-tab="food">🥣 YİYECEK</button><button class="tab" data-tab="toys">🧶 OYUNCAKLAR</button></div>
+   <div class="tabs"><button class="tab active" data-tab="furniture">🛋 FURNITURE</button><button class="tab" data-tab="decor">🪴 DECOR</button><button class="tab" data-tab="food">🥣 FOOD</button><button class="tab" data-tab="toys">🧶 TOYS</button></div>
    <div class="items" id="items"></div>
   </div>
  </section>
  <section class="screen active" id="home">
-  <div class="stats"><div class="stat"><small>OYUNCU SEVİYESİ</small><b id="level">1</b></div><div class="stat"><small>KURTARILAN KEDİLER</small><b id="rescued">0</b></div><div class="stat"><small>EN İYİ SKOR</small><b id="best">0</b></div></div>
+  <div class="stats"><div class="stat"><small>PLAYER LEVEL</small><b id="level">1</b></div><div class="stat"><small>CATS RESCUED</small><b id="rescued">0</b></div><div class="stat"><small>BEST SCORE</small><b id="best">0</b></div></div>
   <div class="home-preview" id="homePreview" aria-label="Mochi’s pink room">
 <svg viewBox="0 0 400 200" class="welcome-art" role="img" aria-label="Pink cat room">
 <defs><linearGradient id="welcome-wall" x2="0" y2="1"><stop stop-color="#f4cbd9"/><stop offset="1" stop-color="#f9e3e5"/></linearGradient><linearGradient id="welcome-floor" x2="0" y2="1"><stop stop-color="#f1c99e"/><stop offset="1" stop-color="#dca77d"/></linearGradient></defs>
@@ -150,26 +150,26 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 <path d="M215 144q33 16 35 -3q-2 -11 -16 -8" fill="none" stroke="#e9ad61" stroke-width="12" stroke-linecap="round"/><ellipse cx="198" cy="142" rx="30" ry="33" fill="#f4c47e" stroke="#df9d4d" stroke-width="2"/><ellipse cx="198" cy="150" rx="16" ry="19" fill="#fff0d9"/><ellipse cx="179" cy="166" rx="11" ry="7" fill="#fff0dd"/><ellipse cx="216" cy="166" rx="11" ry="7" fill="#fff0dd"/>
 <path d="M174 115l-5 -20q-1 -8 8 -5l15 15m22 0l15 -15q9 -4 7 7l-5 18" fill="#f4c47e" stroke="#df9d4d" stroke-width="2"/><path d="M176 109l-1 -12 11 10m32 0l11 -10 -1 13" fill="#e996b0"/><ellipse cx="198" cy="119" rx="37" ry="31" fill="#ffd58d" stroke="#df9d4d" stroke-width="2"/><path d="M183 92l-3 11m18 -14l-1 11m17 -6l-3 10" stroke="#db9140" stroke-width="4" stroke-linecap="round"/><ellipse cx="185" cy="119" rx="6" ry="9" fill="#4c2c50"/><ellipse cx="211" cy="119" rx="6" ry="9" fill="#4c2c50"/><circle cx="187" cy="116" r="2" fill="#fff"/><circle cx="213" cy="116" r="2" fill="#fff"/><ellipse cx="177" cy="130" rx="9" ry="6" fill="#fff2df"/><ellipse cx="219" cy="130" rx="9" ry="6" fill="#fff2df"/><path d="M196 129q3 -5 6 0q-3 5 -6 0m3 5q-4 5 -8 0m8 0q4 5 8 0" fill="none" stroke="#88515f" stroke-width="1.5"/>
 <path d="M281 175h30l-5 14h-20z" fill="#67c6ed" stroke="#fff0dd" stroke-width="3"/><ellipse cx="296" cy="175" rx="15" ry="5" fill="#aa6d37"/><circle cx="290" cy="174" r="2" fill="#6c4529"/><circle cx="299" cy="172" r="2" fill="#6c4529"/>
-</svg></div><div class="hero"><small>PATİLERLE DOLU BİR MACERA</small><h1>Her kedi bir yuvayı hak eder.</h1><p>Bulmacaları çöz, yalnız kedileri kurtar ve onlara sıcacık bir yuva hazırla.</p></div>
-  <div class="actions"><button data-go="puzzle">▶ OYNA</button><button data-go="room">⌂ EVİM</button><button data-go="room">✿ BAHÇE</button></div>
-  <div class="card"><b>KEDİ KOLEKSİYONUN</b><p id="rescueText">🐱 Mochi · Hayalperest</p><p class="puz-help">Blok bulmacasını çöz, altın kazan ve yeni eşyaların kilidini aç.</p></div>
-  <nav class="bottom-nav" aria-label="Main navigation"><button class="nav-active" data-go="home"><span>⌂</span>Ana Sayfa</button><button data-go="room"><span>🐱</span>Kediler</button><button data-go="puzzle"><span>♡</span>Görevler</button><button id="navShop"><span>▦</span>Mağaza</button><button id="navSettings"><span>⚙</span>Ayarlar</button></nav>
+</svg></div><div class="hero"><small>A LITTLE PAW-SOME ADVENTURE</small><h1>Every cat deserves a home.</h1><p>Solve puzzles, rescue lonely cats, and give them a cozy place to call their own.</p></div>
+  <div class="actions"><button data-go="puzzle">▶ PLAY</button><button data-go="room">⌂ MY HOME</button><button data-go="room">✿ GARDEN</button></div>
+  <div class="card"><b>YOUR RESCUE LIST</b><p id="rescueText">🐱 Mochi · The Dreamer</p><p class="puz-help">Play the block puzzle to earn coins and unlock new items.</p></div>
+  <nav class="bottom-nav" aria-label="Main navigation"><button class="nav-active" data-go="home"><span>⌂</span>Home</button><button data-go="room"><span>🐱</span>Cats</button><button data-go="puzzle"><span>♡</span>Tasks</button><button id="navShop"><span>▦</span>Shop</button><button id="navSettings"><span>⚙</span>Settings</button></nav>
  </section>
  <section class="screen" id="puzzle">
-  <div class="puz-head"><div class="card"><small>PUANIN</small><br><b id="score">0</b></div><div class="card"><small>EN İYİ SKOR</small><br><b id="best2">0</b></div><button class="round" data-go="room">⌂</button></div>
-  <div class="board" id="board"></div><div class="pieces" id="pieces"></div><div class="puz-help">Select a piece, then tap a cell on the board to place it.</div><button class="card" id="newGame">↻ YENİ OYUN</button>
+  <div class="puz-head"><div class="card"><small>YOUR SCORE</small><br><b id="score">0</b></div><div class="card"><small>BEST SCORE</small><br><b id="best2">0</b></div><button class="round" data-go="room">⌂</button></div>
+  <div class="board" id="board"></div><div class="pieces" id="pieces"></div><div class="puz-help">Select a piece, then tap a cell on the board to place it.</div><button class="card" id="newGame">↻ NEW GAME</button>
  </section>
 </div>
 </div>
 <div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle">Mochi mutlu! 💗</h2><p id="modalText"></p><button id="modalOk">OK</button></div></div>
-<div class="overlay" id="settingsModal"><div class="modal"><h2>Settings</h2><p>Cat Block Rescue Club</p><button id="soundToggle" style="margin-bottom:8px;background:#d7cbfa">🔊 Ses: AÇIK</button><button id="reset">Oyunu sıfırla</button><button id="closeSettings" style="margin-top:8px;background:#f5dce8">Kapat</button></div></div>
+<div class="overlay" id="settingsModal"><div class="modal"><h2>Settings</h2><p>Cat Block Rescue Club</p><button id="soundToggle" style="margin-bottom:8px;background:#d7cbfa">🔊 Sound: ON</button><button id="reset">Reset game</button><button id="closeSettings" style="margin-top:8px;background:#f5dce8">Close</button></div></div>
 <script>
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
 let coins=Number(localStorage.getItem('cbr2_coins')||42),pet=JSON.parse(localStorage.getItem('cbr2_pet')||'null')||{hunger:20,happy:100,clean:100},tab='furniture',selected=0,score=0,best=Number(localStorage.getItem('cbr2_best')||0),grid=[],pieces=[],owned=JSON.parse(localStorage.getItem('cbr2_owned')||'{}'),rescuedCats=JSON.parse(localStorage.getItem('cbr2_rescued')||'["Mochi"]');
  const rescueMilestones=[{name:'Pepper',score:100,role:'The Brave Little Explorer',story:'Pepper was hiding under a porch. You gave this brave little cat a safe place to dream.'},{name:'Luna',score:250,role:'The Moonlight Dreamer',story:'Luna finally has a warm bed and someone who cares. Your kindness changed her world.'},{name:'Milo',score:500,role:'The Gentle Heart',story:'Milo’s long wait is over. He has found his forever home with your rescue family.'}];
- function updateRescueProgress(){for(const cat of rescueMilestones){if(best>=cat.score&&!rescuedCats.includes(cat.name)){rescuedCats.push(cat.name);localStorage.setItem('cbr2_rescued',JSON.stringify(rescuedCats));setTimeout(()=>modal('A new friend is home! 🏡💗',cat.story),80);}}$('rescued').textContent=rescuedCats.length-1;$('rescueText').textContent='🐱 '+['Mochi · Hayalperest',...rescueMilestones.filter(c=>rescuedCats.includes(c.name)).map(c=>c.name+' · '+c.role)].join('  •  ');}
+ function updateRescueProgress(){for(const cat of rescueMilestones){if(best>=cat.score&&!rescuedCats.includes(cat.name)){rescuedCats.push(cat.name);localStorage.setItem('cbr2_rescued',JSON.stringify(rescuedCats));setTimeout(()=>modal('A new friend is home! 🏡💗',cat.story),80);}}$('rescued').textContent=rescuedCats.length-1;$('rescueText').textContent='🐱 '+['Mochi · The Dreamer',...rescueMilestones.filter(c=>rescuedCats.includes(c.name)).map(c=>c.name+' · '+c.role)].join('  •  ');}
 const catalog={
  furniture:[['sofa','🛋️','Sofa',80],['rug','🐾','Rug',45],['tv','📺','TV',110],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['plant','🪴','Plant',55],['tower','🐈‍⬛','Cat tree',95],['table','🪵','Table',70]],
  decor:[['plant','🪴','Plant',55],['lamp','💡','Lamp',60],['shelf','📚','Shelf',75],['flower','🌷','Flowers',30],['tree','🌳','Tree',65],['rug','🐾','Paw rug',45]],
@@ -182,7 +182,7 @@ let soundOn=localStorage.getItem('cbr2_sound')!=='off';
  function save(){localStorage.setItem('cbr2_coins',coins);localStorage.setItem('cbr2_owned',JSON.stringify(owned));localStorage.setItem('cbr2_best',best);$('coins').textContent=coins;$('best').textContent=best;$('best2').textContent=best}
 function modal(title,msg){const sad=/sad|full|won.t fit|time for a fresh board/i.test(title+' '+msg);playTone(sad?'sad':'happy');const stage=document.querySelector('.stage');if(stage){stage.classList.remove('cat-happy','cat-sad');stage.classList.add(sad?'cat-sad':'cat-happy');}$('modalTitle').textContent=title;$('modalText').textContent=msg;$('overlay').style.display='flex'}
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));if(id==='puzzle')renderPuzzle();if(id==='home'){ $('level').textContent=Math.max(1,Math.floor(best/100)+1);$('rescued').textContent=rescuedCats.length-1;updateRescueProgress();}if(id==='room')updatePet();}
-function drawItems(){const list=catalog[tab];$('items').innerHTML=list.map(([id,emoji,label,cost])=>'<button class="item '+(owned[id]?'owned':'')+'" data-buy="'+id+'"><span class="item-art">'+emoji+'</span><b>'+label+'</b><strong>'+(owned[id]?'✓ SENİN':'🪙 '+cost)+'</strong></button>').join('');$('items').querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>buy(b.dataset.buy)))}
+function drawItems(){const list=catalog[tab];$('items').innerHTML=list.map(([id,emoji,label,cost])=>'<button class="item '+(owned[id]?'owned':'')+'" data-buy="'+id+'"><span class="item-art">'+emoji+'</span><b>'+label+'</b><strong>'+(owned[id]?'✓ OWNED':'🪙 '+cost)+'</strong></button>').join('');$('items').querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>buy(b.dataset.buy)))}
 function buy(id){const item=Object.values(catalog).flat().find(x=>x[0]===id);if(!item)return;if(owned[id]){modal('Already yours! 💗',item[2]+' is already in your home.');return}if(coins<item[3]){modal('A few more coins 🪙','You need '+(item[3]-coins)+' more coins for '+item[2]+'. Play a puzzle to earn some!');return}coins-=item[3];owned[id]=true;save();drawItems();const decor=document.querySelector('.stage');if(id==='sofa')document.querySelector('.sofa').style.background='#ed91b6';if(id==='plant')document.querySelector('.plant').style.display='block';modal('New item! ✨',item[2]+' has been added to your home.');}
 function care(action){playTone(action==='pet'?'purr':'happy');document.querySelector('.stage').classList.remove('cat-happy','cat-sad');document.querySelector('.stage').classList.add('cat-happy');if(action==='feed'){pet.hunger=Math.max(0,pet.hunger-35);pet.happy=Math.min(100,pet.happy+5);modal('Yum, delicious! 🍲','Mochi’s tummy is full. Thank you for caring!')}if(action==='play'){pet.happy=Math.min(100,pet.happy+18);pet.clean=Math.max(0,pet.clean-3);pet.hunger=Math.min(100,pet.hunger+8);modal('Playtime! 🧶','Mochi is having the best time with you!')}if(action==='clean'){pet.clean=100;document.querySelector('.stage').classList.remove('messy');modal('Sparkling clean! ✨','Mochi’s room is fresh and cozy again.')}if(action==='pet'){pet.happy=Math.min(100,pet.happy+12);modal('Purr, purr... 💗','Mochi feels safe and loved with you.')}updatePet()}
 function updatePet(){localStorage.setItem('cbr2_pet',JSON.stringify(pet));const stage=document.querySelector('.stage');if(stage)stage.classList.toggle('messy',pet.clean<40);[['hunger',pet.hunger],['happy',pet.happy],['clean',pet.clean]].forEach(([key,val])=>{$(key+'Num').textContent=Math.round(val)+'%';$(key+'Bar').style.width=val+'%'})}
@@ -194,8 +194,8 @@ document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()
 document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>care(b.dataset.care)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));$('homeButton').addEventListener('click',()=>go('home'));
 $('shopJump').addEventListener('click',()=>{go('room');drawItems()});$('navShop').addEventListener('click',()=>{go('room');tab='furniture';document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));drawItems()});$('navSettings').addEventListener('click',()=>$('settingsModal').style.display='flex');
-$('soundToggle').addEventListener('click',()=>{soundOn=!soundOn;localStorage.setItem('cbr2_sound',soundOn?'on':'off');$('soundToggle').textContent=soundOn?'🔊 Ses: AÇIK':'🔇 Ses: KAPALI';if(soundOn)playTone('happy')});$('newGame').addEventListener('click',()=>{playTone('tap');newPuzzle()});$('settings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('closeSettings').addEventListener('click',()=>$('settingsModal').style.display='none');$('reset').addEventListener('click',()=>{coins=42;owned={};rescuedCats=['Mochi'];localStorage.removeItem('cbr2_rescued');pet={hunger:20,happy:100,clean:100};save();updatePet();drawItems();$('settingsModal').style.display='none';modal('All reset','A fresh start is ready for you!')});$('modalOk').addEventListener('click',()=>$('overlay').style.display='none');$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))$('overlay').style.display='none'});$('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))$('settingsModal').style.display='none'});
-$('soundToggle').textContent=soundOn?'🔊 Ses: AÇIK':'🔇 Ses: KAPALI';document.querySelectorAll('button').forEach(b=>{if(!b.dataset.noSound)b.addEventListener('pointerdown',()=>{if(!['settings','homeButton','navSettings','closeSettings','modalOk'].includes(b.id))playTone('tap')},{passive:true})});drawItems();updatePet();save();updateRescueProgress();newPuzzle();
+$('soundToggle').addEventListener('click',()=>{soundOn=!soundOn;localStorage.setItem('cbr2_sound',soundOn?'on':'off');$('soundToggle').textContent=soundOn?'🔊 Sound: ON':'🔇 Sound: OFF';if(soundOn)playTone('happy')});$('newGame').addEventListener('click',()=>{playTone('tap');newPuzzle()});$('settings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('closeSettings').addEventListener('click',()=>$('settingsModal').style.display='none');$('reset').addEventListener('click',()=>{coins=42;owned={};rescuedCats=['Mochi'];localStorage.removeItem('cbr2_rescued');pet={hunger:20,happy:100,clean:100};save();updatePet();drawItems();$('settingsModal').style.display='none';modal('All reset','A fresh start is ready for you!')});$('modalOk').addEventListener('click',()=>$('overlay').style.display='none');$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))$('overlay').style.display='none'});$('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))$('settingsModal').style.display='none'});
+$('soundToggle').textContent=soundOn?'🔊 Sound: ON':'🔇 Sound: OFF';document.querySelectorAll('button').forEach(b=>{if(!b.dataset.noSound)b.addEventListener('pointerdown',()=>{if(!['settings','homeButton','navSettings','closeSettings','modalOk'].includes(b.id))playTone('tap')},{passive:true})});drawItems();updatePet();save();updateRescueProgress();newPuzzle();
 })();
 </script>
 </body>
