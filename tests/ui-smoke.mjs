@@ -15,10 +15,15 @@ try {
   await page.goto(base, { waitUntil: 'networkidle' });
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
-  assert(await page.locator('#home').evaluate(el => el.classList.contains('active')), 'Welcome screen is not the initial screen');
+  assert(await page.locator('#room').evaluate(el => el.classList.contains('active')), 'Cat room is not the initial screen');
+  assert((await page.locator('#room').innerText()).includes('FURNITURE'), 'English furniture shop is missing from initial room');
+  assert((await page.locator('#room').innerText()).includes('FEED'), 'English care controls are missing from initial room');
+  await page.screenshot({ path: path.join(out, '01-cat-room-mobile.png'), fullPage: true });
+  await page.locator('#homeButton').click();
+  assert(await page.locator('#home').evaluate(el => el.classList.contains('active')), 'Home shortcut did not open welcome screen');
   assert((await page.locator('#home').innerText()).includes('Every cat deserves a home.'), 'English welcome headline is missing');
   assert((await page.locator('#home').innerText()).includes('YOUR RESCUE LIST'), 'English rescue collection label is missing');
-  await page.screenshot({ path: path.join(out, '01-welcome-mobile.png'), fullPage: true });
+  await page.screenshot({ path: path.join(out, '02-welcome-mobile.png'), fullPage: true });
 
   const headerFits = await page.evaluate(() => {
     const brand = document.querySelector('.brand').getBoundingClientRect();
@@ -30,7 +35,6 @@ try {
 
   await page.locator('[data-go="room"]').first().click();
   assert(await page.locator('#room').evaluate(el => el.classList.contains('active')), 'My Home navigation failed');
-  await page.screenshot({ path: path.join(out, '02-cat-room-mobile.png'), fullPage: true });
 
   for (const action of ['feed', 'play', 'clean', 'pet']) {
     await page.locator('[data-care="' + action + '"]').click();
