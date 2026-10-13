@@ -15,8 +15,13 @@ jobs:
           node-version: 20
       - run: npm install --no-save playwright
       - run: npx playwright install --with-deps chromium
-      - run: python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/cat-block-server.log 2>&1 &
-      - run: node tests/ui-smoke.mjs
+      - run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/cat-block-server.log 2>&1 &
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tests/ui-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
