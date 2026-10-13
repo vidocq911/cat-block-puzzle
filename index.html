@@ -278,7 +278,8 @@ function beginDrag(index,e,button){
  if(!pieces[index])return;
  dragState={index,startX:e.clientX,startY:e.clientY,moved:false,pointerId:e.pointerId};
  button.classList.add('dragging');
- try{button.setPointerCapture(e.pointerId)}catch(_){}
+ // Do not capture the pointer: letting hit-testing follow the finger makes
+ // elementFromPoint and cell-rectangle fallback reliable on mobile browsers.
  e.preventDefault();
 }
 function clearDropTargets(){document.querySelectorAll('.cell.drop-target,.cell.drop-invalid').forEach(el=>el.classList.remove('drop-target','drop-invalid'))}
