@@ -83,7 +83,7 @@ try {
   await desktop.goto(base, { waitUntil: 'networkidle' });
   await desktop.evaluate(() => localStorage.clear());
   await desktop.reload({ waitUntil: 'networkidle' });
-  await desktop.locator('[data-go="room"]').first().click();
+  assert(await desktop.locator('#room').evaluate(el => el.classList.contains('active')), 'Desktop did not open into the cat room');
   const desktopOverflow = await desktop.evaluate(() => document.documentElement.scrollWidth > innerWidth || document.documentElement.scrollHeight > innerHeight);
   assert(!desktopOverflow, 'Desktop layout has page-level overflow at 1440x1000');
   await desktop.screenshot({ path: path.join(out, '04-cat-room-desktop.png'), fullPage: true });
@@ -92,7 +92,7 @@ try {
   assert(!narrowOverflow, 'Narrow mobile layout overflows horizontally at 360px');
   await desktop.close();
   assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
-  console.log('PASS: Turkish welcome, responsive mobile header, room, care actions, shop tabs and purchase, home navigation, puzzle placement/scoring/reset, settings/sound toggle, rescue milestone, desktop and narrow mobile overflow; screenshots saved.');
+  console.log('PASS: English room-first startup, responsive mobile header, room/home navigation, care actions, shop tabs and purchase, puzzle placement/scoring/reset, settings/sound toggle, rescue milestone, desktop and narrow mobile overflow; screenshots saved.');
 } finally {
   await browser.close();
 }
