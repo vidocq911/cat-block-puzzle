@@ -126,6 +126,29 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
   #room .bubble{max-width:54%}
 }
 
+
+/* Mobile room layout: keep cat, care actions, shop and navigation in separate zones. */
+@media(max-width:700px){
+ #room .stage{bottom:300px!important}
+ #room .shop{bottom:68px!important;height:220px!important;padding:8px 8px calc(env(safe-area-inset-bottom) + 4px)!important;gap:7px!important}
+ #room .tabs{flex-basis:34px!important;gap:5px!important}
+ #room .tab{font-size:clamp(8px,2vw,10px)!important}
+ #room .item{flex-basis:94px!important;padding:6px!important}
+ #room .item-art{height:54px!important;flex-basis:54px!important;font-size:31px!important}
+ #room .care{left:50%!important;top:auto!important;bottom:300px!important;transform:translateX(-50%)!important;flex-direction:row!important;gap:5px!important}
+ #room .care button{width:clamp(46px,12.5vw,58px)!important;height:48px!important;border-radius:15px!important;font-size:9px!important;flex:0 1 auto!important}
+ #room .care .ico{font-size:17px!important}
+ #room .shop-short{display:none!important}
+ #room .needs{top:17%!important;width:min(42%,175px)!important;gap:4px!important}
+ #room .need{padding:5px 7px!important}
+ #room .bubble{max-width:54%!important}
+}
+@media(max-width:430px) and (max-height:740px){
+ #room .stage{bottom:292px!important}
+ #room .shop{height:212px!important}
+ #room .care{bottom:292px!important}
+}
+
 </style>
 </head>
 <body>
@@ -304,8 +327,8 @@ window.addEventListener('pointercancel',cancelDrag,{passive:true});
 function place(which,r,c){const shape=pieces[which];if(!shape)return;const fits=shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]);if(!fits){$('puzzle').querySelector('.puz-help').textContent='That piece won’t fit there. Try another spot!';return}shape.forEach(([y,x])=>grid[r+y][c+x]=1);score+=shape.length*5;pieces[which]=null;let cleared=0;for(let y=0;y<8;y++)if(grid[y].every(Boolean)){grid[y].fill(0);cleared++}for(let x=0;x<8;x++)if(grid.every(row=>row[x])){for(let y=0;y<8;y++)grid[y][x]=0;cleared++}if(cleared){score+=cleared*30;coins+=cleared*5;modal('Pawsome move! ✨',cleared+' line(s) cleared. You earned '+(cleared*5)+' coins!')}if(score>best){best=score;localStorage.setItem('cbr2_best',best);updateRescueProgress()}$('score').textContent=score;if(pieces.every(p=>!p)){pieces=[0,1,2].map(()=>shapes[Math.floor(Math.random()*shapes.length)]);selected=0}else{selected=pieces.findIndex(p=>p!==null);if(selected<0)selected=0}save();renderPuzzle();if(!pieces.some(p=>p&&canPlaceAnywhere(p))){setTimeout(()=>modal('Time for a fresh board 🐱','The board is full. Start a new game and try again!'),150)}}
 function canPlaceAnywhere(shape){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(shape.every(([y,x])=>r+y<8&&c+x<8&&!grid[r+y][c+x]))return true;return false}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));drawItems()}));
-document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>care(b.dataset.care)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));$('homeButton').addEventListener('click',()=>go('home'));
+document.querySelectorAll('[data-care]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.care==='play'){go('puzzle');return}care(b.dataset.care)}));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{const dest=b.dataset.go;if(dest==='puzzle'){go('puzzle');return}go(dest)}));$('homeButton').addEventListener('click',()=>go('home'));
 document.querySelectorAll('[data-room-go]').forEach(b=>b.addEventListener('click',()=>{const dest=b.dataset.roomGo;if(dest==='cats'){modal('Your rescue family 🐱',rescuedCats.join(' • ')+' are safe with you. Keep caring to unlock more cats!');return}if(dest==='tasks'){go('puzzle');return}go(dest);document.querySelectorAll('[data-room-go]').forEach(x=>x.classList.toggle('nav-active',x===b))}));$('roomNavShop').addEventListener('click',()=>{tab='furniture';document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));drawItems()});$('roomNavSettings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('shopJump').addEventListener('click',()=>{go('room');drawItems()});$('navShop').addEventListener('click',()=>{go('room');tab='furniture';document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));drawItems()});$('navSettings').addEventListener('click',()=>$('settingsModal').style.display='flex');
 $('soundToggle').addEventListener('click',()=>{soundOn=!soundOn;localStorage.setItem('cbr2_sound',soundOn?'on':'off');$('soundToggle').textContent=soundOn?'🔊 Sound: ON':'🔇 Sound: OFF';if(soundOn)playTone('happy')});$('newGame').addEventListener('click',()=>{playTone('tap');newPuzzle()});$('settings').addEventListener('click',()=>$('settingsModal').style.display='flex');$('closeSettings').addEventListener('click',()=>$('settingsModal').style.display='none');$('reset').addEventListener('click',()=>{coins=42;owned={};rescuedCats=['Mochi'];localStorage.removeItem('cbr2_rescued');pet={hunger:20,happy:100,clean:100};save();updatePet();drawItems();$('settingsModal').style.display='none';modal('All reset','A fresh start is ready for you!')});$('modalOk').addEventListener('click',()=>$('overlay').style.display='none');$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))$('overlay').style.display='none'});$('settingsModal').addEventListener('click',e=>{if(e.target===$('settingsModal'))$('settingsModal').style.display='none'});
 $('soundToggle').textContent=soundOn?'🔊 Sound: ON':'🔇 Sound: OFF';document.querySelectorAll('button').forEach(b=>{if(!b.dataset.noSound)b.addEventListener('pointerdown',()=>{if(!['settings','homeButton','navSettings','closeSettings','modalOk'].includes(b.id))playTone('tap')},{passive:true})});drawItems();updatePet();save();updateRescueProgress();newPuzzle();
