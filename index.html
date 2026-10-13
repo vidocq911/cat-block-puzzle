@@ -17,6 +17,15 @@ header{height:86px;flex:0 0 86px;display:flex;align-items:center;gap:9px;padding
 .screen{position:absolute;inset:0;display:none;min-height:0}.screen.active{display:flex}
 #room{flex-direction:column}
 .stage{position:absolute;inset:0 0 236px;background:linear-gradient(180deg,#edcbd5 0%,#f6dfe1 55%,#dcae8b 55%,#d5a17c 100%);overflow:hidden}
+/* Richer lighting and dimensional finish for the room scene */
+.stage{isolation:isolate;background:linear-gradient(180deg,#f7d7e2 0%,#ffe8e8 52%,#eec49c 52%,#d99f75 100%)}
+.stage:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 12% 12%,#fff8d980 0,transparent 36%),linear-gradient(118deg,#fff5d21c 0%,transparent 34%,#8d52601c 100%);mix-blend-mode:soft-light}
+.room-art{position:relative;z-index:0;filter:saturate(1.12) contrast(1.025)}
+.room-art [filter="url(#shadow)"]{filter:drop-shadow(0 8px 7px #75465a30)}
+.stage .kitten-character{filter:drop-shadow(0 10px 8px #70445130)}
+.stage .kitten-character path,.stage .kitten-character ellipse{stroke-linejoin:round}
+.stage .kitten-character ellipse[fill="#4b2b50"]{filter:drop-shadow(0 1px 1px #fff7)}
+
 .room-art{width:100%;height:100%;display:block}.stage.messy:after{content:'🐾  🧶  ✨  🐟  🐾';position:absolute;left:8%;right:8%;bottom:20%;font-size:clamp(19px,5vw,30px);letter-spacing:9px;opacity:.9;filter:drop-shadow(0 2px 1px #76506b33);pointer-events:none;animation:messyPop .5s ease-out}.stage.messy .rug{filter:sepia(.15) saturate(.8)}@keyframes messyPop{from{opacity:0;transform:translateY(10px)}to{opacity:.9;transform:translateY(0)}}.wall-trim{position:absolute;left:0;right:0;top:43%;height:9px;background:#fff2e6;border-top:3px solid #fff9f2;border-bottom:2px solid #dfc5c0}
 .window{position:absolute;left:3%;top:11%;width:28%;height:30%;border:8px solid #fff0dd;border-radius:6px;background:linear-gradient(#9ee0f5 0 55%,#b4dba1 56%);box-shadow:inset 0 0 0 3px #e9bca9}
 .window:before,.window:after{content:"";position:absolute;background:#fff3e5}.window:before{width:6px;top:0;bottom:0;left:48%}.window:after{height:6px;left:0;right:0;top:48%}
