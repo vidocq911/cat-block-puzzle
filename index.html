@@ -297,7 +297,45 @@ function buildScene(which){if(!scene)return;clearWorld();scene.background=new TH
  const bowl=mesh(new THREE.CylinderGeometry(.27,.2,.13,24),mat('#e98db1'),-2.25,.14,1.45);bowl.userData.worldItem=true;
  sphere(scene,-2.25,.205,1.45,.19,.045,.15,'#c58a4c');
  box(scene,2.25,.14,1.6,.9,.22,.65,'#e98eaa');box(scene,2.25,.26,1.6,.82,.08,.57,'#d7b2c7');
- if(owned.sofa){const sc='#e995b7';box(scene,-.2,.42,.45,2.3,.65,1.05,sc);box(scene,-.2,.72,.05,1.85,.4,.8,sc);box(scene,-1.05,.75,.45,.45,.75,.95,sc);box(scene,.65,.75,.45,.45,.75,.95,sc);box(scene,-.2,.78,.52,1.65,.12,.68,'#ffdce8')}if(owned.plant)tree(2.5,-.7);if(owned.toy)sphere(scene,-1.7,.13,1.2,.22,.14,.22,'#f5cb69');if(owned.tv){box(scene,2.15,1.05,-.3,1.05,.7,.12,'#493b53');box(scene,2.15,1.05,-.22,.91,.54,.04,'#91d4e6');box(scene,2.15,.62,-.3,.16,.25,.16,'#72576b')}if(owned.rug){const rug=mesh(new THREE.PlaneGeometry(3.1,2),mat('#f3c5d6'),-.2,.07,.55);rug.rotation.x=-Math.PI/2;}if(owned.lamp){const pole=mesh(new THREE.CylinderGeometry(.035,.06,1.5,12),mat('#c89a68'),1.6,.75,-.7);mesh(new THREE.ConeGeometry(.38,.4,24),mat('#f6d4a8'),1.6,1.65,-.7)}if(owned.shelf){box(scene,-3,.95,-.9,.12,1.6,1.2,'#a77c63');for(let k=0;k<3;k++)box(scene,-2.9,.45+k*.45,-.9,.25,.25,.35,['#f2a8be','#a9d9bd','#f2ce7e'][k])}makeCat(-.1,-2.0,cats[Math.min(Math.max(rescued-1,0),cats.length-1)].color,.86);if(rescued>1)makeCat(-1.6,-1.8,cats[Math.min(rescued-2,1)].color,.62);if(!owned.sofa){sayCat('room','It is so quiet here… could we have a cozy sofa? 🥺');}}else if(which==='garden'){if(owned.garden){for(let i=0;i<7;i++)tree(-4+i*1.35,-3.5);if(owned.flower)for(let i=0;i<12;i++)flower(-3.3+(i%6)*1.25,-1.4+Math.floor(i/6)*1.0);if(owned.pond){const p=mesh(new THREE.CylinderGeometry(1,.9,.12,40),mat('#85cfe1',.25),2,.05,1);p.userData.worldItem=true}if(owned.tree)tree(3,1);if(owned.gardenbench){box(scene,-2,.25,1.5,1.6,.18,.45,'#a9785d');for(const x of [-2.6,-1.4])box(scene,x,.1,1.5,.12,.3,.12,'#795440')}makeCat(0,-1.9,cats[Math.min(Math.max(rescued-1,0),cats.length-1)].color,.66)}else{makeCat(0,-1.9,cats[0].color,.66);sayCat('garden','This garden is waiting for a kind heart… 🌱');}}else{for(let i=0;i<5;i++){const cloud=sphere(scene,-4+i*2,3.3+(i%2)*.4,-2,.9,.22,.5,'#fff5f4');cloud.userData.worldItem=true}makeCat(1.35,-1.2,cats[Math.min(rescued,cats.length-1)].color,.94);if(rescued>1)makeCat(-1.5,-.9,cats[1].color,.68)}}
+ {
+ // Furnished starter apartment: pink sofa, patterned rug, TV stand, lamp, shelves and leafy plants.
+ const sc='#ed91b5';
+ box(scene,-.2,.36,.45,2.25,.52,1.02,sc,true);
+ box(scene,-.2,.69,.04,1.88,.46,.76,'#f29fc0',true);
+ box(scene,-1.17,.66,.43,.38,.67,.94,'#e982ab',true);
+ box(scene,.77,.66,.43,.38,.67,.94,'#e982ab',true);
+ box(scene,-.72,.79,.38,.62,.12,.48,'#ffe8ed',true);
+ box(scene,.27,.79,.38,.62,.12,.48,'#ffe8ed',true);
+ const rug=mesh(new THREE.CircleGeometry(1.48,48),mat('#f7d6e4'),-.1,.075,.85);rug.rotation.x=-Math.PI/2;
+ for(let k=0;k<5;k++){const paw=sphere(scene,-.75+(k%3)*.62,.084,.35+Math.floor(k/3)*.6,.08,.012,.065,'#edb1c9');}
+ // Cat tower with two platforms and sisal-like posts.
+ const towerBase=mesh(new THREE.CylinderGeometry(.52,.55,.16,24),mat('#f3c8b7'),-2.4,.13,.1);
+ const towerPost2=mesh(new THREE.CylinderGeometry(.13,.15,.8,18),mat('#d4a477'),-2.4,.58,.1);
+ const towerTop2=mesh(new THREE.CylinderGeometry(.4,.4,.13,24),mat('#f7cdbb'),-2.4,1.02,.1);
+ const towerPost3=mesh(new THREE.CylinderGeometry(.12,.14,.68,18),mat('#d4a477'),-2.4,1.42,-.12);
+ const towerTop3=mesh(new THREE.CylinderGeometry(.36,.36,.13,24),mat('#f7cdbb'),-2.4,1.8,-.12);
+ // Window ledges, plant pots and a book shelf.
+ box(scene,-2.1,1.45,-1.73,1.45,1.2,.13,'#9bd8e8');
+ box(scene,-2.1,1.45,-1.63,.08,1.15,.08,'#fff8f2');
+ box(scene,-2.1,1.45,-1.61,1.4,.08,.08,'#fff8f2');
+ box(scene,2.15,.32,.2,.85,.55,.8,'#a67b61');
+ box(scene,2.15,.62,.2,.9,.12,.85,'#c28b69');
+ box(scene,2.15,1.05,-.3,1.05,.7,.12,'#493b53');
+ box(scene,2.15,1.05,-.22,.91,.54,.04,'#91d4e6');
+ box(scene,2.15,.62,-.3,.16,.25,.16,'#72576b');
+ const lampPole=mesh(new THREE.CylinderGeometry(.035,.06,1.2,12),mat('#c89a68'),1.45,.62,-.7);
+ mesh(new THREE.ConeGeometry(.34,.38,24),mat('#f6d4a8'),1.45,1.42,-.7);
+ // Plants use a pot, stem and broad leaf clusters.
+ const pot=mesh(new THREE.CylinderGeometry(.19,.14,.28,20),mat('#d59a71'),1.15,.16,-.8);
+ for(let k=0;k<7;k++){const leaf=sphere(scene,1.15+Math.sin(k*2.4)*.22,.55+(k%3)*.12,-.8+Math.cos(k*2.4)*.16,.13,.25,.07,'#62b77a');leaf.rotation.z=Math.sin(k*2.4)*.5;}
+ box(scene,-3,.95,-.9,.12,1.6,1.2,'#a77c63');
+ for(let k=0;k<3;k++)box(scene,-2.9,.45+k*.45,-.9,.25,.25,.35,['#f2a8be','#a9d9bd','#f2ce7e'][k]);
+ if(owned.toy)sphere(scene,-1.7,.13,1.2,.22,.14,.22,'#f5cb69');
+ if(owned.plant)tree(2.5,-.7);
+ if(owned.lamp){const extra=mesh(new THREE.ConeGeometry(.28,.32,20),mat('#f6d4a8'),2.9,1.5,-.7);}
+ if(owned.sofa){sphere(scene,-.5,.86,.36,.12,.09,.06,'#fff0dc');}
+ if(owned.rug){const rug2=mesh(new THREE.CircleGeometry(1.1,36),mat('#f3c5d6'),-.2,.08,.55);rug2.rotation.x=-Math.PI/2;}
+}makeCat(-.1,-2.0,cats[Math.min(Math.max(rescued-1,0),cats.length-1)].color,.86);if(rescued>1)makeCat(-1.6,-1.8,cats[Math.min(rescued-2,1)].color,.62);if(!owned.sofa){sayCat('room','It is so quiet here… could we have a cozy sofa? 🥺');}}else if(which==='garden'){if(owned.garden){for(let i=0;i<7;i++)tree(-4+i*1.35,-3.5);if(owned.flower)for(let i=0;i<12;i++)flower(-3.3+(i%6)*1.25,-1.4+Math.floor(i/6)*1.0);if(owned.pond){const p=mesh(new THREE.CylinderGeometry(1,.9,.12,40),mat('#85cfe1',.25),2,.05,1);p.userData.worldItem=true}if(owned.tree)tree(3,1);if(owned.gardenbench){box(scene,-2,.25,1.5,1.6,.18,.45,'#a9785d');for(const x of [-2.6,-1.4])box(scene,x,.1,1.5,.12,.3,.12,'#795440')}makeCat(0,-1.9,cats[Math.min(Math.max(rescued-1,0),cats.length-1)].color,.66)}else{makeCat(0,-1.9,cats[0].color,.66);sayCat('garden','This garden is waiting for a kind heart… 🌱');}}else{for(let i=0;i<5;i++){const cloud=sphere(scene,-4+i*2,3.3+(i%2)*.4,-2,.9,.22,.5,'#fff5f4');cloud.userData.worldItem=true}makeCat(1.35,-1.2,cats[Math.min(rescued,cats.length-1)].color,.94);if(rescued>1)makeCat(-1.5,-.9,cats[1].color,.68)}}
 function updatePetUI(){
  const set=(id,v)=>{const el=$(id);if(el)el.textContent=v+'%'};const bar=(id,v)=>{const el=$(id);if(el)el.style.width=v+'%'};
  set('hungerValue',Math.round(pet.hunger));set('cleanValue',Math.round(pet.clean));set('moodValue',Math.round(pet.mood));
@@ -342,7 +380,7 @@ function animate(){
  }
  renderer.render(scene,camera)
 }
-function switchScreen(id){if(id==='garden'&&!owned.garden){if(!buy('garden')){toast('Garden unlock costs 120 coins. Play puzzles to earn coins.');id='welcome'}else id='garden'}screen=id;document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===id));if(id==='welcome'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('room');updateStats()}if(id==='room'){camera.position.set(0,5.1,11.7);camera.lookAt(0,1.05,-.4);buildScene('room');updatePetUI()}if(id==='garden'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('garden')}if(id==='puzzle'){buildScene('welcome');renderBoard()} }
+function switchScreen(id){if(id==='garden'&&!owned.garden){if(!buy('garden')){toast('Garden unlock costs 120 coins. Play puzzles to earn coins.');id='welcome'}else id='garden'}screen=id;document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===id));if(id==='welcome'){camera.position.set(0,5.1,11.7);camera.lookAt(0,1.05,-.4);buildScene('room');updateStats()}if(id==='room'){camera.position.set(0,5.1,11.7);camera.lookAt(0,1.05,-.4);buildScene('room');updatePetUI()}if(id==='garden'){camera.position.set(0,5.4,11.8);camera.lookAt(0,1,0);buildScene('garden')}if(id==='puzzle'){buildScene('welcome');renderBoard()} }
 function updateStats(){updateWallet();$('level').textContent=level;$('rescued').textContent=rescued;$('best').textContent=best;$('best2').textContent=best;$('catcount').textContent=Math.min(rescued,cats.length)+' / '+cats.length+' CATS';$('catlist').innerHTML='';cats.forEach(c=>{const open=cats.indexOf(c)<rescued;const el=document.createElement('div');el.className='catcard '+(open?'':'locked');el.innerHTML='<div class="catthumb">'+(open?'🐈':'🔒')+'</div><b>'+(open?c.name:'LEVEL '+c.need)+'</b><small>'+(open?c.kind:'Still waiting for a home')+'</small>';el.addEventListener('click',()=>{if(open){switchScreen('room');}else toast('Reach level '+c.need+' to rescue '+c.name+'!')});$('catlist').appendChild(el)})}
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);t.style.display='block';setTimeout(()=>t.remove(),1800)}
 function renderBoard(){const b=$('board');b.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const el=document.createElement('button');el.className='cell'+(grid[r][c]?' filled':'');el.setAttribute('aria-label','row '+(r+1)+' column '+(c+1));el.addEventListener('click',()=>{if(tray[selected])placePiece(selected,r,c)});b.appendChild(el)}renderTray();if(tray&&tray.some(Boolean)&&!tray.some(s=>s&&canFit(s)))endRun()}
