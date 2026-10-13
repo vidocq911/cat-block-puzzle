@@ -16,6 +16,8 @@ try {
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
   assert(await page.locator('#home').evaluate(el => el.classList.contains('active')), 'Welcome screen is not the initial screen');
+  assert((await page.locator('#home').innerText()).includes('Her kedi bir yuvayı hak eder.'), 'Reference Turkish welcome headline is missing');
+  assert((await page.locator('#home').innerText()).includes('KEDİ KOLEKSİYONUN'), 'Turkish rescue collection label is missing');
   await page.screenshot({ path: path.join(out, '01-welcome-mobile.png'), fullPage: true });
 
   const headerFits = await page.evaluate(() => {
@@ -71,7 +73,22 @@ try {
   assert((await page.locator('#rescueText').innerText()).includes('Pepper'), 'Rescue collection did not show the unlocked cat');
 
   assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
-  console.log('PASS: welcome, mobile header, room, 4 care actions, 4 shop tabs, purchase, home navigation, puzzle placement/scoring/reset, settings; screenshots saved.');
+  // Check a wide desktop layout as well as the mobile layout.
+  const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
+  desktop.on('pageerror', error => errors.push(error.message));
+  await desktop.goto(base, { waitUntil: 'networkidle' });
+  await desktop.evaluate(() => localStorage.clear());
+  await desktop.reload({ waitUntil: 'networkidle' });
+  await desktop.locator('[data-go="room"]').first().click();
+  const desktopOverflow = await desktop.evaluate(() => document.documentElement.scrollWidth > innerWidth || document.documentElement.scrollHeight > innerHeight);
+  assert(!desktopOverflow, 'Desktop layout has page-level overflow at 1440x1000');
+  await desktop.screenshot({ path: path.join(out, '04-cat-room-desktop.png'), fullPage: true });
+  await desktop.setViewportSize({ width: 360, height: 740 });
+  const narrowOverflow = await desktop.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+  assert(!narrowOverflow, 'Narrow mobile layout overflows horizontally at 360px');
+  await desktop.close();
+  assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
+  console.log('PASS: Turkish welcome, responsive mobile header, room, care actions, shop tabs and purchase, home navigation, puzzle placement/scoring/reset, settings/sound toggle, rescue milestone, desktop and narrow mobile overflow; screenshots saved.');
 } finally {
   await browser.close();
 }
