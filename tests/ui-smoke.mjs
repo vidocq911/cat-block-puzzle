@@ -29,7 +29,7 @@ try {
   assert(await page.locator('#hunger-n').innerText() === '42%', 'Fish did not reduce hunger by 30');
   await page.screenshot({ path: path.join(out, '02-feed-mobile.png'), fullPage: true });
 
-  await page.locator('[data-screen="shop"]').first().click();
+  await page.locator('.screen.active .navbtn[data-screen="shop"]').click();
   assert(await page.locator('#screen-shop').evaluate(el => el.classList.contains('active')), 'Shop screen did not open');
   await page.locator('[data-category="decor"]').first().click();
   assert((await page.locator('#shop-product-row').innerText()).includes('Plant'), 'Decor products did not render');
@@ -38,7 +38,7 @@ try {
   await page.screenshot({ path: path.join(out, '03-shop-mobile.png'), fullPage: true });
 
   for (const screen of ['cats', 'tasks', 'garden', 'settings']) {
-    await page.locator('[data-screen="' + screen + '"]').first().click();
+    await page.locator('.screen.active .navbtn[data-screen="' + screen + '"]').click();
     assert(await page.locator('#screen-' + screen).evaluate(el => el.classList.contains('active')), screen + ' screen did not open');
   }
   await page.locator('[data-screen="puzzle"]').first().click();
