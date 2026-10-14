@@ -31,24 +31,58 @@ try {
 
   await page.locator('.screen.active .navbtn[data-screen="shop"]').click();
   assert(await page.locator('#screen-shop').evaluate(el => el.classList.contains('active')), 'Shop screen did not open');
-  await page.locator('[data-category="decor"]').first().click();
+  await page.locator('#screen-shop [data-category="decor"]').click();
   assert((await page.locator('#shop-product-row').innerText()).includes('Plant'), 'Decor products did not render');
   await page.locator('#shop-product-row .product').filter({ hasText: 'Plant' }).click();
   assert((await page.locator('#placed-items').innerText()).length > 0, 'Purchased item was not placed in room');
   await page.screenshot({ path: path.join(out, '03-shop-mobile.png'), fullPage: true });
 
-  for (const screen of ['cats', 'tasks', 'garden', 'settings']) {
-    await page.locator('.screen.active .navbtn[data-screen="' + screen + '"]').click();
-    assert(await page.locator('#screen-' + screen).evaluate(el => el.classList.contains('active')), screen + ' screen did not open');
-  }
-  await page.locator('[data-screen="puzzle"]').first().click();
+  await page.locator('.screen.active .navbtn[data-screen="cats"]').click();
+  assert(await page.locator('#screen-cats').evaluate(el => el.classList.contains('active')), 'Cats screen did not open');
+  await page.screenshot({ path: path.join(out, '04-cats-mobile.png'), fullPage: true });
+
+  await page.locator('.screen.active .navbtn[data-screen="tasks"]').click();
+  assert(await page.locator('#screen-tasks').evaluate(el => el.classList.contains('active')), 'Tasks screen did not open');
+  await page.screenshot({ path: path.join(out, '05-tasks-mobile.png'), fullPage: true });
+  await page.locator('#screen-tasks [data-screen="puzzle"]').click();
   assert(await page.locator('#screen-puzzle').evaluate(el => el.classList.contains('active')), 'Puzzle did not open');
   assert(await page.locator('#board .cell').count() === 64, 'Puzzle board is not 8x8');
+
+  // Real pointer drag: move a piece to the middle of the empty board and release.
+  const pieceBox = await page.locator('#piece-list .piece').first().boundingBox();
+  const targetBox = await page.locator('#board .cell').nth(36).boundingBox();
+  await page.mouse.move(pieceBox.x + pieceBox.width / 2, pieceBox.y + pieceBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 10 });
+  await page.mouse.up();
+  assert(await page.locator('#board .cell.filled').count() > 0, 'Dragging a block did not fill any board cells');
+  const dragScore = Number(await page.locator('#score').innerText());
+  assert(dragScore > 0, 'Drag-and-drop did not update score');
+
+  // Tap-to-place remains available as an accessible alternative to dragging.
   await page.locator('#piece-list .piece').first().click();
   await page.locator('#board .cell').nth(0).click();
-  assert((await page.locator('#score').innerText()) !== '0', 'Puzzle placement did not update score');
+  assert(Number(await page.locator('#score').innerText()) > dragScore, 'Tap-to-place did not update score');
+  await page.screenshot({ path: path.join(out, '06-puzzle-mobile.png'), fullPage: true });
+
+  await page.locator('.screen.active .navbtn[data-screen="room"]').click();
+  await page.locator('#screen-room [data-screen="garden"]').click();
+  assert(await page.locator('#screen-garden').evaluate(el => el.classList.contains('active')), 'Garden screen did not open');
+  await page.screenshot({ path: path.join(out, '07-garden-mobile.png'), fullPage: true });
+  await page.locator('.topbar .gear[data-screen="settings"]').click();
+  assert(await page.locator('#screen-settings').evaluate(el => el.classList.contains('active')), 'Settings screen did not open');
+  await page.screenshot({ path: path.join(out, '08-settings-mobile.png'), fullPage: true });
+
+  await page.locator('.screen.active .navbtn[data-screen="room"]').click();
+  await page.setViewportSize({ width: 360, height: 800 });
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'Small mobile layout has horizontal page overflow');
+  await page.screenshot({ path: path.join(out, '09-room-small-mobile.png'), fullPage: true });
+  await page.setViewportSize({ width: 1365, height: 900 });
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'Desktop layout has horizontal page overflow');
+  await page.screenshot({ path: path.join(out, '10-room-desktop.png'), fullPage: true });
+
   assert(errors.length === 0, 'Browser errors: ' + errors.join(' | '));
-  console.log('PASS: room, feeding, shop purchase/placement, cats, tasks, garden, settings, puzzle, no browser errors');
+  console.log('PASS: room, feeding, shop purchase/placement, cats, tasks, garden, settings, drag-and-drop, tap-to-place, small mobile and desktop layouts, no browser errors');
 } finally {
   await browser.close();
 }
