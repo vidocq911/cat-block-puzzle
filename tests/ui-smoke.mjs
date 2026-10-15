@@ -34,7 +34,7 @@ try {
   await page.locator('#screen-shop [data-category="decor"]').click();
   assert((await page.locator('#shop-product-row').innerText()).includes('Plant'), 'Decor products did not render');
   await page.locator('#shop-product-row .product').filter({ hasText: 'Plant' }).click();
-  assert((await page.locator('#placed-items').innerText()).length > 0, 'Purchased item was not placed in room');
+  assert(await page.locator('#placed-items .decor[data-item="plant"]').count() === 1, 'Purchased plant SVG was not placed in room');
   await page.screenshot({ path: path.join(out, '03-shop-mobile.png'), fullPage: true });
 
   await page.locator('.screen.active .navbtn[data-screen="cats"]').click();
