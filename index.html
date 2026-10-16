@@ -99,7 +99,7 @@ const catalog=[
 {id:'ball',name:'Bell Ball',price:18,cat:'toys',icon:'🟡'},
 {id:'mouse',name:'Toy Mouse',price:25,cat:'toys',icon:'🐭'}
 ];
-const defaults={coins:62,needs:{hunger:72,happy:100,clean:88},owned:[],selectedCat:0,score:0,level:12,levels:2,feedCount:0,plants:0,category:'furniture',food:'dry',settings:{sound:true,music:true,notify:true},board:[],pieces:[]};
+const defaults={coins:62,needs:{hunger:72,happy:100,clean:88},owned:[],unlockedCats:[0,1,2,3],catBonds:[95,72,48,65,0,0],selectedCat:0,score:0,level:12,levels:2,feedCount:0,plants:0,category:'furniture',food:'dry',settings:{sound:true,music:true,notify:true},board:[],pieces:[]};
 let state;
 try{state={...defaults,...JSON.parse(localStorage.getItem('cat-block-rescue-club-v2')||'{}')};state.needs={...defaults.needs,...state.needs};state.settings={...defaults.settings,...state.settings};state.owned=Array.isArray(state.owned)?state.owned:defaults.owned;}catch{state={...defaults,needs:{...defaults.needs},settings:{...defaults.settings},owned:[...defaults.owned]}}
 const cats=[{name:'Milo',fur:'#f6a13a',face:'#fffaf0',accent:'#f7c4d6',emoji:'🐱',bond:95},{name:'Luna',fur:'#9997b7',face:'#fdf5f7',accent:'#b4d9ff',emoji:'🐈',bond:72},{name:'Choco',fur:'#9a654a',face:'#f5d4ac',accent:'#ffd7b5',emoji:'🐈‍⬛',bond:48},{name:'Bella',fur:'#fff4ee',face:'#fffdf8',accent:'#ffb7d5',emoji:'🐱',bond:65},{name:'Peaches',fur:'#f3bb69',face:'#fff3db',accent:'#b4e8ff',emoji:'🐈',bond:0},{name:'Misty',fur:'#c9c4d9',face:'#fff',accent:'#e6b8ff',emoji:'🐈',bond:0}];
