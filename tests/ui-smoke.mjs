@@ -68,7 +68,7 @@ try {
 
   // Tap-to-place remains available as an accessible alternative to dragging.
   await page.locator('#piece-list .piece').first().click();
-  await page.locator('#board .cell').nth(0).click();
+  await page.locator('#board .cell').nth(27).click();
   assert(Number(await page.locator('#score').innerText()) > dragScore, 'Tap-to-place did not update score');
   await page.screenshot({ path: path.join(out, '06-puzzle-mobile.png'), fullPage: true });
 
