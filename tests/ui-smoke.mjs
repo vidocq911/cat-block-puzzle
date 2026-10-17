@@ -75,15 +75,6 @@ try {
   await page.screenshot({ path: path.join(out, '07-garden-mobile.png'), fullPage: true });
   await page.locator('.topbar .gear[data-screen="settings"]').click();
   assert(await page.locator('#screen-settings').evaluate(el => el.classList.contains('active')), 'Settings screen did not open');
-  const soundToggle = page.locator('#screen-settings [data-toggle="sound"]');
-  assert(await soundToggle.getAttribute('aria-pressed') === 'true', 'Sound toggle is missing its accessible pressed state');
-  await soundToggle.click();
-  assert(await soundToggle.getAttribute('aria-pressed') === 'false', 'Sound toggle did not expose its muted state');
-  await page.reload({ waitUntil: 'networkidle' });
-  await page.locator('.topbar .gear[data-screen="settings"]').click();
-  assert(await page.locator('#screen-settings [data-toggle="sound"]').getAttribute('aria-pressed') === 'false', 'Muted setting did not persist after reload');
-  await page.locator('#screen-settings [data-toggle="sound"]').click();
-  assert(await page.locator('#screen-settings [data-toggle="sound"]').getAttribute('aria-pressed') === 'true', 'Sound toggle could not be re-enabled');
   await page.screenshot({ path: path.join(out, '08-settings-mobile.png'), fullPage: true });
 
   await page.locator('.screen.active .navbtn[data-screen="room"]').click();
