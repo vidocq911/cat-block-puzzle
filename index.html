@@ -41,6 +41,68 @@
  .room-screen .room-art{height:430px;min-height:430px}
 }
 
+
+/* Reference composition pass: immersive illustrated room + dedicated full-screen game pages. */
+:root{--ink:#35203f;--pink:#ff5799;--cream:#fff7e9;--purple:#49305a;--gold:#ffc83d}
+.topbar{background:linear-gradient(100deg,#f6a6c9 0%,#ffd9ca 58%,#fff0cf 100%);border-bottom:3px solid #f3c1d4}
+.brandname{text-shadow:0 2px #fff,1px 3px #a75a7b}
+.room-screen .room-art{isolation:isolate;background:#b8e9ff;border-color:#fff7ed;box-shadow:0 5px 0 #ad7582,0 12px 26px #58314a22}
+.room-screen .room-svg{z-index:0}
+.room-screen .room-shade{z-index:1}
+.room-screen .hud,.room-screen .room-label,.room-screen .speech,.room-screen .cat-stage,.room-screen .placed-items,.room-screen .placed,.room-screen .floating-hearts{z-index:2}
+.room-screen .cat-stage{width:min(61%,290px);height:49%;bottom:5%;filter:drop-shadow(0 8px 5px #7a3e4a28)}
+.room-screen .cat-stage svg{overflow:visible}
+.room-screen .speech{background:#fffdf8;border:2px solid #fff;box-shadow:0 3px 0 #e6b8cc}
+.room-screen .hud{width:min(205px,52%)}
+.room-screen .need{border-radius:17px;background:#fffdf7f5;padding:8px 9px}
+.room-screen .need-head{font-size:10px;letter-spacing:.2px}
+.room-screen .bar{height:9px;border:1px solid #fff}
+.room-screen .room-label{background:#fffdf8;border:2px solid white;border-radius:14px;box-shadow:0 3px 0 #d7a6bf}
+.room-screen .quick-actions{gap:8px}
+.room-screen .action{min-height:72px;border-radius:19px;border:3px solid #fff9f5;box-shadow:0 4px 0 #c78eaa,0 7px 12px #58344a14}
+.room-screen .action:active,.navbtn:active,.product:active{transform:translateY(2px)}
+.room-screen .action span{font-size:29px}
+.bottom-nav{background:linear-gradient(100deg,#3f2a53,#68456f 60%,#4b315d);border-top:2px solid #ffffff8a;border-radius:23px 23px 0 0}
+.navbtn{min-height:58px}
+.navbtn.active{background:linear-gradient(180deg,#ff80b4,#f24c91);box-shadow:0 3px 0 #b83d79,inset 0 1px 0 #ffffff80}
+.screen.page{background:linear-gradient(180deg,#fff6e9,#fbe6ed 72%,#f6d9e4)}
+.page-head{position:sticky;top:-1px;z-index:8;margin:-1px -1px 0;padding:7px 2px 10px;background:linear-gradient(100deg,#fff2e8ed,#fce1efed);backdrop-filter:blur(10px);border-radius:0 0 16px 16px}
+.panel{background:linear-gradient(145deg,#fffdf7,#fff4ee);border:2px solid #fff;box-shadow:0 4px 0 #e3c1d0,0 9px 18px #5d3b4d0d}
+.categories button{border-radius:16px;background:#fff0e8;border:2px solid #fff;box-shadow:0 3px 0 #e8c9d6}
+.categories button.active{background:linear-gradient(#ff9ec3,#f85d9d);color:#fff;border-color:#fff;box-shadow:0 3px 0 #c33e7d}
+.product{border:2px solid #fff;background:linear-gradient(150deg,#fff8ee,#ffe9ed);border-radius:19px;padding:8px 6px 10px;box-shadow:0 4px 0 #e5c9d4,0 7px 12px #59334a0a}
+.product-art{height:clamp(82px,19vw,130px);border-radius:14px;background:linear-gradient(145deg,#ffe9df,#ffe1ed 56%,#fff0c9);border:1px solid #fff}
+.product b{font-size:12px}
+.price{font-size:13px}
+.cats-grid{gap:10px}
+.cat-card{border:2px solid #fff;border-radius:19px;background:linear-gradient(155deg,#fff9ed,#ffe9ed);box-shadow:0 4px 0 #e2c0d0}
+.cat-portrait{background:linear-gradient(145deg,#ffe7b7,#ffd5e5);border-radius:14px}
+.map-scene{border:3px solid #fff;border-radius:24px;box-shadow:0 5px 0 #d9bdce;overflow:hidden}
+.level{border:3px solid #fff;box-shadow:0 4px 0 #a8a2c2,0 6px 10px #39234324}
+.level.done{background:linear-gradient(#8be6ff,#4ab8ef)}
+.level:not(.done):not(.locked){background:linear-gradient(#a9f4a9,#4dce78)}
+.primary{background:linear-gradient(#55e98a,#1ebc64);border:3px solid #fff;box-shadow:0 4px 0 #15984e;color:#fff;text-shadow:0 1px #158448}
+@media(min-width:800px){
+ .room-screen{display:flex!important;max-width:720px;margin:0 auto;width:100%;padding:14px 14px 120px}
+ .room-screen .room-art{height:min(65vh,690px);min-height:560px;width:100%}
+ .room-screen .cat-stage{width:min(59%,310px);height:48%}
+ .room-screen .quick-actions{width:100%}
+ .screen.page{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+ .room-screen{padding:7px 7px 112px;gap:9px}
+ .room-screen .room-art{height:clamp(455px,calc(100dvh - 205px),620px);min-height:440px;border-radius:22px}
+ .room-screen .cat-stage{width:min(61%,260px);height:46%;bottom:5%}
+ .room-screen .action{min-height:68px;font-size:11px}
+ .room-screen .action span{font-size:27px}
+ .product-art{height:88px}
+ .product{padding:6px 4px 9px}
+ .product b{font-size:11px}
+ .cats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cat-portrait{height:105px}
+}
+@media(max-height:720px) and (max-width:520px){.room-screen .room-art{height:430px;min-height:430px}}
+
 </style>
 </head>
 <body>
