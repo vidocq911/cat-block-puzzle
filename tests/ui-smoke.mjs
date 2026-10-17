@@ -18,7 +18,7 @@ try {
   assert(await page.locator('#screen-room').evaluate(el => el.classList.contains('active')), 'Room is not the initial screen');
   assert(await page.locator('#main-cat').count() === 1, 'Main cat SVG is missing');
   assert(await page.locator('#room-art .room-svg').count() === 1, 'Room illustration is missing');
-  assert((await page.locator('#screen-room').innerText()).includes('MAKE HOME COZY'), 'Room shop drawer is missing');
+  assert(await page.locator('#screen-room .shop-drawer').evaluate(el => getComputedStyle(el).display === 'none'), 'Room screen should keep the shop on its dedicated page');
   await page.screenshot({ path: path.join(out, '01-room-mobile.png'), fullPage: true });
 
   await page.locator('[data-care="feed"]').first().click();
