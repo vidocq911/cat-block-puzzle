@@ -53,11 +53,14 @@ try {
   assert(await page.locator('#board .cell').count() === 64, 'Puzzle board is not 8x8');
 
   // Real pointer drag: move a piece to the middle of the empty board and release.
+  await page.locator('#board').scrollIntoViewIfNeeded();
+  await page.locator('#piece-list .piece').first().scrollIntoViewIfNeeded();
   const pieceBox = await page.locator('#piece-list .piece').first().boundingBox();
-  const targetBox = await page.locator('#board .cell').nth(36).boundingBox();
+  const targetBox = await page.locator('#board .cell').first().boundingBox();
+  assert(pieceBox && targetBox, 'Puzzle piece or target cell is not visible');
   await page.mouse.move(pieceBox.x + pieceBox.width / 2, pieceBox.y + pieceBox.height / 2);
   await page.mouse.down();
-  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 10 });
+  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 18 });
   await page.mouse.up();
   assert(await page.locator('#board .cell.filled').count() > 0, 'Dragging a block did not fill any board cells');
   const dragScore = Number(await page.locator('#score').innerText());
