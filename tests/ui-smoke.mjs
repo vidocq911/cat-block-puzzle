@@ -73,7 +73,7 @@ try {
   await page.screenshot({ path: path.join(out, '06-puzzle-mobile.png'), fullPage: true });
 
   await page.locator('.screen.active .navbtn[data-screen="room"]').click();
-  await page.locator('#screen-room [data-screen="garden"]').click();
+  await page.locator('#screen-room .bottom-nav [data-screen="garden"]').click();
   assert(await page.locator('#screen-garden').evaluate(el => el.classList.contains('active')), 'Garden screen did not open');
   await page.screenshot({ path: path.join(out, '07-garden-mobile.png'), fullPage: true });
   await page.locator('.topbar .gear[data-screen="settings"]').click();
