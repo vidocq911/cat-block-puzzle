@@ -103,6 +103,35 @@
 }
 @media(max-height:720px) and (max-width:520px){.room-screen .room-art{height:430px;min-height:430px}}
 
+
+/* Final reference layout: room first, shop only on the shop screen, six-item game navigation. */
+#screen-room>.section-switch,#screen-room>.shop-drawer{display:none!important}
+#screen-room{gap:10px;padding:10px 10px 112px}
+#screen-room>.room-art{height:clamp(440px,calc(100dvh - 310px),650px);min-height:440px;flex:0 0 auto;border-radius:24px}
+#screen-room>.quick-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#screen-room>.quick-actions .action{min-width:0;min-height:70px}
+#screen-room>.bottom-nav{grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding-left:6px;padding-right:6px}
+#screen-room>.bottom-nav .navbtn{min-width:0;padding-left:0;padding-right:0;font-size:clamp(8px,2.1vw,11px)}
+#screen-room>.bottom-nav .navbtn span{font-size:clamp(19px,5vw,25px)}
+#screen-room .cat-stage{width:min(61%,270px);height:47%;bottom:5%}
+#screen-room .hud{width:min(205px,53%)}
+#screen-room .need{background:#fffdf7f5;border:2px solid #fff;border-radius:17px}
+#screen-room .room-label{background:#fffdf8;border:2px solid #fff;border-radius:14px}
+#screen-room .action{border:3px solid #fffaf4;box-shadow:0 4px 0 #c78eaa,0 7px 12px #58344a14}
+#screen-room .action:active,#screen-room .navbtn:active{transform:translateY(2px)}
+@media(min-width:800px){
+ #screen-room{max-width:720px;width:100%;margin:0 auto;padding:14px 14px 120px}
+ #screen-room>.room-art{height:min(62vh,650px);min-height:540px;width:100%}
+ #screen-room>.quick-actions{width:100%}
+}
+@media(max-width:520px){
+ #screen-room{padding:7px 7px 112px;gap:9px}
+ #screen-room>.room-art{height:clamp(430px,calc(100dvh - 300px),570px);min-height:430px}
+ #screen-room>.quick-actions .action{min-height:64px;font-size:10px}
+ #screen-room>.quick-actions .action span{font-size:25px}
+}
+@media(max-height:720px) and (max-width:520px){#screen-room>.room-art{height:405px;min-height:405px}}
+
 </style>
 </head>
 <body>
@@ -165,7 +194,7 @@
  <div class="quick-actions"><button class="action feed" data-care="feed"><span>🥣</span>FEED</button><button class="action play" data-screen="puzzle"><span>🧶</span>PLAY</button><button class="action bath" data-care="bath"><span>🫧</span>BATH</button><button class="action shop" data-screen="shop"><span>🛍️</span>SHOP</button></div>
  <div class="section-switch"><button data-screen="garden">🌴 GARDEN</button><button data-screen="cats">🐱 MY CATS</button><button data-screen="tasks">🗺️ TASKS</button><button data-care="clean">🧽 CLEAN</button><button data-care="pet">💗 PET</button></div>
  <section class="shop-drawer"><div class="drawer-title"><span>MAKE HOME COZY</span><span class="pill">🪙 <b id="coins-drawer">62</b></span></div><div class="categories" id="categories"><button class="active" data-category="furniture">🛋️ FURNITURE</button><button data-category="decor">🪴 DECOR</button><button data-category="food">🐟 FOOD</button><button data-category="toys">🧶 TOYS</button></div><div class="product-row" id="product-row"></div></section>
- <nav class="bottom-nav"><button class="navbtn active" data-screen="room"><span>🏠</span>ROOM</button><button class="navbtn" data-screen="cats"><span>🐱</span>CATS</button><button class="navbtn" data-screen="tasks"><span>🧩</span>TASKS</button><button class="navbtn" data-screen="shop"><span>🛍️</span>SHOP</button><button class="navbtn" data-screen="settings"><span>⚙️</span>SETTINGS</button></nav>
+ <nav class="bottom-nav"><button class="navbtn active" data-screen="room"><span>🏠</span>ROOM</button><button class="navbtn" data-screen="cats"><span>🐱</span>CATS</button><button class="navbtn" data-screen="tasks"><span>🧩</span>TASKS</button><button class="navbtn" data-screen="garden"><span>🌿</span>GARDEN</button><button class="navbtn" data-screen="shop"><span>🛍️</span>SHOP</button><button class="navbtn" data-screen="settings"><span>⚙️</span>SETTINGS</button></nav>
 </main>
 <section id="screen-feed" class="screen page"><div class="page-head"><button class="back" data-screen="room">‹</button><span>🥣 FEED MOCHI</span></div><div class="panel" style="background:linear-gradient(135deg,#ffe3ee,#fff0cf)"><div style="display:flex;align-items:center;gap:14px"><div style="font-size:76px">🐱</div><div><b style="font-size:18px">Mochi is hungry!</b><p class="subtle">Pick a treat to fill the tummy and earn a little love.</p></div></div><div class="need"><span>🍴</span><div class="need-info"><div class="need-head"><span>HUNGRY</span><span id="feed-hunger">72%</span></div><div class="bar"><i id="feed-hunger-bar" class="hunger" style="width:72%"></i></div></div></div></div><div class="panel"><div class="drawer-title">CHOOSE A TASTY TREAT</div><div class="feed-options" id="food-options"><button class="food-option selected" data-food="dry"><span class="food-icon">🥣</span><b>Dry Food</b><small>+20 ♥</small></button><button class="food-option" data-food="fish"><span class="food-icon">🐟</span><b>Fish</b><small>+30 ♥</small></button><button class="food-option" data-food="chicken"><span class="food-icon">🍗</span><b>Chicken</b><small>+25 ♥</small></button></div><button class="primary" id="feed-confirm">FEED MOCHI · 🪙 10</button></div><div class="panel"><div class="drawer-title">CARE METER</div><div class="settings-row"><span>🧶 PLAY</span><div class="bar" style="width:55%"><i id="feed-happy-bar" class="happy" style="width:100%"></i></div><button data-care="play">›</button></div><div class="settings-row"><span>🫧 BATH</span><div class="bar" style="width:55%"><i id="feed-clean-bar" class="clean" style="width:88%"></i></div><button data-care="bath">›</button></div><div class="settings-row"><span>🧽 CLEAN</span><div class="bar" style="width:55%"><i id="feed-clean-bar2" class="clean" style="width:88%"></i></div><button data-care="clean">›</button></div></div><nav class="bottom-nav"><button class="navbtn" data-screen="room"><span>🏠</span>ROOM</button><button class="navbtn" data-screen="cats"><span>🐱</span>CATS</button><button class="navbtn" data-screen="tasks"><span>🧩</span>TASKS</button><button class="navbtn active" data-screen="feed"><span>🥣</span>FEED</button><button class="navbtn" data-screen="shop"><span>🛍️</span>SHOP</button></nav></section>
 <section id="screen-shop" class="screen page"><div class="page-head"><button class="back" data-screen="room">‹</button><span>🛍️ SHOP</span><span class="pill" style="margin-left:auto">🪙 <b id="shop-coins">62</b></span></div><div class="panel"><div class="categories" id="shop-categories"><button class="active" data-category="furniture">🛋️ FURNITURE</button><button data-category="decor">🪴 DECOR</button><button data-category="food">🐟 FOOD</button><button data-category="toys">🧶 TOYS</button></div><div class="product-row" id="shop-product-row"></div></div><div class="panel"><b>🏡 YOUR HOME</b><p class="subtle">Purchased furniture and toys appear in your room. Tap an item to place it, then visit Room to see your home change.</p><button class="primary" data-screen="room">GO TO MY HOME</button></div><nav class="bottom-nav"><button class="navbtn" data-screen="room"><span>🏠</span>ROOM</button><button class="navbtn" data-screen="cats"><span>🐱</span>CATS</button><button class="navbtn" data-screen="tasks"><span>🧩</span>TASKS</button><button class="navbtn active" data-screen="shop"><span>🛍️</span>SHOP</button><button class="navbtn" data-screen="settings"><span>⚙️</span>SETTINGS</button></nav></section>
