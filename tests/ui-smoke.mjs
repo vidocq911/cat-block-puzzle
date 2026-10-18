@@ -16,6 +16,7 @@ try {
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
   assert(await page.locator('#screen-room').evaluate(el => el.classList.contains('active')), 'Room is not the initial screen');
+  assert(await page.locator('#screen-room').evaluate(el => getComputedStyle(el).display !== 'none'), 'Initial room screen is hidden');
   assert(await page.locator('#main-cat').count() === 1, 'Main cat SVG is missing');
   assert(await page.locator('#room-art .room-svg').count() === 1, 'Room illustration is missing');
   assert(await page.locator('#screen-room .shop-drawer').evaluate(el => getComputedStyle(el).display === 'none'), 'Room screen should keep the shop on its dedicated page');
