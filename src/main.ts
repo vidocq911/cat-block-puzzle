@@ -10,7 +10,7 @@ class Haven extends Phaser.Scene{
  s:Save=load();screen='home';pieces:Piece[]=[];selected=-1;graphics!:Phaser.GameObjects.Graphics;ui:Phaser.GameObjects.GameObject[]=[];dragging=false;dragGhost?:Phaser.GameObjects.Container;hint='';
  constructor(){super('Haven')}
  preload(){const base=import.meta.env.BASE_URL;this.load.on('loaderror',(file:Phaser.Loader.File)=>{console.error('Cat Haven asset load failed',file.key,file.src)});for(const name of ['home','room','garden','world','cats','shop','tasks','puzzle'])this.load.image('scene-'+name,base+'assets/'+name+'.webp')}
- create(){this.cameras.main.setBackgroundColor('#241332');this.newPieces();this.show('home');this.scale.on('resize',()=>this.show(this.screen))}
+ create(){this.cameras.main.setBackgroundColor('#241332');this.newPieces();this.show('home');(window as unknown as {__catReady?:()=>void}).__catReady?.();this.scale.on('resize',()=>this.show(this.screen))}
  persist(){localStorage.setItem('cat-haven-phaser-v1',JSON.stringify(this.s))}
  addText(x:number,y:number,t:string,size=22,color='#ffffff'){const o=this.add.text(x,y,t,{fontFamily:'Arial, sans-serif',fontSize:size+'px',fontStyle:'bold',color,align:'center',stroke:'#462744',strokeThickness:3}).setOrigin(.5);this.ui.push(o);return o}
  rect(x:number,y:number,w:number,h:number,color:number,r=14,stroke=0xf7d8a4){const g=this.add.graphics();g.fillStyle(color);g.fillRoundedRect(x,y,w,h,r);g.lineStyle(3,stroke);g.strokeRoundedRect(x,y,w,h,r);this.ui.push(g);return g}
