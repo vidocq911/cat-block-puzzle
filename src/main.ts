@@ -17,7 +17,27 @@ class Haven extends Phaser.Scene{
  button(x:number,y:number,w:number,h:number,label:string,fn:()=>void,color=0x8b4a98){this.rect(x-w/2,y-h/2,w,h,color,14);this.addText(x,y,label,Math.min(20,Math.floor(w/label.length*1.7)));const hit=this.add.zone(x,y,w,h).setInteractive({useHandCursor:true});hit.on('pointerdown',fn);this.ui.push(hit)}
  clear(){this.ui.forEach(x=>x.destroy());this.ui=[];this.dragGhost?.destroy();this.dragGhost=undefined}
  sceneArt(name:string){if(!this.textures.exists('scene-'+name))return false;const a=this.add.image(195,422,'scene-'+name).setDisplaySize(390,844);this.ui.push(a);return true}
- show(name:string){this.screen=name;this.clear();this.rect(0,0,W,H,0x261537,0,0x261537);this.sceneArt(name==='game'?'puzzle':name);if(name==='home')this.home();else if(name==='game')this.gameScreen();else if(name==='room'||name==='garden')this.placeScreen(name);else if(name==='cats')this.catsScreen();else if(name==='world')this.worldScreen();else if(name==='tasks')this.tasksScreen();else this.menuScreen(name)}
+ show(name:string){this.screen=name;this.clear();this.rect(0,0,W,H,0x261537,0,0x261537);const art=this.sceneArt(name==='game'?'puzzle':name);if(art){this.artScreen(name);return}if(name==='home')this.home();else if(name==='game')this.gameScreen();else if(name==='room'||name==='garden')this.placeScreen(name);else if(name==='cats')this.catsScreen();else if(name==='world')this.worldScreen();else if(name==='tasks')this.tasksScreen();else this.menuScreen(name)}
+ hotspot(x:number,y:number,w:number,h:number,fn:()=>void){const z=this.add.zone(x,y,w,h).setInteractive({useHandCursor:true});z.on('pointerdown',fn);this.ui.push(z)}
+ artScreen(name:string){
+ if(name==='home'){this.hotspot(195,647,295,90,()=>this.show('game'));this.hotspot(80,777,125,100,()=>this.show('world'));this.hotspot(195,777,125,100,()=>this.show('cats'));this.hotspot(315,777,125,100,()=>this.show('room'));return}
+ this.hotspot(45,48,75,82,()=>this.show(name==='game'?'home':'game'));
+ if(name==='game'){this.gameOverlay();return}
+ if(name==='room'||name==='garden'){this.hotspot(195,745,320,170,()=>this.show(name==='room'?'garden':'room'));return}
+ if(name==='world'){this.hotspot(190,370,340,470,()=>this.show('game'));return}
+ if(name==='cats'){this.hotspot(195,690,320,220,()=>this.show('game'));return}
+ if(name==='shop'){this.hotspot(195,690,320,220,()=>this.show('game'));return}
+ if(name==='tasks'){this.hotspot(195,690,320,220,()=>this.show('game'))}
+ }
+ gameOverlay(){
+ const x0=35,y0=200,cell=40;
+ const selected=this.selected<0?0:this.selected;
+ for(let y=0;y<8;y++)for(let x=0;x<8;x++){const v=this.s.board[y*8+x];if(v>=0){const g=this.add.graphics();g.fillStyle(colors[v],1);g.fillRoundedRect(x0+x*cell+2,y0+y*cell+2,cell-4,cell-4,6);this.ui.push(g)}this.hotspot(x0+x*cell+20,y0+y*cell+20,cell,cell,()=>{this.selected=selected;this.place(x,y)})}
+ this.pieces.forEach((p,i)=>this.hotspot(80+i*115,620,100,90,()=>{this.selected=i;this.show('game')}));
+ this.hotspot(75,720,140,65,()=>{this.s.board=Array(64).fill(-1);this.s.score=0;this.newPieces();this.persist();this.show('game')});
+ this.hotspot(280,720,140,65,()=>this.show('shop'));
+ this.hotspot(55,790,85,65,()=>this.show('room'));this.hotspot(150,790,85,65,()=>this.show('garden'));this.hotspot(245,790,85,65,()=>this.show('cats'));this.hotspot(340,790,85,65,()=>this.show('tasks'));
+ }
  header(title:string,back='game'){this.button(35,42,50,50,'‹',()=>this.show(back),0xa56648);this.addText(210,43,title,25)}
  home(){this.addText(195,128,'CAT HAVEN',46,'#ffdb87');this.addText(195,175,'BLOCK PUZZLE',20,'#ffe6d7');if(!this.textures.exists('scene-home'))this.rect(44,225,302,345,0x644071,34,0xd6a6c5);if(!this.textures.exists('scene-home')&&this.textures.exists('art-transfer')){const art=this.add.image(195,395,'art-transfer').setDisplaySize(270,320);this.ui.push(art)}else if(!this.textures.exists('scene-home'))this.addText(195,340,'🐈',155);this.addText(195,482,'Pamuk seni bekliyor!',21);this.button(195,630,300,70,'OYNA',()=>this.show('game'),0xeaa03c);this.button(195,730,145,55,'DÜNYA',()=>this.show('world'));this.button(195,795,145,48,'KEDİLER',()=>this.show('cats'))}
  newPieces(){this.pieces=Array.from({length:3},()=>({cells:shapes[Phaser.Math.Between(0,shapes.length-1)],color:Phaser.Math.Between(0,4)}));if(!this.pieces.some(p=>this.canPlaceAnywhere(p)))this.pieces[0]={cells:[[0,0]],color:0};this.selected=-1}
