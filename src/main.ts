@@ -32,7 +32,7 @@ class Haven extends Phaser.Scene{
  gameOverlay(){
  const x0=35,y0=200,cell=40;
  const selected=this.selected<0?0:this.selected;
- for(let y=0;y<8;y++)for(let x=0;x<8;x++){const v=this.s.board[y*8+x];if(v>=0){const g=this.add.graphics();g.fillStyle(colors[v],1);g.fillRoundedRect(x0+x*cell+2,y0+y*cell+2,cell-4,cell-4,6);this.ui.push(g)}this.hotspot(x0+x*cell+20,y0+y*cell+20,cell,cell,()=>{this.selected=selected;this.place(x,y)})}
+ for(let y=0;y<8;y++)for(let x=0;x<8;x++){const v=this.s.board[y*8+x];if(v>=0){const g=this.add.graphics();g.fillStyle(colors[v],1);g.fillRoundedRect(x0+x*cell+2,y0+y*cell+2,cell-4,cell-4,6);this.ui.push(g)}this.hotspot(x0+x*cell+20,y0+y*cell+20,cell,cell,()=>{this.selected=this.selected<0?selected:this.selected;this.place(x,y)})}
  this.pieces.forEach((p,i)=>this.hotspot(80+i*115,620,100,90,()=>{this.selected=i;this.show('game')}));
  this.hotspot(75,720,140,65,()=>{this.s.board=Array(64).fill(-1);this.s.score=0;this.newPieces();this.persist();this.show('game')});
  this.hotspot(280,720,140,65,()=>this.show('shop'));
