@@ -21,15 +21,33 @@ class Haven extends Phaser.Scene{
  hotspot(x:number,y:number,w:number,h:number,fn:()=>void){const z=this.add.zone(x,y,w,h).setInteractive({useHandCursor:true});z.on('pointerdown',fn);this.ui.push(z)}
  artScreen(name:string){
  if(name==='home'){this.hotspot(195,647,295,90,()=>this.show('game'));this.hotspot(80,777,125,100,()=>this.show('world'));this.hotspot(195,777,125,100,()=>this.show('cats'));this.hotspot(315,777,125,100,()=>this.show('room'));return}
- this.hotspot(45,48,75,82,()=>this.show(name==='game'?'home':'game'));
+ this.hotspot(name==='room'||name==='garden'?75:45,name==='room'||name==='garden'?105:48,75,82,()=>this.show(name==='game'?'home':'game'));
  if(name==='game'){this.gameOverlay();return}
- if(name==='room'||name==='garden'){this.hotspot(195,745,320,170,()=>this.show(name==='room'?'garden':'room'));return}
+ if(name==='room'||name==='garden'){this.decorationOverlay(name);return}
  if(name==='world'){this.hotspot(190,370,340,470,()=>this.show('game'));return}
  if(name==='cats'){this.hotspot(195,690,320,220,()=>this.show('game'));return}
  if(name==='shop'){this.hotspot(195,690,320,220,()=>this.show('game'));return}
  if(name==='tasks'){this.hotspot(195,690,320,220,()=>this.show('game'))}
  }
- gameOverlay(){
+ decorationOverlay(name:string){
+ const room=name==='room';const owned=room?this.s.rooms:this.s.garden;
+ const catalog=room?[['Yatak',150],['Lamba',100],['Koltuk',400],['Bitki',90]] as [string,number][]:[['Gül',80],['Çeşme',400],['Salıncak',320],['Ağaç',250]] as [string,number][];
+ this.rect(75,15,245,45,0x4d2759,16,0xffd27e);this.addText(195,38,'ALTIN: '+this.s.coins,19,'#ffe7a5');
+ this.rect(14,656,362,182,0x412443,15,0xf2c58c);
+ this.addText(195,675,room?'ODA DEKORASYONU':'BAHÇE DEKORASYONU',18,'#ffe2b2');
+ catalog.forEach(([item,cost],i)=>{
+ const x=102+(i%2)*185,y=721+Math.floor(i/2)*75;
+ const has=owned.includes(item);
+ this.button(x,y,169,62,item+(has?' ✓':' · '+cost+' altın'),()=>{
+ if(has){this.hint=item+' zaten alındı';this.show(name);return}
+ if(this.s.coins<cost){this.hint='Yeterli altın yok';this.show(name);return}
+ this.s.coins-=cost;owned.push(item);this.persist();this.hint=item+' satın alındı';this.show(name)
+ },has?0x5c9163:0x985887);
+ });
+ if(this.hint)this.addText(195,632,this.hint,15,'#ffe9bf');
+ this.hotspot(310,600,145,52,()=>this.show(room?'garden':'room'));
+ }
+  gameOverlay(){
  const x0=35,y0=200,cell=40;
  const selected=this.selected<0?0:this.selected;
  for(let y=0;y<8;y++)for(let x=0;x<8;x++){const v=this.s.board[y*8+x];if(v>=0){const g=this.add.graphics();g.fillStyle(colors[v],1);g.fillRoundedRect(x0+x*cell+2,y0+y*cell+2,cell-4,cell-4,6);this.ui.push(g)}this.hotspot(x0+x*cell+20,y0+y*cell+20,cell,cell,()=>{this.selected=this.selected<0?selected:this.selected;this.place(x,y)})}
