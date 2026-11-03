@@ -9,6 +9,7 @@ function load():Save{try{const s=JSON.parse(localStorage.getItem('cat-haven-phas
 class Haven extends Phaser.Scene{
  s:Save=load();screen='home';pieces:Piece[]=[];selected=-1;graphics!:Phaser.GameObjects.Graphics;ui:Phaser.GameObjects.GameObject[]=[];dragging=false;dragGhost?:Phaser.GameObjects.Container;hint='';
  constructor(){super('Haven')}
+ preload(){this.load.image('art-transfer','assets/approved-art-transfer-test.webp')}
  create(){this.cameras.main.setBackgroundColor('#241332');this.newPieces();this.show('home');this.scale.on('resize',()=>this.show(this.screen))}
  persist(){localStorage.setItem('cat-haven-phaser-v1',JSON.stringify(this.s))}
  addText(x:number,y:number,t:string,size=22,color='#ffffff'){const o=this.add.text(x,y,t,{fontFamily:'Arial, sans-serif',fontSize:size+'px',fontStyle:'bold',color,align:'center',stroke:'#462744',strokeThickness:3}).setOrigin(.5);this.ui.push(o);return o}
@@ -17,7 +18,7 @@ class Haven extends Phaser.Scene{
  clear(){this.ui.forEach(x=>x.destroy());this.ui=[];this.dragGhost?.destroy();this.dragGhost=undefined}
  show(name:string){this.screen=name;this.clear();this.rect(0,0,W,H,0x261537,0,0x261537);if(name==='home')this.home();else if(name==='game')this.gameScreen();else if(name==='room'||name==='garden')this.placeScreen(name);else if(name==='cats')this.catsScreen();else if(name==='world')this.worldScreen();else if(name==='tasks')this.tasksScreen();else this.menuScreen(name)}
  header(title:string,back='game'){this.button(35,42,50,50,'‹',()=>this.show(back),0xa56648);this.addText(210,43,title,25)}
- home(){this.addText(195,128,'CAT HAVEN',46,'#ffdb87');this.addText(195,175,'BLOCK PUZZLE',20,'#ffe6d7');this.rect(44,225,302,345,0x644071,34,0xd6a6c5);this.addText(195,340,'🐈',155);this.addText(195,482,'Pamuk seni bekliyor!',21);this.button(195,630,300,70,'OYNA',()=>this.show('game'),0xeaa03c);this.button(195,730,145,55,'DÜNYA',()=>this.show('world'));this.button(195,795,145,48,'KEDİLER',()=>this.show('cats'))}
+ home(){this.addText(195,128,'CAT HAVEN',46,'#ffdb87');this.addText(195,175,'BLOCK PUZZLE',20,'#ffe6d7');this.rect(44,225,302,345,0x644071,34,0xd6a6c5);if(this.textures.exists('art-transfer')){const art=this.add.image(195,395,'art-transfer').setDisplaySize(270,320);this.ui.push(art)}else this.addText(195,340,'🐈',155);this.addText(195,482,'Pamuk seni bekliyor!',21);this.button(195,630,300,70,'OYNA',()=>this.show('game'),0xeaa03c);this.button(195,730,145,55,'DÜNYA',()=>this.show('world'));this.button(195,795,145,48,'KEDİLER',()=>this.show('cats'))}
  newPieces(){this.pieces=Array.from({length:3},()=>({cells:shapes[Phaser.Math.Between(0,shapes.length-1)],color:Phaser.Math.Between(0,4)}));if(!this.pieces.some(p=>this.canPlaceAnywhere(p)))this.pieces[0]={cells:[[0,0]],color:0};this.selected=-1}
  fits(p:Piece,x:number,y:number){return p.cells.every(([dx,dy])=>x+dx>=0&&x+dx<8&&y+dy>=0&&y+dy<8&&this.s.board[(y+dy)*8+x+dx]===-1)}
  canPlaceAnywhere(p:Piece){for(let y=0;y<8;y++)for(let x=0;x<8;x++)if(this.fits(p,x,y))return true;return false}
