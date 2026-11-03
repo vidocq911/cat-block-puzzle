@@ -1,21 +1,15 @@
-# Cat Block Rescue Club
+# Cat Haven
 
-A mobile-first, single-page 2D cat rescue game hosted with GitHub Pages.
+Sıfırdan Phaser 3 + TypeScript + Vite ile geliştirilen mobil blok bulmaca.
 
-## Current build
-- Rebuilt from scratch in `index.html`; the previous game UI and blurred room asset have been removed.
-- Cozy room drawn as crisp, layered SVG artwork; the cat, care meters, furniture, and toys are separate visual layers.
-- Room, feed, shop, cats, tasks, garden, settings, and 8×8 block puzzle screens.
-- Food purchases update hunger and coins; care actions update happiness/cleanliness.
-- Shop purchases are saved and placed into the room; buying an existing item places it without charging again.
-- Puzzle placement validates bounds and occupied cells, clears completed rows, awards coins, and advances levels.
-- New save namespace: `cat-block-rescue-club-v2` to avoid mixing data from the old prototype.
+## Çalıştırma
 
-## Run locally
-Serve the repository root over HTTP, then open it in a browser. The smoke test expects a server at `http://127.0.0.1:4173`.
+`npm install` ve `npm run dev`. Üretim: `npm run build`.
 
-## Test
-`node tests/ui-smoke.mjs` (requires Playwright and Chromium).
+## Görsel hedef
 
-## Live
-https://vidocq911.github.io/cat-block-puzzle/
+Kullanıcının onayladığı 10 ekranlı çizgi film referansı. Gerçek çizim dosyaları henüz aktarılmadı; mevcut sahneler geçici oyun prototipidir. Tamamlandı olarak değerlendirilmemelidir.
+
+## Kontroller
+
+Tahtadaki uygun hücreye dokunarak veya parçayı sürükleyerek yerleştir. Satır/sütun dolduğunda temizlenir. Kayıt localStorage üzerindedir.
